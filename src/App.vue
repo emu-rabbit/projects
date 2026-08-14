@@ -57,14 +57,25 @@ const getInitialLanguage = (): Language => {
   return savedLanguage === 'zh' || savedLanguage === 'en' ? savedLanguage : 'zh'
 }
 
-const getInitialTheme = (): Theme => {
-  const savedTheme = window.localStorage.getItem(themeStorageKey)
-
-  if (savedTheme === 'light' || savedTheme === 'dark') {
-    return savedTheme
+const getSavedTheme = (): Theme | null => {
+  try {
+    const savedTheme = window.localStorage.getItem(themeStorageKey)
+    return savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : null
+  } catch {
+    return null
   }
+}
 
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+const getSystemTheme = (): Theme => {
+  try {
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  } catch {
+    return 'light'
+  }
+}
+
+const getInitialTheme = (): Theme => {
+  return getSavedTheme() ?? getSystemTheme()
 }
 
 const language = ref<Language>(getInitialLanguage())
@@ -99,7 +110,14 @@ const setLanguage = (nextLanguage: Language) => {
 }
 
 const toggleTheme = () => {
-  theme.value = theme.value === 'light' ? 'dark' : 'light'
+  const nextTheme = theme.value === 'light' ? 'dark' : 'light'
+  theme.value = nextTheme
+
+  try {
+    window.localStorage.setItem(themeStorageKey, nextTheme)
+  } catch {
+    // The selected theme still applies for this visit when storage is unavailable.
+  }
 }
 
 const clearMacaronMotion = () => {
@@ -238,7 +256,6 @@ watch(
   theme,
   (nextTheme) => {
     document.documentElement.dataset.theme = nextTheme
-    window.localStorage.setItem(themeStorageKey, nextTheme)
   },
   { immediate: true },
 )
