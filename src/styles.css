@@ -93,11 +93,23 @@ a:focus-visible {
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   color: var(--ink);
   font-size: clamp(0.88rem, 1.15vw, 1.02rem);
   font-weight: 400;
   letter-spacing: 0.055em;
   text-decoration: none;
+}
+
+.brand-icon {
+  display: block;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 2px 3px rgb(72 43 51 / 9%));
+  user-select: none;
 }
 
 .header-actions {
@@ -368,9 +380,18 @@ a:focus-visible {
   }
 
   .brand {
-    max-width: 9.5em;
+    gap: 8px;
     font-size: 0.78rem;
     line-height: 1.45;
+  }
+
+  .brand-icon {
+    width: 27px;
+    height: 27px;
+  }
+
+  .brand-label {
+    max-width: 9.5em;
   }
 
   .header-actions {

@@ -32,6 +32,7 @@ const copy = {
 } as const
 
 const macaronBoxImage = new URL('../assets/hero/macaron-box-empty.webp', import.meta.url).href
+const navMacaronImage = new URL('../assets/ui/nav-macaron.svg', import.meta.url).href
 
 const macarons = [
   { name: 'Frozen Rabbit Workshop', image: 'workshop.webp', left: '4.4%', top: '15%', row: 0 },
@@ -264,7 +265,10 @@ watch(
 <template>
   <div class="site-shell">
     <header class="site-header">
-      <a class="brand" href="#top">{{ text.brand }}</a>
+      <a class="brand" href="#top">
+        <img class="brand-icon" :src="navMacaronImage" alt="" draggable="false" />
+        <span class="brand-label">{{ text.brand }}</span>
+      </a>
 
       <div class="header-actions">
         <div class="language-toggle" role="group" :aria-label="text.languageLabel">
