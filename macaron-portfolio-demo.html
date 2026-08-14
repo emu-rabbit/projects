@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="絵夢羽さ沂的十個作品，以及屬於它們的十顆馬卡龍。">
+  <title>十顆作品，一盒收藏｜絵夢羽さ沂</title>
+  <style>
+    :root {
+      --paper: #f8f3ea;
+      --paper-deep: #eee4d4;
+      --ink: #3d342f;
+      --ink-soft: #71645c;
+      --line: rgba(91, 70, 55, 0.15);
+      --cream: #fffaf1;
+      --sage: #75816a;
+      --berry: #925f68;
+      --gold: #b58b55;
+      --shadow: 0 18px 50px rgba(72, 51, 37, 0.09);
+      --serif: "Iowan Old Style", "Palatino Linotype", "Noto Serif TC", "Songti TC", serif;
+      --sans: Inter, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--paper);
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 14% 2%, rgba(255,255,255,.85), transparent 28rem),
+        radial-gradient(circle at 88% 36%, rgba(219,197,170,.22), transparent 32rem),
+        var(--paper);
+      font-family: var(--sans);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    .page-shell {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 84px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      font-family: var(--serif);
+      font-size: .95rem;
+      letter-spacing: .08em;
+      text-decoration: none;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: -4px;
+      color: var(--ink-soft);
+      font-family: var(--sans);
+      font-size: .6rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .site-nav {
+      display: flex;
+      gap: 26px;
+      color: var(--ink-soft);
+      font-size: .82rem;
+    }
+
+    .site-nav a {
+      text-underline-offset: 5px;
+      text-decoration-color: transparent;
+      transition: color .2s ease, text-decoration-color .2s ease;
+    }
+
+    .site-nav a:hover,
+    .site-nav a:focus-visible {
+      color: var(--ink);
+      text-decoration-color: currentColor;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, .86fr) minmax(460px, 1.14fr);
+      gap: clamp(46px, 7vw, 100px);
+      align-items: center;
+      min-height: 710px;
+      padding: 72px 0 86px;
+    }
+
+    .eyebrow,
+    .section-kicker,
+    .category {
+      margin: 0;
+      color: var(--berry);
+      font-size: .69rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      max-width: 580px;
+      margin: 22px 0 24px;
+      font-family: var(--serif);
+      font-size: clamp(3.35rem, 6.8vw, 6.4rem);
+      font-weight: 500;
+      letter-spacing: -.055em;
+      line-height: .98;
+    }
+
+    .hero h1 span {
+      display: block;
+      margin-top: .13em;
+      color: var(--berry);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .hero-copy {
+      max-width: 510px;
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 1rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-top: 38px;
+      font-size: .75rem;
+      letter-spacing: .08em;
+    }
+
+    .hero-meta .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    .tray-wrap { position: relative; }
+
+    .tray-wrap::before {
+      position: absolute;
+      inset: 7% -2% -4% 4%;
+      z-index: -1;
+      border-radius: 44%;
+      background: rgba(103, 75, 53, .16);
+      filter: blur(30px);
+      content: "";
+    }
+
+    .tray {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      padding: clamp(28px, 4vw, 48px) clamp(22px, 3.4vw, 42px);
+      overflow: hidden;
+      border: 1px solid rgba(133, 99, 71, .19);
+      border-radius: 46% / 16%;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.72), transparent 42%),
+        #e7d4b9;
+      box-shadow:
+        inset 0 0 0 9px rgba(255, 250, 239, .48),
+        inset 0 -18px 34px rgba(115, 79, 51, .09),
+        var(--shadow);
+      transform: rotate(1.5deg);
+    }
+
+    .tray::after {
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(133, 99, 71, .12);
+      border-radius: inherit;
+      pointer-events: none;
+      content: "";
+    }
+
+    .tray img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 5px rgba(83, 57, 39, .14));
+      transition: transform .3s ease;
+    }
+
+    .tray img:nth-child(even) { transform: translateY(10px) rotate(-2deg); }
+    .tray img:nth-child(3n) { transform: translateY(-3px) rotate(2deg); }
+    .tray:hover img { transform: translateY(-4px); }
+
+    .tray-caption {
+      margin: 18px 0 0;
+      color: var(--ink-soft);
+      font-family: var(--serif);
+      font-size: .78rem;
+      font-style: italic;
+      text-align: center;
+      letter-spacing: .06em;
+    }
+
+    .collection {
+      padding: 100px 0 72px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: end;
+      margin-bottom: 66px;
+    }
+
+    .section-intro h2 {
+      max-width: 610px;
+      margin: 12px 0 0;
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 4.8vw, 4.5rem);
+      font-weight: 500;
+      letter-spacing: -.045em;
+      line-height: 1.04;
+    }
+
+    .section-intro > p:last-child {
+      max-width: 480px;
+      justify-self: end;
+      margin: 0 0 6px;
+      color: var(--ink-soft);
+      font-size: .9rem;
+    }
+
+    .group { margin-top: 88px; }
+    .group:first-of-type { margin-top: 0; }
+
+    .group-heading {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 25px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .group-heading h3 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .group-heading span {
+      color: var(--ink-soft);
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 22px;
+    }
+
+    .project-card {
+      grid-column: span 4;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid rgba(91, 70, 55, .12);
+      border-radius: 25px;
+      background: rgba(255, 251, 244, .68);
+      box-shadow: 0 10px 35px rgba(70, 47, 32, .04);
+      transition: transform .3s ease, box-shadow .3s ease, background .3s ease;
+    }
+
+    .project-card.signature { grid-column: span 6; }
+
+    .project-card:hover {
+      background: rgba(255, 252, 246, .96);
+      box-shadow: 0 18px 44px rgba(70, 47, 32, .09);
+      transform: translateY(-5px);
+    }
+
+    .art {
+      position: relative;
+      display: grid;
+      min-height: 300px;
+      place-items: center;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 44%, rgba(255,255,255,.93) 0 7%, rgba(255,255,255,.52) 33%, transparent 62%),
+        var(--card-tint, #eee7dc);
+    }
+
+    .signature .art { min-height: 370px; }
+
+    .art::before {
+      position: absolute;
+      width: 68%;
+      height: 20%;
+      bottom: 9%;
+      border-radius: 50%;
+      background: rgba(74, 51, 36, .13);
+      filter: blur(15px);
+      content: "";
+    }
+
+    .art img {
+      position: relative;
+      z-index: 1;
+      width: min(88%, 390px);
+      transition: transform .45s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .project-card:hover .art img { transform: scale(1.035) rotate(-1deg); }
+
+    .number {
+      position: absolute;
+      top: 18px;
+      left: 20px;
+      z-index: 2;
+      color: rgba(61,52,47,.62);
+      font-family: var(--serif);
+      font-size: .72rem;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .1em;
+    }
+
+    .card-body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 24px 25px 26px;
+    }
+
+    .card-body h4 {
+      margin: 8px 0 3px;
+      font-family: var(--serif);
+      font-size: clamp(1.35rem, 2vw, 1.75rem);
+      font-weight: 600;
+      letter-spacing: -.02em;
+      line-height: 1.2;
+    }
+
+    .flavor {
+      margin: 0 0 16px;
+      color: var(--ink-soft);
+      font-family: var(--serif);
+      font-size: .78rem;
+      font-style: italic;
+    }
+
+    .summary {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: .84rem;
+      line-height: 1.72;
+    }
+
+    .project-link {
+      align-self: flex-start;
+      margin-top: auto;
+      padding-top: 22px;
+      color: var(--ink);
+      font-size: .74rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-decoration: none;
+    }
+
+    .project-link span {
+      display: inline-block;
+      margin-left: 5px;
+      transition: transform .2s ease;
+    }
+
+    .project-link:hover span,
+    .project-link:focus-visible span { transform: translate(3px, -3px); }
+
+    .about {
+      display: grid;
+      grid-template-columns: .7fr 1.3fr;
+      gap: 60px;
+      margin: 82px auto 110px;
+      padding: 64px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .about h2 {
+      margin: 10px 0 0;
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .about-copy {
+      columns: 2;
+      column-gap: 42px;
+      color: var(--ink-soft);
+      font-size: .88rem;
+    }
+
+    .about-copy p { margin: 0; }
+
+    .site-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      padding: 0 0 52px;
+      color: var(--ink-soft);
+      font-size: .7rem;
+      letter-spacing: .07em;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 54px;
+        min-height: auto;
+      }
+
+      .hero-copy { max-width: 650px; }
+      .tray-wrap { width: min(680px, 100%); margin: 0 auto; }
+      .project-card, .project-card.signature { grid-column: span 6; }
+      .section-intro { grid-template-columns: 1fr; }
+      .section-intro > p:last-child { justify-self: start; }
+      .about { grid-template-columns: 1fr; gap: 30px; }
+    }
+
+    @media (max-width: 620px) {
+      .page-shell { width: min(100% - 26px, 1180px); }
+      .site-header { min-height: 72px; }
+      .site-nav a:first-child { display: none; }
+      .hero { padding: 54px 0 66px; }
+      .hero h1 { font-size: clamp(3rem, 16vw, 5rem); }
+      .hero-meta { flex-wrap: wrap; }
+      .tray { gap: 0; padding: 28px 16px; border-radius: 32% / 15%; }
+      .collection { padding-top: 72px; }
+      .section-intro { margin-bottom: 48px; }
+      .group { margin-top: 64px; }
+      .project-card, .project-card.signature { grid-column: 1 / -1; }
+      .art, .signature .art { min-height: 310px; }
+      .about { margin-bottom: 70px; }
+      .about-copy { columns: 1; }
+      .site-footer { flex-direction: column; gap: 5px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="page-shell site-header">
+    <a class="brand" href="#top" aria-label="回到頁首">
+      絵夢羽さ沂
+      <small>Selected works</small>
+    </a>
+    <nav class="site-nav" aria-label="主要導覽">
+      <a href="#collection">作品收藏</a>
+      <a href="#about">關於這盒甜點</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="page-shell hero" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">Portfolio selection · 01—10</p>
+        <h1 id="hero-title">十顆作品，<span>一盒收藏。</span></h1>
+        <p class="hero-copy">把一路做過的工具、實驗和小作品，做成十顆有不同個性的馬卡龍。每一層口味，都留著它真正想解決的問題。</p>
+        <div class="hero-meta" aria-label="收藏資訊">
+          <span>10 projects</span>
+          <span class="dot" aria-hidden="true"></span>
+          <span>3 collections</span>
+          <span class="dot" aria-hidden="true"></span>
+          <span>Made with care</span>
+        </div>
+      </div>
+
+      <div class="tray-wrap">
+        <div class="tray" aria-label="十顆專案馬卡龍總覽">
+          <img src="assets/macarons/workshop.png" alt="Frozen Rabbit Workshop 馬卡龍">
+          <img src="assets/macarons/tome.png" alt="Frozen Rabbit Tome 馬卡龍">
+          <img src="assets/macarons/boundary-notes.png" alt="Boundary Notes 馬卡龍">
+          <img src="assets/macarons/emu-rabbit.png" alt="Emu Rabbit Github io 馬卡龍">
+          <img src="assets/macarons/link-array.png" alt="LinkArray 馬卡龍">
+          <img src="assets/macarons/vue-router-rule.png" alt="Vue Router Rule 馬卡龍">
+          <img src="assets/macarons/dandelifeon.png" alt="Dandelifeon 馬卡龍">
+          <img src="assets/macarons/nanb.png" alt="nAnB 馬卡龍">
+          <img src="assets/macarons/75-alchohol.png" alt="75 Alchohol 馬卡龍">
+          <img src="assets/macarons/50-hiragana-test.png" alt="50 Hiragana Test 馬卡龍">
+        </div>
+        <p class="tray-caption">A little box of ideas, experiments, and memories.</p>
+      </div>
+    </section>
+
+    <section class="page-shell collection" id="collection" aria-labelledby="collection-title">
+      <div class="section-intro">
+        <div>
+          <p class="section-kicker">The collection</p>
+          <h2 id="collection-title">每一顆，都有自己的內餡。</h2>
+        </div>
+        <p>從實用的日常工具、認真的技術實驗，到仍然讓人微笑的早期練習。這些作品不需要長得一樣，也能在同一盒裡好好相處。</p>
+      </div>
+
+      <section class="group" aria-labelledby="signature-title">
+        <div class="group-heading">
+          <h3 id="signature-title">招牌款</h3>
+          <span>Signature · 4</span>
+        </div>
+        <div class="project-grid">
+          <article class="project-card signature" style="--card-tint:#e5eadc">
+            <div class="art"><span class="number">01</span><img src="assets/macarons/workshop.png" alt="薄荷綠、青檸與白巧克力的 Frozen Rabbit Workshop 馬卡龍" loading="lazy"></div>
+            <div class="card-body">
+              <p class="category">Signature</p>
+              <h4>Frozen Rabbit Workshop</h4>
+              <p class="flavor">開心果・青檸・白巧克力</p>
+              <p class="summary">把龐大而混亂的 FFXIV 製作與採集備料，整理成清楚、可執行的準備路線。</p>
+              <a class="project-link" href="https://github.com/emu-rabbit/frozen_rabbit_workshop" target="_blank" rel="noreferrer">查看專案 <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+
+          <article class="project-card signature" style="--card-tint:#dde4d8">
+            <div class="art"><span class="number">02</span><img src="assets/macarons/tome.png" alt="深焙抹茶與柚子金砂的 Frozen Rabbit Tome 馬卡龍" loading="lazy"></div>
+            <div class="card-body">
+              <p class="category">Signature</p>
+              <h4>Frozen Rabbit Tome</h4>
+              <p class="flavor">深焙抹茶・柚子金砂</p>
+              <p class="summary">在多個採集狀態與取捨之間求解、比較，並把值得保留的策略寫進自己的手冊。</p>
+              <a class="project-link" href="https://github.com/emu-rabbit/frozen_rabbit_tome" target="_blank" rel="noreferrer">查看專案 <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+
+          <article class="project-card signature" style="--card-tint:#eedfe0">
+            <div class="art"><span class="number">03</span><img src="assets/macarons/boundary-notes.png" alt="黑醋栗與玫瑰伯爵的 Boundary Notes 馬卡龍" loading="lazy"></div>
+            <div class="card-body">
+              <p class="category">Signature</p>
+              <h4>Boundary Notes</h4>
+              <p class="flavor">黑醋栗・玫瑰伯爵</p>
+              <p class="summary">一個安靜、尊重且不評判的私密空間，幫助人把感受與界線整理成能溝通的話。</p>
+              <a class="project-link" href="https://github.com/emu-rabbit/boundary_notes" target="_blank" rel="noreferrer">查看專案 <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+
+          <article class="project-card signature" style="--card-tint:#e7e0e8">
+            <div class="art"><span class="number">04</span><img src="assets/macarons/emu-rabbit.png" alt="暮色杏桃與蜂蜜玫瑰的 Emu Rabbit Github io 馬卡龍" loading="lazy"></div>
+            <div class="card-body">
+              <p class="category">Signature</p>
+              <h4>Emu Rabbit Github io</h4>
+              <p class="flavor">暮色杏桃・蜂蜜玫瑰</p>
+              <p class="summary">一扇微微打開的窗，讓人從程式與作品之外，也能靠近創作者真實的生活與想法。</p>
+              <a class="project-link" href="https://github.com/emu-rabbit/emu-rabbit.github.io" target="_blank" rel="noreferrer">查看專案 <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="group" aria-labelledby="experiment-title">
+        <div class="group-heading">
+          <h3 id="experiment-title">技術實驗</h3>
+          <span>Experiment · 3</span>
+        </div>
+        <div class="project-grid">
+          <article class="project-card" style="--card-tint:#e7e4df">
+            <div class="art"><span class="number">05</span><img src="assets/macarons/link-array.png" alt="黑白芝麻與鹽焦糖的 LinkArray 馬卡龍" loading="lazy"></div>
+            <div class="card-body">
+              <p class="category">Experiment</p>
+              <h4>LinkArray</h4>
+              <p class="flavor">黑白芝麻・鹽焦糖</p>
+              <p class="summary">探索一種能在鏈結節點與快速隨機讀取之間，重新排列與切換的資料結構。</p>
+              <a class="project-link" href="https://github.com/emu-rabbit/LinkArray" target="_blank" rel="noreferrer">查看專案 <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+
+          <article class="project-card" style="--card-tint:#deebe4">
+            <div class="art"><span class="number">06</span><img src="assets/macarons/vue-router-rule.png" alt="青葡萄、荔枝與紫羅蘭的 Vue Router Rule 馬卡龍" loading="lazy"></div>
+            <div class="card-body">
+              <p class="category">Experiment</p>
+              <h4>Vue Router Rule</h4>
+              <p class="flavor">青葡萄・荔枝・紫羅蘭</p>
+              <p class="summary">讓複雜的路由判斷即使經過多次分岔，仍然能被讀懂、除錯與維護。</p>
+              <a class="project-link" href="https://github.com/emu-rabbit/vue-router-rule" target="_blank" rel="noreferrer">查看專案 <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+
+          <article class="project-card" style="--card-tint:#e9e7d4">
+            <div class="art"><span class="number">07</span><img src="assets/macarons/dandelifeon.png" alt="蒲公英蜜與青蘋果的 Dandelifeon 馬卡龍" loading="lazy"></div>
+            <div class="card-body">
+              <p class="category">Experiment</p>
+              <h4>Dandelifeon</h4>
+              <p class="flavor">蒲公英蜜・青蘋果</p>
+              <p class="summary">用三種搜尋演算法，在植物、魔力與棋盤規則之間尋找更好的解。</p>
+              <a class="project-link" href="https://github.com/emu-rabbit/Dandelifeon" target="_blank" rel="noreferrer">查看專案 <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="group" aria-labelledby="classic-title">
+        <div class="group-heading">
+          <h3 id="classic-title">早期小作品</h3>
+          <span>Classic · 3</span>
+        </div>
+        <div class="project-grid">
+          <article class="project-card" style="--card-tint:#dfe3eb">
+            <div class="art"><span class="number">08</span><img src="assets/macarons/nanb.png" alt="藍莓優格與葵花子的 nAnB 馬卡龍" loading="lazy"></div>
+            <div class="card-body">
+              <p class="category">Classic</p>
+              <h4>nAnB</h4>
+              <p class="flavor">藍莓優格・葵花子</p>
+              <p class="summary">把規則型的猜數字遊戲，變成和一隻有點嘴壞、又很可愛的鼠鼠聊天。</p>
+              <a class="project-link" href="https://github.com/emu-rabbit/nAnB" target="_blank" rel="noreferrer">查看專案 <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+
+          <article class="project-card" style="--card-tint:#e3ecec">
+            <div class="art"><span class="number">09</span><img src="assets/macarons/75-alchohol.png" alt="白葡萄與檸檬蘇打的 75 Alchohol 馬卡龍" loading="lazy"></div>
+            <div class="card-body">
+              <p class="category">Classic</p>
+              <h4>75 Alchohol</h4>
+              <p class="flavor">白葡萄・檸檬蘇打</p>
+              <p class="summary">以清楚可見的液體比例，直接完成一個實用的酒精稀釋與濃度計算。</p>
+              <a class="project-link" href="https://github.com/emu-rabbit/75alcohol" target="_blank" rel="noreferrer">查看專案 <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+
+          <article class="project-card" style="--card-tint:#f0e3e2">
+            <div class="art"><span class="number">10</span><img src="assets/macarons/50-hiragana-test.png" alt="櫻花牛奶與紅豆的 50 Hiragana Test 馬卡龍" loading="lazy"></div>
+            <div class="card-body">
+              <p class="category">Classic</p>
+              <h4>50 Hiragana Test</h4>
+              <p class="flavor">櫻花牛奶・紅豆</p>
+              <p class="summary">一個字、一張練習格，簡單而親切地陪人練習日文五十音。</p>
+              <a class="project-link" href="https://github.com/emu-rabbit/50-Hiragana-Test" target="_blank" rel="noreferrer">查看專案 <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+        </div>
+      </section>
+    </section>
+
+    <section class="page-shell about" id="about" aria-labelledby="about-title">
+      <div>
+        <p class="section-kicker">A small note</p>
+        <h2 id="about-title">甜點只是入口，作品才是內餡。</h2>
+      </div>
+      <div class="about-copy">
+        <p>這十顆馬卡龍不是與作品分開的裝飾。外殼留下第一印象，內餡說明真正解決的問題，頂部的一個小記號則保留最值得記住的性格。它們來自不同時期，也有不同份量；放在一起時，仍然是一位創作者一路走來的收藏。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-shell site-footer">
+    <span>Portfolio demo for 絵夢羽さ沂</span>
+    <span>Ten projects, baked into one collection.</span>
+  </footer>
+</body>
+</html>
