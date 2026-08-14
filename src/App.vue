@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 type Language = 'zh' | 'en'
 type Theme = 'light' | 'dark'
@@ -31,7 +31,23 @@ const copy = {
   },
 } as const
 
-const macaronBoxImage = new URL('../assets/hero/macaron-box-with-rabbit-transparent.webp', import.meta.url).href
+const macaronBoxImage = new URL('../assets/hero/macaron-box-empty.webp', import.meta.url).href
+
+const macarons = [
+  { name: 'Frozen Rabbit Workshop', image: 'workshop.webp', left: '4.4%', top: '15%', row: 0 },
+  { name: 'Frozen Rabbit Tome', image: 'tome.webp', left: '22.9%', top: '13.7%', row: 0 },
+  { name: 'Boundary Notes', image: 'boundary-notes.webp', left: '40.7%', top: '14.7%', row: 0 },
+  { name: 'Emu Rabbit Github io', image: 'emu-rabbit.webp', left: '58.1%', top: '13.5%', row: 0 },
+  { name: 'LinkArray', image: 'link-array.webp', left: '75%', top: '14.6%', row: 0 },
+  { name: 'Vue Router Rule', image: 'vue-router-rule.webp', left: '2.5%', top: '49.1%', row: 1 },
+  { name: 'Dandelifeon', image: 'dandelifeon.webp', left: '20.9%', top: '47.9%', row: 1 },
+  { name: 'nAnB', image: 'nanb.webp', left: '39.6%', top: '49.2%', row: 1 },
+  { name: '75 Alchohol', image: '75-alchohol.webp', left: '57.7%', top: '47.4%', row: 1 },
+  { name: '50 Hiragana Test', image: '50-hiragana-test.webp', left: '75.1%', top: '48.7%', row: 1 },
+].map((macaron) => ({
+  ...macaron,
+  src: new URL(`../assets/macarons-web/${macaron.image}`, import.meta.url).href,
+}))
 
 const languageStorageKey = 'portfolio-language'
 const themeStorageKey = 'portfolio-theme'
@@ -53,6 +69,25 @@ const getInitialTheme = (): Theme => {
 
 const language = ref<Language>(getInitialLanguage())
 const theme = ref<Theme>(getInitialTheme())
+const macaronScene = ref<HTMLElement | null>(null)
+
+let macaronElements: HTMLElement[] = []
+let motionFrame = 0
+let lastScrollY = 0
+let lastWheelTime = 0
+let waveStartTime = 0
+let waveDirection = 1
+let waveLocked = false
+let waveUnlockTimer = 0
+let lastTouchY: number | null = null
+let reducedMotionQuery: MediaQueryList | null = null
+
+const waveLift = 12
+const waveLiftDuration = 320
+const waveColumnDelay = 70
+const waveRowDelay = 35
+const waveDuration = waveLiftDuration + waveColumnDelay * 4 + waveRowDelay
+const waveCooldown = 500
 
 const text = computed(() => copy[language.value])
 const nextThemeLabel = computed(() =>
@@ -66,6 +101,129 @@ const setLanguage = (nextLanguage: Language) => {
 const toggleTheme = () => {
   theme.value = theme.value === 'light' ? 'dark' : 'light'
 }
+
+const clearMacaronMotion = () => {
+  if (motionFrame) {
+    window.cancelAnimationFrame(motionFrame)
+    motionFrame = 0
+  }
+
+  waveStartTime = 0
+  macaronElements.forEach((element) => element.style.removeProperty('--scroll-lift'))
+}
+
+const unlockMacaronWave = () => {
+  if (waveUnlockTimer) {
+    window.clearTimeout(waveUnlockTimer)
+    waveUnlockTimer = 0
+  }
+
+  waveLocked = false
+}
+
+const finishMacaronWave = () => {
+  clearMacaronMotion()
+  waveUnlockTimer = window.setTimeout(unlockMacaronWave, waveCooldown)
+}
+
+const animateMacaronWave = (time: number) => {
+  if (!waveStartTime) {
+    waveStartTime = time
+  }
+
+  const elapsed = time - waveStartTime
+
+  macaronElements.forEach((element, index) => {
+    const column = index % 5
+    const row = Math.floor(index / 5)
+    const orderedColumn = waveDirection > 0 ? column : 4 - column
+    const delay = orderedColumn * waveColumnDelay + row * waveRowDelay
+    const progress = (elapsed - delay) / waveLiftDuration
+    const lift = progress >= 0 && progress <= 1 ? -Math.sin(Math.PI * progress) * waveLift : 0
+    element.style.setProperty('--scroll-lift', `${lift.toFixed(2)}px`)
+  })
+
+  if (elapsed < waveDuration) {
+    motionFrame = window.requestAnimationFrame(animateMacaronWave)
+    return
+  }
+
+  finishMacaronWave()
+}
+
+const addWaveImpulse = (delta: number) => {
+  if (!delta || waveLocked || reducedMotionQuery?.matches) {
+    return
+  }
+
+  waveLocked = true
+  waveDirection = delta > 0 ? 1 : -1
+  motionFrame = window.requestAnimationFrame(animateMacaronWave)
+}
+
+const handleMotionPreferenceChange = () => {
+  clearMacaronMotion()
+  unlockMacaronWave()
+}
+
+const handleWheel = (event: WheelEvent) => {
+  lastWheelTime = window.performance.now()
+  addWaveImpulse(event.deltaY)
+}
+
+const handleScroll = () => {
+  const nextScrollY = window.scrollY
+  const delta = nextScrollY - lastScrollY
+  lastScrollY = nextScrollY
+
+  if (window.performance.now() - lastWheelTime > 80) {
+    addWaveImpulse(delta)
+  }
+}
+
+const handleTouchStart = (event: TouchEvent) => {
+  lastTouchY = event.touches[0]?.clientY ?? null
+}
+
+const handleTouchMove = (event: TouchEvent) => {
+  const nextTouchY = event.touches[0]?.clientY
+
+  if (nextTouchY === undefined || lastTouchY === null) {
+    return
+  }
+
+  addWaveImpulse(lastTouchY - nextTouchY)
+  lastTouchY = nextTouchY
+}
+
+const handleTouchEnd = () => {
+  lastTouchY = null
+}
+
+onMounted(() => {
+  macaronElements = Array.from(macaronScene.value?.querySelectorAll<HTMLElement>('.macaron') ?? [])
+  lastScrollY = window.scrollY
+  reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+  reducedMotionQuery.addEventListener('change', handleMotionPreferenceChange)
+  window.addEventListener('wheel', handleWheel, { passive: true })
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  window.addEventListener('touchstart', handleTouchStart, { passive: true })
+  window.addEventListener('touchmove', handleTouchMove, { passive: true })
+  window.addEventListener('touchend', handleTouchEnd, { passive: true })
+  window.addEventListener('touchcancel', handleTouchEnd, { passive: true })
+})
+
+onBeforeUnmount(() => {
+  clearMacaronMotion()
+  unlockMacaronWave()
+  reducedMotionQuery?.removeEventListener('change', handleMotionPreferenceChange)
+  window.removeEventListener('wheel', handleWheel)
+  window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('touchstart', handleTouchStart)
+  window.removeEventListener('touchmove', handleTouchMove)
+  window.removeEventListener('touchend', handleTouchEnd)
+  window.removeEventListener('touchcancel', handleTouchEnd)
+})
 
 watch(
   language,
@@ -141,11 +299,28 @@ watch(
           <p v-for="paragraph in text.introduction" :key="paragraph">{{ paragraph }}</p>
         </div>
 
-        <div class="macaron-scene">
+        <div ref="macaronScene" class="macaron-scene" role="img" :aria-label="text.collectionLabel">
           <img
-            class="macaron-box-art"
+            class="macaron-box-layer macaron-box-back"
             :src="macaronBoxImage"
-            :alt="text.collectionLabel"
+            alt=""
+            draggable="false"
+          />
+
+          <div
+            v-for="(macaron, index) in macarons"
+            :key="macaron.name"
+            class="macaron"
+            :class="`macaron-row-${macaron.row}`"
+            :style="{ left: macaron.left, top: macaron.top, '--wave-index': index }"
+          >
+            <img class="macaron-art" :src="macaron.src" alt="" draggable="false" />
+          </div>
+
+          <img
+            class="macaron-box-layer macaron-box-front"
+            :src="macaronBoxImage"
+            alt=""
             draggable="false"
           />
         </div>

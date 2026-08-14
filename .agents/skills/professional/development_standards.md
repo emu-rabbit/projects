@@ -19,6 +19,7 @@
 - **輕量優先**：不得為了簡單需求導入沉重 framework、runtime、大型 UI kit 或外部服務。
 - **依賴需有理由**：新增套件前，先確認它解決的問題是否值得增加維護、效能與供應鏈成本。
 - **可回退設計**：在專案使命或需求尚未完整定義時，優先選擇局部、低風險、可替換的實作。
+- **Lockfile 必須版本化**：repository 內由實際 package manager 產生或更新的 lockfile（例如 `package-lock.json`、`pnpm-lock.yaml`、`yarn.lock`）必須與對應的依賴變更一起納入 Git commit，不得以工具產物或雜訊為由忽略。
 
 ### 程式碼撰寫
 
