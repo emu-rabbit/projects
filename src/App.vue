@@ -43,16 +43,16 @@ const macaronBoxImage = new URL('../assets/hero/macaron-box-empty.webp', import.
 const navMacaronImage = new URL('../assets/ui/nav-macaron.svg', import.meta.url).href
 
 const macarons = [
-  { name: 'Frozen Rabbit Workshop', image: 'workshop.webp', left: '4.4%', top: '15%', row: 0 },
-  { name: 'Frozen Rabbit Tome', image: 'tome.webp', left: '22.9%', top: '13.7%', row: 0 },
-  { name: 'Boundary Notes', image: 'boundary-notes.webp', left: '40.7%', top: '14.7%', row: 0 },
-  { name: 'Emu Rabbit Github io', image: 'emu-rabbit.webp', left: '58.1%', top: '13.5%', row: 0 },
-  { name: 'LinkArray', image: 'link-array.webp', left: '75%', top: '14.6%', row: 0 },
-  { name: 'Vue Router Rule', image: 'vue-router-rule.webp', left: '2.5%', top: '49.1%', row: 1 },
-  { name: 'Dandelifeon', image: 'dandelifeon.webp', left: '20.9%', top: '47.9%', row: 1 },
-  { name: 'nAnB', image: 'nanb.webp', left: '39.6%', top: '49.2%', row: 1 },
-  { name: '75 Alchohol', image: '75-alchohol.webp', left: '57.7%', top: '47.4%', row: 1 },
-  { name: '50 Hiragana Test', image: '50-hiragana-test.webp', left: '75.1%', top: '48.7%', row: 1 },
+  { name: 'Frozen Rabbit Workshop', targetId: 'frozen-rabbit-workshop', image: 'workshop.webp', left: '4.4%', top: '15%', row: 0 },
+  { name: 'Frozen Rabbit Tome', targetId: 'frozen-rabbit-tome', image: 'tome.webp', left: '22.9%', top: '13.7%', row: 0 },
+  { name: 'Boundary Notes', targetId: 'boundary-notes', image: 'boundary-notes.webp', left: '40.7%', top: '14.7%', row: 0 },
+  { name: 'Emu Rabbit Github io', targetId: 'window-notes', image: 'emu-rabbit.webp', left: '58.1%', top: '13.5%', row: 0 },
+  { name: 'LinkArray', targetId: 'link-array', image: 'link-array.webp', left: '75%', top: '14.6%', row: 0 },
+  { name: 'Vue Router Rule', targetId: 'vue-router-rule', image: 'vue-router-rule.webp', left: '2.5%', top: '49.1%', row: 1 },
+  { name: 'Dandelifeon', targetId: 'dandelifeon', image: 'dandelifeon.webp', left: '20.9%', top: '47.9%', row: 1 },
+  { name: 'nAnB', targetId: 'nanb', image: 'nanb.webp', left: '39.6%', top: '49.2%', row: 1 },
+  { name: '75 Alchohol', targetId: '75-alchohol', image: '75-alchohol.webp', left: '57.7%', top: '47.4%', row: 1 },
+  { name: '50 Hiragana Test', targetId: '50-hiragana-test', image: '50-hiragana-test.webp', left: '75.1%', top: '48.7%', row: 1 },
 ].map((macaron) => ({
   ...macaron,
   src: new URL(`../assets/macarons-web/${macaron.image}`, import.meta.url).href,
@@ -417,6 +417,13 @@ const toggleTheme = () => {
   }
 }
 
+const scrollToFlavor = (targetId: string) => {
+  document.getElementById(targetId)?.scrollIntoView({
+    behavior: reducedMotionQuery?.matches ? 'auto' : 'smooth',
+    block: 'start',
+  })
+}
+
 const clearMacaronMotion = () => {
   if (motionFrame) {
     window.cancelAnimationFrame(motionFrame)
@@ -618,7 +625,7 @@ watch(
           <p v-for="paragraph in text.introduction" :key="paragraph">{{ paragraph }}</p>
         </div>
 
-        <div ref="macaronScene" class="macaron-scene" role="img" :aria-label="text.collectionLabel">
+        <div ref="macaronScene" class="macaron-scene" role="group" :aria-label="text.collectionLabel">
           <img
             class="macaron-box-layer macaron-box-back"
             :src="macaronBoxImage"
@@ -626,15 +633,18 @@ watch(
             draggable="false"
           />
 
-          <div
+          <button
             v-for="(macaron, index) in macarons"
             :key="macaron.name"
             class="macaron"
             :class="`macaron-row-${macaron.row}`"
             :style="{ left: macaron.left, top: macaron.top, '--wave-index': index }"
+            type="button"
+            :aria-label="macaron.name"
+            @click="scrollToFlavor(macaron.targetId)"
           >
             <img class="macaron-art" :src="macaron.src" alt="" draggable="false" />
-          </div>
+          </button>
 
           <img
             class="macaron-box-layer macaron-box-front"
@@ -659,6 +669,7 @@ watch(
         <div class="signature-grid" :class="`signature-grid-${section.layout}`">
           <article
             v-for="flavor in section.flavors"
+            :id="flavor.id"
             :key="flavor.id"
             class="signature-card"
           >

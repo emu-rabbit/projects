@@ -318,7 +318,11 @@ main {
   --scroll-lift: 0px;
   position: absolute;
   width: 21.4%;
+  padding: 0;
+  border: 0;
   aspect-ratio: 1;
+  background: transparent;
+  cursor: pointer;
   transform: translate3d(0, var(--scroll-lift), 0);
   transform-origin: 50% 78%;
   will-change: transform;
@@ -376,6 +380,7 @@ main {
   display: flex;
   min-width: 0;
   flex-direction: column;
+  scroll-margin-top: 112px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 30px;
