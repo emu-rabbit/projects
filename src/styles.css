@@ -366,7 +366,7 @@ main {
   gap: clamp(24px, 3.4vw, 48px);
 }
 
-.signature-grid-innovation {
+.signature-grid-trio {
   --innovation-gap: clamp(20px, 2.4vw, 32px);
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--innovation-gap);
@@ -438,6 +438,14 @@ main {
   width: min(76%, 310px);
 }
 
+.signature-section-classic .signature-art {
+  min-height: clamp(280px, 22vw, 330px);
+}
+
+.signature-section-classic .signature-art img {
+  width: min(72%, 280px);
+}
+
 .signature-card-body {
   display: flex;
   flex: 1;
@@ -448,6 +456,11 @@ main {
 
 .signature-section-innovation .signature-card-body {
   min-height: 400px;
+  padding: clamp(28px, 2.7vw, 38px);
+}
+
+.signature-section-classic .signature-card-body {
+  min-height: 380px;
   padding: clamp(28px, 2.7vw, 38px);
 }
 
@@ -474,6 +487,10 @@ main {
 
 .signature-section-innovation .signature-card h3 {
   font-size: clamp(1.72rem, 2.2vw, 2.25rem);
+}
+
+.signature-section-classic .signature-card h3 {
+  font-size: clamp(1.72rem, 2.1vw, 2.15rem);
 }
 
 .signature-flavor {
@@ -586,11 +603,11 @@ main {
     min-height: 380px;
   }
 
-  .signature-grid-innovation {
+  .signature-grid-trio {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .signature-grid-innovation .signature-card:last-child {
+  .signature-grid-trio .signature-card:last-child {
     width: calc((100% - var(--innovation-gap)) / 2);
     grid-column: 1 / -1;
     justify-self: center;
@@ -683,7 +700,7 @@ main {
     gap: 26px;
   }
 
-  .signature-grid-innovation .signature-card:last-child {
+  .signature-grid-trio .signature-card:last-child {
     width: 100%;
     grid-column: auto;
   }
@@ -702,6 +719,15 @@ main {
   }
 
   .signature-section-innovation .signature-card-body {
+    min-height: 340px;
+    padding: 28px 24px 30px;
+  }
+
+  .signature-section-classic .signature-art {
+    min-height: 300px;
+  }
+
+  .signature-section-classic .signature-card-body {
     min-height: 340px;
     padding: 28px 24px 30px;
   }

@@ -15,6 +15,7 @@ const copy = {
     collectionLabel: '一盒緊湊排列的十顆馬卡龍',
     signatureTitle: '招牌推薦口味',
     innovationTitle: '技術創新口味',
+    classicTitle: '早期懷念口味',
     signatureCta: '仔細查看這顆馬卡龍',
     languageLabel: '切換語言',
     lightTheme: '切換為明亮主題',
@@ -30,6 +31,7 @@ const copy = {
     collectionLabel: 'A snug box of ten macarons',
     signatureTitle: 'Signature Flavors',
     innovationTitle: 'Experimental Flavors',
+    classicTitle: 'Nostalgic Flavors',
     signatureCta: 'Take a closer look',
     languageLabel: 'Switch language',
     lightTheme: 'Switch to light theme',
@@ -255,6 +257,75 @@ const innovationFlavors = [
   src: new URL(`../assets/macarons-web/${flavor.image}`, import.meta.url).href,
 }))
 
+const classicFlavors = [
+  {
+    id: 'nanb',
+    category: { zh: '數字小遊戲', en: 'Number Game' },
+    title: { zh: 'nAnB', en: 'nAnB' },
+    flavor: { zh: '藍莓優格・葵花子', en: 'Blueberry Yogurt · Sunflower Seeds' },
+    description: {
+      zh: ['玩過 nAnB 嗎？我家的黃金鼠夢夢', '很會這遊戲，來玩玩看吧！'],
+      en: ['Ever played nAnB?', 'My hamster Meng-Meng is great at it.', 'Come play a round!'],
+    },
+    mobileDescription: {
+      zh: ['玩過 nAnB 嗎？我家的黃金鼠', '夢夢很會這遊戲，來玩玩看吧！'],
+      en: ['Ever played nAnB?', 'My hamster Meng-Meng is great at it.', 'Come play a round!'],
+    },
+    image: 'nanb.webp',
+    imageAlt: {
+      zh: '藍莓優格與葵花子的 nAnB 馬卡龍',
+      en: 'nAnB macaron with blueberry yogurt and sunflower seeds',
+    },
+    color: '#d8d8e4',
+    darkColor: '#313853',
+  },
+  {
+    id: '75-alchohol',
+    category: { zh: '疫情期間小工具', en: 'Pandemic-Era Tool' },
+    title: { zh: '75 Alchohol', en: '75 Alchohol' },
+    flavor: { zh: '白葡萄・檸檬蘇打', en: 'White Grape · Lemon Soda' },
+    description: {
+      zh: ['簡單的，幫你算酒精濃度的小工具，', '不用再按計算機了。'],
+      en: ['A simple tool for calculating', 'alcohol concentration—', 'no calculator needed.'],
+    },
+    mobileDescription: {
+      zh: ['簡單的，幫你算酒精濃度的小工具，', '不用再按計算機了。'],
+      en: ['A simple tool for calculating', 'alcohol concentration—', 'no calculator needed.'],
+    },
+    image: '75-alchohol.webp',
+    imageAlt: {
+      zh: '白葡萄與檸檬蘇打的 75 Alchohol 馬卡龍',
+      en: '75 Alchohol macaron with white grape and lemon soda',
+    },
+    color: '#d7e3e5',
+    darkColor: '#294753',
+  },
+  {
+    id: '50-hiragana-test',
+    category: { zh: '日文學習小工具', en: 'Japanese Learning Tool' },
+    title: { zh: '50 Hiragana Test', en: '50 Hiragana Test' },
+    flavor: { zh: '櫻花牛奶・紅豆', en: 'Sakura Milk · Red Bean' },
+    description: {
+      zh: ['當初是為了要學日文做的，', '怎麼現在我好像還是沒學會日文（？）'],
+      en: ['I made this to learn Japanese.', "Somehow, I still haven't. (?)"],
+    },
+    mobileDescription: {
+      zh: ['當初是為了要學日文做的，', '怎麼現在我好像還是', '沒學會日文（？）'],
+      en: ['I made this to learn Japanese.', "Somehow, I still haven't. (?)"],
+    },
+    image: '50-hiragana-test.webp',
+    imageAlt: {
+      zh: '櫻花牛奶與紅豆的 50 Hiragana Test 馬卡龍',
+      en: '50 Hiragana Test macaron with sakura milk and red bean',
+    },
+    color: '#ead7dc',
+    darkColor: '#56343f',
+  },
+].map((flavor) => ({
+  ...flavor,
+  src: new URL(`../assets/macarons-web/${flavor.image}`, import.meta.url).href,
+}))
+
 const languageStorageKey = 'portfolio-language'
 const themeStorageKey = 'portfolio-theme'
 
@@ -311,12 +382,20 @@ const flavorSections = computed(() => [
   {
     id: 'signature',
     title: text.value.signatureTitle,
+    layout: 'double',
     flavors: signatureFlavors,
   },
   {
     id: 'innovation',
     title: text.value.innovationTitle,
+    layout: 'trio',
     flavors: innovationFlavors,
+  },
+  {
+    id: 'classic',
+    title: text.value.classicTitle,
+    layout: 'trio',
+    flavors: classicFlavors,
   },
 ])
 const nextThemeLabel = computed(() =>
@@ -577,7 +656,7 @@ watch(
           <h2 :id="`${section.id}-title`">{{ section.title }}</h2>
         </header>
 
-        <div class="signature-grid" :class="`signature-grid-${section.id}`">
+        <div class="signature-grid" :class="`signature-grid-${section.layout}`">
           <article
             v-for="flavor in section.flavors"
             :key="flavor.id"
