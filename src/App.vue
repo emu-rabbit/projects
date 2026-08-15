@@ -14,6 +14,7 @@ const copy = {
     ],
     collectionLabel: '一盒緊湊排列的十顆馬卡龍',
     signatureTitle: '招牌推薦口味',
+    innovationTitle: '技術創新口味',
     signatureCta: '仔細查看這顆馬卡龍',
     languageLabel: '切換語言',
     lightTheme: '切換為明亮主題',
@@ -28,6 +29,7 @@ const copy = {
     ],
     collectionLabel: 'A snug box of ten macarons',
     signatureTitle: 'Signature Flavors',
+    innovationTitle: 'Experimental Flavors',
     signatureCta: 'Take a closer look',
     languageLabel: 'Switch language',
     lightTheme: 'Switch to light theme',
@@ -164,6 +166,95 @@ const signatureFlavors = [
   src: new URL(`../assets/macarons-web/${flavor.image}`, import.meta.url).href,
 }))
 
+const innovationFlavors = [
+  {
+    id: 'link-array',
+    category: { zh: '資料結構', en: 'Data Structure' },
+    title: { zh: 'LinkArray', en: 'LinkArray' },
+    flavor: { zh: '黑白芝麻・鹽焦糖', en: 'Black & White Sesame · Salted Caramel' },
+    description: {
+      zh: ['陣列擅長隨機存取，鏈結串列擅長插入移除，', '加起來究竟是優點相加還是缺點倍顯呢？'],
+      en: [
+        'Arrays excel at random access;',
+        'linked lists at insertion and removal.',
+        'Together, do their strengths add up—',
+        'or do their flaws multiply?',
+      ],
+    },
+    mobileDescription: {
+      zh: ['陣列擅長隨機存取，', '鏈結串列擅長插入移除，', '加起來究竟是優點相加', '還是缺點倍顯呢？'],
+      en: [
+        'Arrays excel at random access;',
+        'linked lists at insertion and removal.',
+        'Together, do their strengths add up—',
+        'or do their flaws multiply?',
+      ],
+    },
+    image: 'link-array.webp',
+    imageAlt: {
+      zh: '黑白芝麻與鹽焦糖的 LinkArray 馬卡龍',
+      en: 'LinkArray macaron with black and white sesame and salted caramel',
+    },
+    color: '#ddd8d1',
+    darkColor: '#35322f',
+  },
+  {
+    id: 'vue-router-rule',
+    category: { zh: '插件', en: 'Plugin' },
+    title: { zh: 'Vue Router Rule', en: 'Vue Router Rule' },
+    flavor: { zh: '青葡萄・荔枝・紫羅蘭', en: 'Green Grape · Lychee · Violet' },
+    description: {
+      zh: ['撰寫簡單，容易閱讀的 Vue Router 鉤子，', '不會遇到義大利麵程式碼了（應該）。'],
+      en: ['Simple, readable Vue Router hooks—', 'no more spaghetti code. (Probably.)'],
+    },
+    mobileDescription: {
+      zh: ['撰寫簡單，容易閱讀的', 'Vue Router 鉤子，不會遇到', '義大利麵程式碼了（應該）。'],
+      en: ['Simple, readable Vue Router hooks—', 'no more spaghetti code. (Probably.)'],
+    },
+    image: 'vue-router-rule.webp',
+    imageAlt: {
+      zh: '青葡萄、荔枝與紫羅蘭的 Vue Router Rule 馬卡龍',
+      en: 'Vue Router Rule macaron with green grape, lychee, and violet',
+    },
+    color: '#d7dfd7',
+    darkColor: '#28473f',
+  },
+  {
+    id: 'dandelifeon',
+    category: { zh: '遊戲機制求解', en: 'Game Mechanic Solver' },
+    title: { zh: 'Dandelifeon', en: 'Dandelifeon' },
+    flavor: { zh: '蒲公英蜜・青蘋果', en: 'Dandelion Honey · Green Apple' },
+    description: {
+      zh: ['Minecraft 的 Botania 模組有個特別的花，', '到底怎樣才能生成最大魔力呢？'],
+      en: [
+        "Minecraft's Botania mod",
+        'has a peculiar flower.',
+        'What arrangement generates',
+        'the most mana?',
+      ],
+    },
+    mobileDescription: {
+      zh: ['Minecraft 的 Botania 模組', '有個特別的花，到底怎樣才能', '生成最大魔力呢？'],
+      en: [
+        "Minecraft's Botania mod",
+        'has a peculiar flower.',
+        'What arrangement generates',
+        'the most mana?',
+      ],
+    },
+    image: 'dandelifeon.webp',
+    imageAlt: {
+      zh: '蒲公英蜜與青蘋果的 Dandelifeon 馬卡龍',
+      en: 'Dandelifeon macaron with dandelion honey and green apple',
+    },
+    color: '#e6dfbd',
+    darkColor: '#334f32',
+  },
+].map((flavor) => ({
+  ...flavor,
+  src: new URL(`../assets/macarons-web/${flavor.image}`, import.meta.url).href,
+}))
+
 const languageStorageKey = 'portfolio-language'
 const themeStorageKey = 'portfolio-theme'
 
@@ -216,6 +307,18 @@ const waveDuration = waveLiftDuration + waveColumnDelay * 4 + waveRowDelay
 const waveCooldown = 500
 
 const text = computed(() => copy[language.value])
+const flavorSections = computed(() => [
+  {
+    id: 'signature',
+    title: text.value.signatureTitle,
+    flavors: signatureFlavors,
+  },
+  {
+    id: 'innovation',
+    title: text.value.innovationTitle,
+    flavors: innovationFlavors,
+  },
+])
 const nextThemeLabel = computed(() =>
   theme.value === 'light' ? text.value.darkTheme : text.value.lightTheme,
 )
@@ -463,14 +566,20 @@ watch(
         </div>
       </section>
 
-      <section class="signature-section" aria-labelledby="signature-title">
+      <section
+        v-for="section in flavorSections"
+        :key="section.id"
+        class="signature-section"
+        :class="`signature-section-${section.id}`"
+        :aria-labelledby="`${section.id}-title`"
+      >
         <header class="signature-heading">
-          <h2 id="signature-title">{{ text.signatureTitle }}</h2>
+          <h2 :id="`${section.id}-title`">{{ section.title }}</h2>
         </header>
 
-        <div class="signature-grid">
+        <div class="signature-grid" :class="`signature-grid-${section.id}`">
           <article
-            v-for="flavor in signatureFlavors"
+            v-for="flavor in section.flavors"
             :key="flavor.id"
             class="signature-card"
           >
