@@ -13,6 +13,8 @@ const copy = {
       '裡面每顆都飽滿而各有特色，像是被精心設計和烘焙的小傢伙。拿起來，左右看一看，選擇你有興趣的馬卡龍吃下去吧！',
     ],
     collectionLabel: '一盒緊湊排列的十顆馬卡龍',
+    signatureTitle: '招牌推薦口味',
+    signatureCta: '仔細查看這顆馬卡龍',
     languageLabel: '切換語言',
     lightTheme: '切換為明亮主題',
     darkTheme: '切換為暗色主題',
@@ -25,6 +27,8 @@ const copy = {
       'Each one is plump, full of character, and made with care. Pick one up and taste whichever calls to you.',
     ],
     collectionLabel: 'A snug box of ten macarons',
+    signatureTitle: 'Signature Flavors',
+    signatureCta: 'Take a closer look',
     languageLabel: 'Switch language',
     lightTheme: 'Switch to light theme',
     darkTheme: 'Switch to dark theme',
@@ -48,6 +52,116 @@ const macarons = [
 ].map((macaron) => ({
   ...macaron,
   src: new URL(`../assets/macarons-web/${macaron.image}`, import.meta.url).href,
+}))
+
+const signatureFlavors = [
+  {
+    id: 'window-notes',
+    category: { zh: '個人網頁', en: 'Personal Website' },
+    title: { zh: '絵夢羽さ沂的窗邊手記', en: "Emu-Rabbit's Window Notes" },
+    flavor: { zh: '暮色杏桃・蜂蜜玫瑰', en: 'Twilight Apricot · Honey Rose' },
+    description: {
+      zh: ['一扇打開的窗，兔子在窗邊等待著你靠近，', '閱讀著手記，一步一步的認識、了解她。'],
+      en: [
+        'An open window. A rabbit waits by it,',
+        'inviting you closer to read her notes',
+        'and slowly get to know her.',
+      ],
+    },
+    mobileDescription: {
+      zh: ['一扇打開的窗，兔子在窗邊', '等待著你靠近，閱讀著手記，', '一步一步的認識、了解她。'],
+      en: [
+        'An open window. A rabbit waits by it,',
+        'inviting you closer to read her notes',
+        'and slowly get to know her.',
+      ],
+    },
+    image: 'emu-rabbit.webp',
+    imageAlt: {
+      zh: '暮色杏桃與蜂蜜玫瑰的窗邊手記馬卡龍',
+      en: 'Window Notes macaron with twilight apricot and honey rose',
+    },
+    color: '#d9cddd',
+    darkColor: '#42304f',
+  },
+  {
+    id: 'boundary-notes',
+    category: { zh: 'BDSM整理工具', en: 'BDSM Organizer' },
+    title: { zh: '兔子的秘密檔案', en: 'Boundary Notes' },
+    flavor: { zh: '黑醋栗・玫瑰伯爵', en: 'Blackcurrant · Rose Earl Grey' },
+    description: {
+      zh: ['把界線、喜好用最簡單好讀的方式整理起來，', '慾望沒有對錯，你依舊是你自己。'],
+      en: [
+        'A simple, readable way to sort out',
+        'boundaries and desires. There is no',
+        'right or wrong—you are still yourself.',
+      ],
+    },
+    mobileDescription: {
+      zh: ['把界線、喜好用最簡單好讀的方式', '整理起來，慾望沒有對錯，', '你依舊是你自己。'],
+      en: [
+        'A simple, readable way to sort out',
+        'boundaries and desires. There is no',
+        'right or wrong—you are still yourself.',
+      ],
+    },
+    image: 'boundary-notes.webp',
+    imageAlt: {
+      zh: '黑醋栗與玫瑰伯爵的兔子秘密檔案馬卡龍',
+      en: 'Boundary Notes macaron with blackcurrant and rose Earl Grey',
+    },
+    color: '#e1cfd2',
+    darkColor: '#52303a',
+  },
+  {
+    id: 'frozen-rabbit-workshop',
+    category: { zh: 'Final Fantasy XIV 巧匠工具', en: 'Final Fantasy XIV Crafting Tool' },
+    title: { zh: '冷凍兔肉的巧匠工坊', en: "Frozen Rabbit's Workshop" },
+    flavor: { zh: '開心果・青檸・白巧克力', en: 'Pistachio · Lime · White Chocolate' },
+    description: {
+      zh: ['兔肉不私藏的好筆記，', '你最好的備料輔助工具。'],
+      en: ["No secrets kept—Rabbit's best notes,", 'ready to make material prep easier.'],
+    },
+    mobileDescription: {
+      zh: ['兔肉不私藏的好筆記，', '你最好的備料輔助工具。'],
+      en: ["No secrets kept—Rabbit's best notes,", 'ready to make material prep easier.'],
+    },
+    image: 'workshop.webp',
+    imageAlt: {
+      zh: '開心果、青檸與白巧克力的巧匠工坊馬卡龍',
+      en: 'Workshop macaron with pistachio, lime, and white chocolate',
+    },
+    color: '#d4dfce',
+    darkColor: '#324d3b',
+  },
+  {
+    id: 'frozen-rabbit-tome',
+    category: { zh: 'Final Fantasy XIV 大地工具', en: 'Final Fantasy XIV Gathering Tool' },
+    title: { zh: '冷凍兔肉的大地秘笈', en: "Frozen Rabbit's Tome" },
+    flavor: { zh: '深焙抹茶・柚子金砂', en: 'Roasted Matcha · Yuzu Gold Dust' },
+    description: {
+      zh: ['兔肉不私藏的好秘笈，', '採集技能的推薦求解器。'],
+      en: ["No secrets kept—Rabbit's best tome,", 'ready to guide your next gathering move.'],
+    },
+    mobileDescription: {
+      zh: ['兔肉不私藏的好秘笈，', '採集技能的推薦求解器。'],
+      en: [
+        "No secrets kept—Rabbit's best tome,",
+        'ready to guide your next',
+        'gathering move.',
+      ],
+    },
+    image: 'tome.webp',
+    imageAlt: {
+      zh: '深焙抹茶與柚子金砂的大地秘笈馬卡龍',
+      en: 'Tome macaron with roasted matcha and yuzu gold dust',
+    },
+    color: '#ccdcd4',
+    darkColor: '#2a473d',
+  },
+].map((flavor) => ({
+  ...flavor,
+  src: new URL(`../assets/macarons-web/${flavor.image}`, import.meta.url).href,
 }))
 
 const languageStorageKey = 'portfolio-language'
@@ -265,46 +379,48 @@ watch(
 <template>
   <div class="site-shell">
     <header class="site-header">
-      <a class="brand" href="#top">
-        <img class="brand-icon" :src="navMacaronImage" alt="" draggable="false" />
-        <span class="brand-label">{{ text.brand }}</span>
-      </a>
+      <div class="site-header-inner">
+        <a class="brand" href="#top">
+          <img class="brand-icon" :src="navMacaronImage" alt="" draggable="false" />
+          <span class="brand-label">{{ text.brand }}</span>
+        </a>
 
-      <div class="header-actions">
-        <div class="language-toggle" role="group" :aria-label="text.languageLabel">
+        <div class="header-actions">
+          <div class="language-toggle" role="group" :aria-label="text.languageLabel">
+            <button
+              type="button"
+              :class="{ active: language === 'zh' }"
+              :aria-pressed="language === 'zh'"
+              @click="setLanguage('zh')"
+            >
+              中文
+            </button>
+            <button
+              type="button"
+              :class="{ active: language === 'en' }"
+              :aria-pressed="language === 'en'"
+              @click="setLanguage('en')"
+            >
+              English
+            </button>
+          </div>
+
           <button
+            class="theme-toggle"
             type="button"
-            :class="{ active: language === 'zh' }"
-            :aria-pressed="language === 'zh'"
-            @click="setLanguage('zh')"
+            :aria-label="nextThemeLabel"
+            :title="nextThemeLabel"
+            @click="toggleTheme"
           >
-            中文
-          </button>
-          <button
-            type="button"
-            :class="{ active: language === 'en' }"
-            :aria-pressed="language === 'en'"
-            @click="setLanguage('en')"
-          >
-            English
+            <span
+              class="theme-icon"
+              :class="theme === 'light' ? 'dark' : 'light'"
+              aria-hidden="true"
+            >
+              <span class="theme-icon-core" />
+            </span>
           </button>
         </div>
-
-        <button
-          class="theme-toggle"
-          type="button"
-          :aria-label="nextThemeLabel"
-          :title="nextThemeLabel"
-          @click="toggleTheme"
-        >
-          <span
-            class="theme-icon"
-            :class="theme === 'light' ? 'dark' : 'light'"
-            aria-hidden="true"
-          >
-            <span class="theme-icon-core" />
-          </span>
-        </button>
       </div>
     </header>
 
@@ -344,6 +460,65 @@ watch(
             alt=""
             draggable="false"
           />
+        </div>
+      </section>
+
+      <section class="signature-section" aria-labelledby="signature-title">
+        <header class="signature-heading">
+          <h2 id="signature-title">{{ text.signatureTitle }}</h2>
+        </header>
+
+        <div class="signature-grid">
+          <article
+            v-for="flavor in signatureFlavors"
+            :key="flavor.id"
+            class="signature-card"
+          >
+            <div
+              class="signature-art"
+              :style="{
+                '--card-color': flavor.color,
+                '--card-color-dark': flavor.darkColor,
+              }"
+            >
+              <img
+                :src="flavor.src"
+                :alt="flavor.imageAlt[language]"
+                loading="lazy"
+                draggable="false"
+              />
+            </div>
+
+            <div class="signature-card-body">
+              <p class="signature-category">{{ flavor.category[language] }}</p>
+              <h3 :class="{ 'is-english': language === 'en' }">{{ flavor.title[language] }}</h3>
+              <p class="signature-flavor">{{ flavor.flavor[language] }}</p>
+              <p class="signature-description">
+                <span class="signature-description-layout signature-description-layout-desktop">
+                  <span
+                    v-for="line in flavor.description[language]"
+                    :key="line"
+                    class="signature-description-line"
+                  >
+                    {{ line }}
+                  </span>
+                </span>
+                <span class="signature-description-layout signature-description-layout-mobile">
+                  <span
+                    v-for="line in flavor.mobileDescription[language]"
+                    :key="line"
+                    class="signature-description-line"
+                  >
+                    {{ line }}
+                  </span>
+                </span>
+              </p>
+              <p class="signature-cta">
+                <span>{{ text.signatureCta }}</span>
+                <span aria-hidden="true">→</span>
+              </p>
+            </div>
+          </article>
         </div>
       </section>
     </main>

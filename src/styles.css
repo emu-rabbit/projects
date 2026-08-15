@@ -22,6 +22,10 @@
   --control-shadow: rgb(75 53 37 / 12%);
   --accent: #a6564f;
   --focus: #96534d;
+  --card: rgb(255 252 246 / 72%);
+  --card-shadow: rgb(75 53 37 / 8%);
+  --card-shadow-hover: rgb(75 53 37 / 14%);
+  --header-surface: rgb(247 242 233 / 88%);
 }
 
 :root[data-theme="dark"] {
@@ -37,6 +41,10 @@
   --control-shadow: rgb(0 0 0 / 26%);
   --accent: #d78f85;
   --focus: #e2a096;
+  --card: rgb(47 40 36 / 86%);
+  --card-shadow: rgb(0 0 0 / 20%);
+  --card-shadow-hover: rgb(0 0 0 / 34%);
+  --header-surface: rgb(33 29 27 / 88%);
 }
 
 * {
@@ -77,19 +85,31 @@ a:focus-visible {
 }
 
 .site-shell {
-  width: min(100% - 48px, 1440px);
-  margin: 0 auto;
+  width: 100%;
 }
 
 .site-header {
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 10;
+  border-bottom: 1px solid var(--line);
+  background: var(--header-surface);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
+.site-header-inner,
+main {
+  width: min(calc(100% - clamp(48px, 6vw, 96px)), 1440px);
+  margin-inline: auto;
+}
+
+.site-header-inner {
   display: flex;
   min-height: 88px;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  border-bottom: 1px solid var(--line);
 }
 
 .brand {
@@ -323,10 +343,177 @@ a:focus-visible {
   user-select: none;
 }
 
+.signature-section {
+  padding: clamp(88px, 11vw, 148px) 0 clamp(100px, 12vw, 164px);
+  border-top: 1px solid var(--line);
+}
+
+.signature-heading {
+  margin-bottom: clamp(38px, 5vw, 62px);
+}
+
+.signature-heading h2 {
+  margin: 0;
+  font-size: clamp(2.2rem, 4.6vw, 4.4rem);
+  font-weight: 400;
+  letter-spacing: -0.065em;
+  line-height: 1.12;
+}
+
+.signature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 3.4vw, 48px);
+}
+
+.signature-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  background: var(--card);
+  box-shadow: 0 18px 50px var(--card-shadow);
+  transform: translateY(0);
+  transition:
+    border-color 240ms ease,
+    box-shadow 280ms ease,
+    transform 280ms cubic-bezier(0.22, 0.72, 0.25, 1);
+}
+
+.signature-art {
+  position: relative;
+  display: grid;
+  min-height: clamp(300px, 34vw, 470px);
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 43%, rgb(255 255 255 / 68%) 0 8%, transparent 58%),
+    color-mix(in srgb, var(--card-color) 76%, var(--canvas));
+}
+
+:root[data-theme="dark"] .signature-art {
+  background:
+    radial-gradient(circle at 50% 43%, rgb(255 255 255 / 8%) 0 8%, transparent 58%),
+    var(--card-color-dark);
+}
+
+.signature-art::after {
+  position: absolute;
+  bottom: 12%;
+  width: 58%;
+  height: 10%;
+  border-radius: 50%;
+  background: rgb(74 51 36 / 11%);
+  filter: blur(16px);
+  content: "";
+}
+
+.signature-art img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(78%, 430px);
+  height: auto;
+  filter: drop-shadow(0 10px 8px rgb(75 48 31 / 11%));
+  transform: translateY(-1%);
+  transition:
+    filter 280ms ease,
+    transform 320ms cubic-bezier(0.22, 0.72, 0.25, 1);
+  user-select: none;
+}
+
+.signature-card-body {
+  display: flex;
+  flex: 1;
+  min-height: 360px;
+  flex-direction: column;
+  padding: clamp(28px, 3.5vw, 46px);
+}
+
+.signature-category {
+  margin: 0 0 16px;
+  color: var(--accent);
+  font-size: 0.76rem;
+  letter-spacing: 0.11em;
+}
+
+.signature-card h3 {
+  margin: 0;
+  font-size: clamp(1.72rem, 2.6vw, 2.65rem);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1.24;
+}
+
+.signature-card h3.is-english {
+  font-size: clamp(1.58rem, 2.25vw, 2.3rem);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.signature-flavor {
+  margin: 20px 0 0;
+  color: var(--ink);
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
+}
+
+.signature-description {
+  max-width: 34em;
+  margin: 24px 0 clamp(38px, 4vw, 48px);
+  color: var(--ink-soft);
+  font-size: clamp(0.9rem, 1.15vw, 1rem);
+  letter-spacing: 0.025em;
+  line-height: 1.9;
+}
+
+.signature-description-line {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.signature-description-layout-mobile {
+  display: none;
+}
+
+.signature-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: auto 0 0;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 0.82rem;
+  letter-spacing: 0.045em;
+}
+
+.signature-cta [aria-hidden="true"] {
+  transition: transform 240ms ease;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .macaron:hover .macaron-art {
     filter: drop-shadow(0 8px 8px rgb(75 48 31 / 12%));
     transform: translate3d(0, -11px, 0);
+  }
+
+  .signature-card:hover {
+    box-shadow: 0 24px 62px var(--card-shadow-hover);
+    transform: translateY(-6px);
+  }
+
+  .signature-card:hover .signature-art img {
+    filter: drop-shadow(0 14px 11px rgb(75 48 31 / 15%));
+    transform: translateY(-2.5%) scale(1.025);
+  }
+
+  .signature-card:hover .signature-cta [aria-hidden="true"] {
+    transform: translateX(4px);
   }
 }
 
@@ -367,14 +554,23 @@ a:focus-visible {
     width: min(92%, 810px);
     justify-self: center;
   }
+
+  .signature-art {
+    min-height: clamp(300px, 39vw, 410px);
+  }
+
+  .signature-card-body {
+    min-height: 380px;
+  }
 }
 
 @media (max-width: 680px) {
-  .site-shell {
-    width: min(100% - 28px, 1440px);
+  .site-header-inner,
+  main {
+    width: calc(100% - 36px);
   }
 
-  .site-header {
+  .site-header-inner {
     min-height: 76px;
     gap: 12px;
   }
@@ -441,6 +637,48 @@ a:focus-visible {
     width: 100%;
   }
 
+  .signature-section {
+    padding-top: 76px;
+  }
+
+  .signature-grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .signature-card {
+    border-radius: 24px;
+  }
+
+  .signature-art {
+    min-height: 300px;
+  }
+
+  .signature-card-body {
+    min-height: 340px;
+    padding: 28px 24px 30px;
+  }
+
+  .signature-card h3 {
+    font-size: clamp(1.65rem, 7vw, 2.15rem);
+  }
+
+  .signature-card h3.is-english {
+    font-size: clamp(1.5rem, 6.6vw, 1.85rem);
+  }
+
+  .signature-description {
+    font-size: 0.9rem;
+  }
+
+  .signature-description-layout-desktop {
+    display: none;
+  }
+
+  .signature-description-layout-mobile {
+    display: block;
+  }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -452,7 +690,10 @@ a:focus-visible {
   }
 
   .macaron,
-  .macaron-art {
+  .macaron-art,
+  .signature-card,
+  .signature-art img,
+  .signature-cta [aria-hidden="true"] {
     transform: none !important;
   }
 }

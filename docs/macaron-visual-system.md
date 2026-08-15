@@ -149,3 +149,18 @@
 - 所有 current asset 都是 1254 × 1254 透明 PNG，四角 alpha 為 0，主體未裁切。
 - 十張 current asset 的 alpha bbox 最長邊都是 1050 px（重採樣誤差最多 1 px），且 bbox 中心與畫布中心偏差不超過 1 px。
 - 任何後續 3D 設計都能指出殼、餡、果膠與頂部裝飾的實體拆件方式。
+
+## 前端文字與視覺交付契約
+
+### 字型 subset
+
+- 網站正文使用 `assets/fonts/emu-portfolio-round-subset.woff2`；它是由 jf open 粉圓 2.1 產生的專案字元 subset，不是可以在文案變更後繼續沿用的完整字型。
+- 只要 `index.html` 或 `src/**/*.vue` 的使用者可見文字有增減，交付前必須用官方 jf open 粉圓 2.1 TTF 重跑 `scripts/subset_huninn.py`，並將更新後的 WOFF2 與文案一起納入變更。
+- 標準呼叫方式是 `python scripts/subset_huninn.py <jf-openhuninn-2.1.ttf>`。來源 TTF 的本機路徑不寫進 repository；字型授權資訊由 `assets/fonts/OFL.txt` 持有。
+- 目前腳本只會收集 `index.html` 與 `src/**/*.vue`。如果日後可見文字移到其他檔案類型，要同步擴充 `TEXT_SOURCES`，不能以系統 fallback 字型掩蓋缺字。
+
+### 交付前視覺驗收
+
+- 任何使用者可見的 UI、文字、圖像或 responsive 變更，交付前必須開啟實際網頁進行視覺檢查；只有 build、typecheck 或閱讀 CSS 不算完成視覺驗收。
+- 至少檢查桌機、平板、手機三種版面，以及明亮與暗色主題。必須確認無橫向溢出、文字裁切、缺字／錯誤 fallback、對比不足、卡片高度或 CTA 錯位與明顯 CLS。
+- 視覺判斷必須回到本文件的美術要求：馬卡龍是主角，介面克制、暖和、手作、一致且易讀；要主動移除會增加認知負荷、暗示未開放互動或與主視覺爭奪注意力的元素。
