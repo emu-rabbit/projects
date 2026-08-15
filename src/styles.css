@@ -562,6 +562,33 @@ main {
   }
 }
 
+@keyframes flavor-attention-shake {
+  0%,
+  100% {
+    transform: translateY(-1%) rotate(0);
+  }
+
+  20% {
+    transform: translateY(-1%) rotate(-1.1deg);
+  }
+
+  40% {
+    transform: translateY(-1%) rotate(1deg);
+  }
+
+  60% {
+    transform: translateY(-1%) rotate(-0.65deg);
+  }
+
+  80% {
+    transform: translateY(-1%) rotate(0.4deg);
+  }
+}
+
+.signature-card.is-scroll-highlighted .signature-art img {
+  animation: flavor-attention-shake 560ms ease-in-out;
+}
+
 /*
  * Responsive contract:
  * mobile: <= 680px
@@ -772,6 +799,7 @@ main {
   .signature-card,
   .signature-art img,
   .signature-cta [aria-hidden="true"] {
+    animation: none !important;
     transform: none !important;
   }
 }

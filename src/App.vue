@@ -358,9 +358,13 @@ const getInitialTheme = (): Theme => {
 const language = ref<Language>(getInitialLanguage())
 const theme = ref<Theme>(getInitialTheme())
 const macaronScene = ref<HTMLElement | null>(null)
+const highlightedFlavorId = ref<string | null>(null)
 
 let macaronElements: HTMLElement[] = []
 let motionFrame = 0
+let highlightFrame = 0
+let scrollHighlightTimer = 0
+let pendingScrollEnd: (() => void) | null = null
 let lastScrollY = 0
 let lastWheelTime = 0
 let waveStartTime = 0
@@ -417,9 +421,58 @@ const toggleTheme = () => {
   }
 }
 
+const clearPendingScrollHighlight = () => {
+  if (pendingScrollEnd) {
+    window.removeEventListener('scrollend', pendingScrollEnd)
+    pendingScrollEnd = null
+  }
+
+  if (scrollHighlightTimer) {
+    window.clearTimeout(scrollHighlightTimer)
+    scrollHighlightTimer = 0
+  }
+
+  if (highlightFrame) {
+    window.cancelAnimationFrame(highlightFrame)
+    highlightFrame = 0
+  }
+}
+
+const highlightFlavor = (targetId: string) => {
+  highlightedFlavorId.value = null
+  highlightFrame = window.requestAnimationFrame(() => {
+    highlightedFlavorId.value = targetId
+    highlightFrame = 0
+  })
+}
+
 const scrollToFlavor = (targetId: string) => {
-  document.getElementById(targetId)?.scrollIntoView({
-    behavior: reducedMotionQuery?.matches ? 'auto' : 'smooth',
+  const target = document.getElementById(targetId)
+
+  if (!target) {
+    return
+  }
+
+  clearPendingScrollHighlight()
+  highlightedFlavorId.value = null
+
+  const reducedMotion = reducedMotionQuery?.matches ?? false
+  const finishScroll = () => {
+    clearPendingScrollHighlight()
+
+    if (!reducedMotion) {
+      highlightFlavor(targetId)
+    }
+  }
+
+  if (!reducedMotion) {
+    pendingScrollEnd = finishScroll
+    window.addEventListener('scrollend', finishScroll, { once: true })
+    scrollHighlightTimer = window.setTimeout(finishScroll, 1600)
+  }
+
+  target.scrollIntoView({
+    behavior: reducedMotion ? 'auto' : 'smooth',
     block: 'start',
   })
 }
@@ -484,6 +537,8 @@ const addWaveImpulse = (delta: number) => {
 }
 
 const handleMotionPreferenceChange = () => {
+  clearPendingScrollHighlight()
+  highlightedFlavorId.value = null
   clearMacaronMotion()
   unlockMacaronWave()
 }
@@ -536,6 +591,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  clearPendingScrollHighlight()
   clearMacaronMotion()
   unlockMacaronWave()
   reducedMotionQuery?.removeEventListener('change', handleMotionPreferenceChange)
@@ -672,6 +728,7 @@ watch(
             :id="flavor.id"
             :key="flavor.id"
             class="signature-card"
+            :class="{ 'is-scroll-highlighted': highlightedFlavorId === flavor.id }"
           >
             <div
               class="signature-art"
