@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 type Language = 'zh' | 'en'
 type Theme = 'light' | 'dark'
+
+const WindowNotesMacaronViewer = defineAsyncComponent(
+  () => import('./components/WindowNotesMacaronViewer.vue'),
+)
 
 const copy = {
   zh: {
@@ -17,6 +21,8 @@ const copy = {
     innovationTitle: '技術創新口味',
     classicTitle: '早期懷念口味',
     signatureCta: '仔細查看這顆馬卡龍',
+    backHome: '返回首頁',
+    detailTitle: '窗邊手記馬卡龍 3D 展示',
     languageLabel: '切換語言',
     lightTheme: '切換為明亮主題',
     darkTheme: '切換為暗色主題',
@@ -33,6 +39,8 @@ const copy = {
     innovationTitle: 'Experimental Flavors',
     classicTitle: 'Nostalgic Flavors',
     signatureCta: 'Take a closer look',
+    backHome: 'Back home',
+    detailTitle: 'Window Notes macaron 3D viewer',
     languageLabel: 'Switch language',
     lightTheme: 'Switch to light theme',
     darkTheme: 'Switch to dark theme',
@@ -41,6 +49,7 @@ const copy = {
 
 const macaronBoxImage = new URL('../assets/hero/macaron-box-empty.webp', import.meta.url).href
 const navMacaronImage = new URL('../assets/ui/nav-macaron.svg', import.meta.url).href
+const windowNotesModel = new URL('../assets/models/window-notes-macaron.glb', import.meta.url).href
 
 const macarons = [
   { name: 'Frozen Rabbit Workshop', targetId: 'frozen-rabbit-workshop', image: 'workshop.webp', left: '4.4%', top: '15%', row: 0 },
@@ -357,6 +366,7 @@ const getInitialTheme = (): Theme => {
 
 const language = ref<Language>(getInitialLanguage())
 const theme = ref<Theme>(getInitialTheme())
+const currentHash = ref(window.location.hash)
 const macaronScene = ref<HTMLElement | null>(null)
 const highlightedFlavorId = ref<string | null>(null)
 
@@ -382,6 +392,8 @@ const waveDuration = waveLiftDuration + waveColumnDelay * 4 + waveRowDelay
 const waveCooldown = 500
 
 const text = computed(() => copy[language.value])
+const windowNotesRoute = '#/macarons/window-notes'
+const isWindowNotesDetail = computed(() => currentHash.value === windowNotesRoute)
 const flavorSections = computed(() => [
   {
     id: 'signature',
@@ -419,6 +431,33 @@ const toggleTheme = () => {
   } catch {
     // The selected theme still applies for this visit when storage is unavailable.
   }
+}
+
+const syncRoute = () => {
+  currentHash.value = window.location.hash
+  window.scrollTo({ top: 0, behavior: 'auto' })
+}
+
+const openWindowNotesDetail = () => {
+  if (window.location.hash === windowNotesRoute) {
+    window.scrollTo({ top: 0, behavior: 'auto' })
+    return
+  }
+
+  window.location.hash = windowNotesRoute.slice(1)
+}
+
+const goHome = () => {
+  window.location.hash = ''
+}
+
+const handleMacaronClick = (targetId: string) => {
+  if (targetId === 'window-notes') {
+    openWindowNotesDetail()
+    return
+  }
+
+  scrollToFlavor(targetId)
 }
 
 const clearPendingScrollHighlight = () => {
@@ -588,6 +627,11 @@ onMounted(() => {
   window.addEventListener('touchmove', handleTouchMove, { passive: true })
   window.addEventListener('touchend', handleTouchEnd, { passive: true })
   window.addEventListener('touchcancel', handleTouchEnd, { passive: true })
+  window.addEventListener('hashchange', syncRoute)
+
+  if (isWindowNotesDetail.value) {
+    window.scrollTo({ top: 0, behavior: 'auto' })
+  }
 })
 
 onBeforeUnmount(() => {
@@ -601,6 +645,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('touchmove', handleTouchMove)
   window.removeEventListener('touchend', handleTouchEnd)
   window.removeEventListener('touchcancel', handleTouchEnd)
+  window.removeEventListener('hashchange', syncRoute)
 })
 
 watch(
@@ -625,7 +670,7 @@ watch(
   <div class="site-shell">
     <header class="site-header">
       <div class="site-header-inner">
-        <a class="brand" href="#top">
+        <a class="brand" href="#top" @click="isWindowNotesDetail && ($event.preventDefault(), goHome())">
           <img class="brand-icon" :src="navMacaronImage" alt="" draggable="false" />
           <span class="brand-label">{{ text.brand }}</span>
         </a>
@@ -669,7 +714,28 @@ watch(
       </div>
     </header>
 
-    <main id="top">
+    <main v-if="isWindowNotesDetail" class="detail-main">
+      <section class="detail-page" :aria-labelledby="'detail-title'">
+        <h1 id="detail-title" class="visually-hidden">{{ text.detailTitle }}</h1>
+
+        <button class="detail-back" type="button" @click="goHome">
+          <span aria-hidden="true">←</span>
+          <span>{{ text.backHome }}</span>
+        </button>
+
+        <div class="detail-layout">
+          <section class="detail-viewer-panel" :aria-label="text.detailTitle">
+            <WindowNotesMacaronViewer
+              :fallback-image="signatureFlavors[0].src"
+              :model-url="windowNotesModel"
+              :theme="theme"
+            />
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <main v-else id="top">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
           <h1 id="hero-title" :class="{ 'is-english': language === 'en' }">
@@ -697,7 +763,7 @@ watch(
             :style="{ left: macaron.left, top: macaron.top, '--wave-index': index }"
             type="button"
             :aria-label="macaron.name"
-            @click="scrollToFlavor(macaron.targetId)"
+            @click="handleMacaronClick(macaron.targetId)"
           >
             <img class="macaron-art" :src="macaron.src" alt="" draggable="false" />
           </button>
@@ -728,7 +794,14 @@ watch(
             :id="flavor.id"
             :key="flavor.id"
             class="signature-card"
-            :class="{ 'is-scroll-highlighted': highlightedFlavorId === flavor.id }"
+            :class="{
+              'is-scroll-highlighted': highlightedFlavorId === flavor.id,
+              'is-detail-available': flavor.id === 'window-notes',
+            }"
+            :role="flavor.id === 'window-notes' ? 'link' : undefined"
+            :tabindex="flavor.id === 'window-notes' ? 0 : undefined"
+            @click="flavor.id === 'window-notes' && openWindowNotesDetail()"
+            @keydown.enter="flavor.id === 'window-notes' && openWindowNotesDetail()"
           >
             <div
               class="signature-art"
