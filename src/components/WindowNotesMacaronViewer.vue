@@ -6,7 +6,10 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 
 const props = defineProps<{
+  accessibleLabel: string
+  fallbackAlt: string
   fallbackImage: string
+  modelName: string
   modelUrl: string
   theme: 'light' | 'dark'
 }>()
@@ -130,7 +133,7 @@ const loadModel = async () => {
     if (disposed || !scene) return
 
     model = gltf.scene
-    model.name = 'window-notes-macaron'
+    model.name = props.modelName
     const maxAnisotropy = renderer.capabilities.getMaxAnisotropy()
 
     model.traverse((object) => {
@@ -288,11 +291,11 @@ watch(() => props.theme, updateLightingForTheme)
       v-show="!modelFailed"
       ref="canvas"
       class="model-viewer-canvas"
-      aria-label="可旋轉查看的窗邊手記馬卡龍 3D 模型"
+      :aria-label="accessibleLabel"
     />
 
     <div v-if="!modelReady" class="model-viewer-fallback">
-      <img :src="fallbackImage" alt="暮色杏桃與蜂蜜玫瑰的窗邊手記馬卡龍" />
+      <img :src="fallbackImage" :alt="fallbackAlt" />
       <span
         v-if="!modelFailed"
         class="model-viewer-progress"

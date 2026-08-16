@@ -50,6 +50,7 @@ const copy = {
 const macaronBoxImage = new URL('../assets/hero/macaron-box-empty.webp', import.meta.url).href
 const navMacaronImage = new URL('../assets/ui/nav-macaron.svg', import.meta.url).href
 const windowNotesModel = new URL('../assets/models/window-notes-macaron.glb', import.meta.url).href
+const boundaryNotesModel = new URL('../assets/models/boundary-notes-macaron.glb', import.meta.url).href
 
 const macarons = [
   { name: 'Frozen Rabbit Workshop', targetId: 'frozen-rabbit-workshop', image: 'workshop.webp', left: '4.4%', top: '15%', row: 0 },
@@ -392,8 +393,22 @@ const waveDuration = waveLiftDuration + waveColumnDelay * 4 + waveRowDelay
 const waveCooldown = 500
 
 const text = computed(() => copy[language.value])
-const windowNotesRoute = '#/macarons/window-notes'
-const isWindowNotesDetail = computed(() => currentHash.value === windowNotesRoute)
+const detailModels = {
+  'window-notes': windowNotesModel,
+  'boundary-notes': boundaryNotesModel,
+} as const
+const detailFlavorId = computed(() => {
+  const match = currentHash.value.match(/^#\/macarons\/(window-notes|boundary-notes)$/)
+  return match?.[1] as keyof typeof detailModels | undefined
+})
+const detailFlavor = computed(() =>
+  signatureFlavors.find((flavor) => flavor.id === detailFlavorId.value),
+)
+const detailModelUrl = computed(() =>
+  detailFlavorId.value ? detailModels[detailFlavorId.value] : undefined,
+)
+const detailTitle = computed(() => `${detailFlavor.value?.title[language.value] ?? ''} 3D`)
+const isMacaronDetail = computed(() => Boolean(detailFlavor.value && detailModelUrl.value))
 const flavorSections = computed(() => [
   {
     id: 'signature',
@@ -438,13 +453,14 @@ const syncRoute = () => {
   window.scrollTo({ top: 0, behavior: 'auto' })
 }
 
-const openWindowNotesDetail = () => {
-  if (window.location.hash === windowNotesRoute) {
+const openMacaronDetail = (flavorId: keyof typeof detailModels) => {
+  const detailRoute = `#/macarons/${flavorId}`
+  if (window.location.hash === detailRoute) {
     window.scrollTo({ top: 0, behavior: 'auto' })
     return
   }
 
-  window.location.hash = windowNotesRoute.slice(1)
+  window.location.hash = detailRoute.slice(1)
 }
 
 const goHome = () => {
@@ -452,8 +468,8 @@ const goHome = () => {
 }
 
 const handleMacaronClick = (targetId: string) => {
-  if (targetId === 'window-notes') {
-    openWindowNotesDetail()
+  if (targetId in detailModels) {
+    openMacaronDetail(targetId as keyof typeof detailModels)
     return
   }
 
@@ -629,7 +645,7 @@ onMounted(() => {
   window.addEventListener('touchcancel', handleTouchEnd, { passive: true })
   window.addEventListener('hashchange', syncRoute)
 
-  if (isWindowNotesDetail.value) {
+  if (isMacaronDetail.value) {
     window.scrollTo({ top: 0, behavior: 'auto' })
   }
 })
@@ -670,7 +686,7 @@ watch(
   <div class="site-shell">
     <header class="site-header">
       <div class="site-header-inner">
-        <a class="brand" href="#top" @click="isWindowNotesDetail && ($event.preventDefault(), goHome())">
+        <a class="brand" href="#top" @click="isMacaronDetail && ($event.preventDefault(), goHome())">
           <img class="brand-icon" :src="navMacaronImage" alt="" draggable="false" />
           <span class="brand-label">{{ text.brand }}</span>
         </a>
@@ -714,9 +730,9 @@ watch(
       </div>
     </header>
 
-    <main v-if="isWindowNotesDetail" class="detail-main">
+    <main v-if="isMacaronDetail && detailFlavor && detailModelUrl" class="detail-main">
       <section class="detail-page" :aria-labelledby="'detail-title'">
-        <h1 id="detail-title" class="visually-hidden">{{ text.detailTitle }}</h1>
+        <h1 id="detail-title" class="visually-hidden">{{ detailTitle }}</h1>
 
         <button class="detail-back" type="button" @click="goHome">
           <span aria-hidden="true">←</span>
@@ -724,10 +740,13 @@ watch(
         </button>
 
         <div class="detail-layout">
-          <section class="detail-viewer-panel" :aria-label="text.detailTitle">
+          <section class="detail-viewer-panel" :aria-label="detailTitle">
             <WindowNotesMacaronViewer
-              :fallback-image="signatureFlavors[0].src"
-              :model-url="windowNotesModel"
+              :accessible-label="detailTitle"
+              :fallback-alt="detailFlavor.imageAlt[language]"
+              :fallback-image="detailFlavor.src"
+              :model-name="`${detailFlavor.id}-macaron`"
+              :model-url="detailModelUrl"
               :theme="theme"
             />
           </section>
@@ -796,12 +815,12 @@ watch(
             class="signature-card"
             :class="{
               'is-scroll-highlighted': highlightedFlavorId === flavor.id,
-              'is-detail-available': flavor.id === 'window-notes',
+              'is-detail-available': flavor.id in detailModels,
             }"
-            :role="flavor.id === 'window-notes' ? 'link' : undefined"
-            :tabindex="flavor.id === 'window-notes' ? 0 : undefined"
-            @click="flavor.id === 'window-notes' && openWindowNotesDetail()"
-            @keydown.enter="flavor.id === 'window-notes' && openWindowNotesDetail()"
+            :role="flavor.id in detailModels ? 'link' : undefined"
+            :tabindex="flavor.id in detailModels ? 0 : undefined"
+            @click="flavor.id in detailModels && openMacaronDetail(flavor.id as keyof typeof detailModels)"
+            @keydown.enter="flavor.id in detailModels && openMacaronDetail(flavor.id as keyof typeof detailModels)"
           >
             <div
               class="signature-art"

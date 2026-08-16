@@ -33,6 +33,18 @@
 | 程序建模來源 | [`scripts/blender/create_window_notes_macaron.py`](../scripts/blender/create_window_notes_macaron.py) |
 | 正式展示相機、燈光與互動 | [`src/components/WindowNotesMacaronViewer.vue`](../src/components/WindowNotesMacaronViewer.vue) |
 
+Boundary Notes 目前是等待使用者視覺接受的第二顆候選模型，不能因為技術驗收通過就列為新的共用基準：
+
+| 用途 | Source of truth |
+| --- | --- |
+| 正式 2D 構圖 | [`assets/macarons/boundary-notes.png`](../assets/macarons/boundary-notes.png) |
+| 候選 Blender 模型 | [`assets/models/boundary-notes-macaron.blend`](../assets/models/boundary-notes-macaron.blend) |
+| 網站實際載入模型 | [`assets/models/boundary-notes-macaron.glb`](../assets/models/boundary-notes-macaron.glb) |
+| 程序建模來源 | [`scripts/blender/create_boundary_notes_macaron.py`](../scripts/blender/create_boundary_notes_macaron.py) |
+| 正式展示相機、燈光與互動 | [`src/components/WindowNotesMacaronViewer.vue`](../src/components/WindowNotesMacaronViewer.vue) |
+
+這個候選模型直接從已接受的 `window-notes-macaron.blend` 複製上下 shell mesh；酒紅材質、玫瑰與象牙奶霜、筆直黑醋栗果膠、折起信箋、兔耳蠟封、奶油擠花與糖珠都是獨立 datablock。頂飾依正式 2D landmarks 固定：[`piping-mask.png`](../assets/textures/boundary-notes/piping-mask.png) 只作為擠花位置與粗細的追圖證據，建置時先取單像素中心骨架，再沿殼面掃出 14 段連續、可變半徑的圓管糖霜，不能把像素格、平面剪影或貼圖低浮雕當成成品；兩顆奶油糖珠保持與主線分離。信封由有厚度的底片、四片高低不同的糖紙折片與實體接縫組成；不以正面貼圖偽裝折線。蠟封為不規則澆注圓片、凸框與獨立的兔頭、兔耳低浮雕；不以正式 2D 壓印貼圖代替幾何。玫瑰半月弧固定由 14 顆非完全正圓的壓扁糖珠與三顆帶實體星芒的玫瑰切面糖組成，不得用隨機分布改變數量與節奏。三層餡料都是有完整頂面、底面與中央體積的封閉實心 mesh，不是只有外側表面的環形 band。網站已為 `#/macarons/boundary-notes` 接上候選 GLB，但只有在使用者完成視覺接受後，才能把它從候選改列為已通過模型。
+
 ### 已知重建風險
 
 截至 2026-08-16，正式 `.blend` 裡已調整完成的拱窗與窗板 transform，和直接重跑 `create_window_notes_macaron.py` 得到的程序版本不同。這表示目前腳本不能單獨完整重建已接受模型。
