@@ -18,8 +18,9 @@
 | `add and commit all`、`commit all` 或全部提交 | `.agents/workflows/add-commit-all.md` |
 | 作品集使命、內容範圍、專案分級與 GitHub 背景 | `docs/product-direction.md` |
 | 十顆馬卡龍的統一視覺系統、個別設計、2D 資產、字型 subset 與 UI 視覺驗收 | `docs/macaron-visual-system.md` |
+| 馬卡龍 3D 建模、共用圓蓋、對圖標準、常見失敗與模型交付驗收 | `docs/macaron-3d-acceptance.md` |
 
-本 repository 的作品集使命與馬卡龍視覺系統由上表兩份 `docs/` 文件持有；尚未定義實作架構、部署、資料模型或專案專屬 subagent 文件。不得把 sibling repository 的假設當成本 repository 的設定。
+本 repository 的作品集使命、馬卡龍視覺系統與 3D 驗收標準由上表三份 `docs/` 文件持有；尚未定義實作架構、部署、資料模型或專案專屬 subagent 文件。不得把 sibling repository 的假設當成本 repository 的設定。
 
 ## 工作方式
 
