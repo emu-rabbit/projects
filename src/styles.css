@@ -740,10 +740,6 @@ main {
   stroke-width: 1.7;
 }
 
-.signature-card.is-detail-available {
-  cursor: pointer;
-}
-
 @media (hover: hover) and (pointer: fine) {
   .detail-back:hover {
     background: var(--control-active);

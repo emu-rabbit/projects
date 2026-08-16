@@ -22,7 +22,6 @@ const copy = {
     classicTitle: '早期懷念口味',
     signatureCta: '仔細查看這顆馬卡龍',
     backHome: '返回首頁',
-    detailTitle: '窗邊手記馬卡龍 3D 展示',
     languageLabel: '切換語言',
     lightTheme: '切換為明亮主題',
     darkTheme: '切換為暗色主題',
@@ -40,7 +39,6 @@ const copy = {
     classicTitle: 'Nostalgic Flavors',
     signatureCta: 'Take a closer look',
     backHome: 'Back home',
-    detailTitle: 'Window Notes macaron 3D viewer',
     languageLabel: 'Switch language',
     lightTheme: 'Switch to light theme',
     darkTheme: 'Switch to dark theme',
@@ -393,22 +391,22 @@ const waveDuration = waveLiftDuration + waveColumnDelay * 4 + waveRowDelay
 const waveCooldown = 500
 
 const text = computed(() => copy[language.value])
-const detailModels = {
+const viewerModels = {
   'window-notes': windowNotesModel,
   'boundary-notes': boundaryNotesModel,
 } as const
-const detailFlavorId = computed(() => {
-  const match = currentHash.value.match(/^#\/macarons\/(window-notes|boundary-notes)$/)
-  return match?.[1] as keyof typeof detailModels | undefined
+const viewerFlavorId = computed(() => {
+  const match = currentHash.value.match(/^#\/viewer\/(window-notes|boundary-notes)$/)
+  return match?.[1] as keyof typeof viewerModels | undefined
 })
-const detailFlavor = computed(() =>
-  signatureFlavors.find((flavor) => flavor.id === detailFlavorId.value),
+const viewerFlavor = computed(() =>
+  signatureFlavors.find((flavor) => flavor.id === viewerFlavorId.value),
 )
-const detailModelUrl = computed(() =>
-  detailFlavorId.value ? detailModels[detailFlavorId.value] : undefined,
+const viewerModelUrl = computed(() =>
+  viewerFlavorId.value ? viewerModels[viewerFlavorId.value] : undefined,
 )
-const detailTitle = computed(() => `${detailFlavor.value?.title[language.value] ?? ''} 3D`)
-const isMacaronDetail = computed(() => Boolean(detailFlavor.value && detailModelUrl.value))
+const viewerTitle = computed(() => `${viewerFlavor.value?.title[language.value] ?? ''} 3D`)
+const isViewerRoute = computed(() => Boolean(viewerFlavor.value && viewerModelUrl.value))
 const flavorSections = computed(() => [
   {
     id: 'signature',
@@ -453,26 +451,11 @@ const syncRoute = () => {
   window.scrollTo({ top: 0, behavior: 'auto' })
 }
 
-const openMacaronDetail = (flavorId: keyof typeof detailModels) => {
-  const detailRoute = `#/macarons/${flavorId}`
-  if (window.location.hash === detailRoute) {
-    window.scrollTo({ top: 0, behavior: 'auto' })
-    return
-  }
-
-  window.location.hash = detailRoute.slice(1)
-}
-
 const goHome = () => {
   window.location.hash = ''
 }
 
 const handleMacaronClick = (targetId: string) => {
-  if (targetId in detailModels) {
-    openMacaronDetail(targetId as keyof typeof detailModels)
-    return
-  }
-
   scrollToFlavor(targetId)
 }
 
@@ -645,7 +628,7 @@ onMounted(() => {
   window.addEventListener('touchcancel', handleTouchEnd, { passive: true })
   window.addEventListener('hashchange', syncRoute)
 
-  if (isMacaronDetail.value) {
+  if (isViewerRoute.value) {
     window.scrollTo({ top: 0, behavior: 'auto' })
   }
 })
@@ -686,7 +669,7 @@ watch(
   <div class="site-shell">
     <header class="site-header">
       <div class="site-header-inner">
-        <a class="brand" href="#top" @click="isMacaronDetail && ($event.preventDefault(), goHome())">
+        <a class="brand" href="#top" @click="isViewerRoute && ($event.preventDefault(), goHome())">
           <img class="brand-icon" :src="navMacaronImage" alt="" draggable="false" />
           <span class="brand-label">{{ text.brand }}</span>
         </a>
@@ -730,9 +713,9 @@ watch(
       </div>
     </header>
 
-    <main v-if="isMacaronDetail && detailFlavor && detailModelUrl" class="detail-main">
+    <main v-if="isViewerRoute && viewerFlavor && viewerModelUrl" class="detail-main">
       <section class="detail-page" :aria-labelledby="'detail-title'">
-        <h1 id="detail-title" class="visually-hidden">{{ detailTitle }}</h1>
+        <h1 id="detail-title" class="visually-hidden">{{ viewerTitle }}</h1>
 
         <button class="detail-back" type="button" @click="goHome">
           <span aria-hidden="true">←</span>
@@ -740,13 +723,13 @@ watch(
         </button>
 
         <div class="detail-layout">
-          <section class="detail-viewer-panel" :aria-label="detailTitle">
+          <section class="detail-viewer-panel" :aria-label="viewerTitle">
             <WindowNotesMacaronViewer
-              :accessible-label="detailTitle"
-              :fallback-alt="detailFlavor.imageAlt[language]"
-              :fallback-image="detailFlavor.src"
-              :model-name="`${detailFlavor.id}-macaron`"
-              :model-url="detailModelUrl"
+              :accessible-label="viewerTitle"
+              :fallback-alt="viewerFlavor.imageAlt[language]"
+              :fallback-image="viewerFlavor.src"
+              :model-name="`${viewerFlavor.id}-macaron`"
+              :model-url="viewerModelUrl"
               :theme="theme"
             />
           </section>
@@ -813,14 +796,7 @@ watch(
             :id="flavor.id"
             :key="flavor.id"
             class="signature-card"
-            :class="{
-              'is-scroll-highlighted': highlightedFlavorId === flavor.id,
-              'is-detail-available': flavor.id in detailModels,
-            }"
-            :role="flavor.id in detailModels ? 'link' : undefined"
-            :tabindex="flavor.id in detailModels ? 0 : undefined"
-            @click="flavor.id in detailModels && openMacaronDetail(flavor.id as keyof typeof detailModels)"
-            @keydown.enter="flavor.id in detailModels && openMacaronDetail(flavor.id as keyof typeof detailModels)"
+            :class="{ 'is-scroll-highlighted': highlightedFlavorId === flavor.id }"
           >
             <div
               class="signature-art"

@@ -32,6 +32,7 @@
 | 網站實際載入模型 | [`assets/models/window-notes-macaron.glb`](../assets/models/window-notes-macaron.glb) |
 | 程序建模來源 | [`scripts/blender/create_window_notes_macaron.py`](../scripts/blender/create_window_notes_macaron.py) |
 | 正式展示相機、燈光與互動 | [`src/components/WindowNotesMacaronViewer.vue`](../src/components/WindowNotesMacaronViewer.vue) |
+| 專用 viewer deep link | `#/viewer/window-notes` |
 
 Boundary Notes 目前是等待使用者視覺接受的第二顆候選模型，不能因為技術驗收通過就列為新的共用基準：
 
@@ -42,8 +43,11 @@ Boundary Notes 目前是等待使用者視覺接受的第二顆候選模型，�
 | 網站實際載入模型 | [`assets/models/boundary-notes-macaron.glb`](../assets/models/boundary-notes-macaron.glb) |
 | 程序建模來源 | [`scripts/blender/create_boundary_notes_macaron.py`](../scripts/blender/create_boundary_notes_macaron.py) |
 | 正式展示相機、燈光與互動 | [`src/components/WindowNotesMacaronViewer.vue`](../src/components/WindowNotesMacaronViewer.vue) |
+| 專用 viewer deep link | `#/viewer/boundary-notes` |
 
-這個候選模型直接從已接受的 `window-notes-macaron.blend` 複製上下 shell mesh；酒紅材質、玫瑰與象牙奶霜、筆直黑醋栗果膠、折起信箋、兔耳蠟封、奶油擠花與糖珠都是獨立 datablock。頂飾依正式 2D landmarks 固定：[`piping-mask.png`](../assets/textures/boundary-notes/piping-mask.png) 只作為擠花位置與粗細的追圖證據，建置時先取單像素中心骨架，再沿殼面掃出 14 段連續、可變半徑的圓管糖霜，不能把像素格、平面剪影或貼圖低浮雕當成成品；兩顆奶油糖珠保持與主線分離。信封由有厚度的底片、四片高低不同的糖紙折片與實體接縫組成；不以正面貼圖偽裝折線。蠟封為不規則澆注圓片、凸框與獨立的兔頭、兔耳低浮雕；不以正式 2D 壓印貼圖代替幾何。玫瑰半月弧固定由 14 顆非完全正圓的壓扁糖珠與三顆帶實體星芒的玫瑰切面糖組成，不得用隨機分布改變數量與節奏。三層餡料都是有完整頂面、底面與中央體積的封閉實心 mesh，不是只有外側表面的環形 band。網站已為 `#/macarons/boundary-notes` 接上候選 GLB，但只有在使用者完成視覺接受後，才能把它從候選改列為已通過模型。
+這個候選模型直接從已接受的 `window-notes-macaron.blend` 複製上下 shell mesh；酒紅材質、玫瑰與象牙奶霜、筆直黑醋栗果膠、折起信箋、兔耳蠟封、奶油擠花與糖珠都是獨立 datablock。頂飾依正式 2D landmarks 固定：[`piping-mask.png`](../assets/textures/boundary-notes/piping-mask.png) 只作為擠花位置與粗細的追圖證據，建置時先取單像素中心骨架，再沿殼面掃出 14 段連續、可變半徑的圓管糖霜，不能把像素格、平面剪影或貼圖低浮雕當成成品；兩顆奶油糖珠保持與主線分離。信封由有厚度的底片、四片高低不同的糖紙折片與實體接縫組成；不以正面貼圖偽裝折線。蠟封為不規則澆注圓片、凸框與獨立的兔頭、兔耳低浮雕；不以正式 2D 壓印貼圖代替幾何。玫瑰半月弧固定由 14 顆非完全正圓的壓扁糖珠與三顆帶實體星芒的玫瑰切面糖組成，不得用隨機分布改變數量與節奏。三層餡料都是有完整頂面、底面與中央體積的封閉實心 mesh，不是只有外側表面的環形 band。網站只在 `#/viewer/boundary-notes` deep link 載入候選 GLB；首頁的馬卡龍與作品卡都不得連向 viewer。只有在使用者完成視覺接受後，才能把它從候選改列為已通過模型。
+
+兩個 3D viewer 都是獨立 QA／展示入口。首頁可以用盒中馬卡龍捲動到作品卡，但盒中馬卡龍、作品卡及卡片文案均不得包含通往 viewer 的 link、click 或鍵盤導覽行為。
 
 ### 已知重建風險
 
