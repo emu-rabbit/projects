@@ -457,16 +457,38 @@ def cube_project_uv(object_: bpy.types.Object, cube_size: float) -> None:
     object_.select_set(False)
 
 
-def shell_cap_profile(t: float) -> float:
-    """Return a broad lid-shaped crown with a late, rounded shoulder."""
-    normalized_radius = min(1.0, max(0.0, t))
-    return math.sqrt(max(0.0, 1 - normalized_radius**4))
+def cubic_bezier(start: float, control_a: float, control_b: float, end: float, t: float) -> float:
+    inverse = 1 - t
+    return (
+        inverse**3 * start
+        + 3 * inverse**2 * t * control_a
+        + 3 * inverse * t**2 * control_b
+        + t**3 * end
+    )
+
+
+def shell_cap_point(t: float) -> tuple[float, float]:
+    """Return the broad crown profile with its intentionally late shoulder turn."""
+    normalized = min(1.0, max(0.0, t))
+    radius = 1.88 * normalized
+    height = 0.68 + 0.54 * math.sqrt(max(0.0, 1 - normalized**4))
+    return radius, height
 
 
 def top_shell_surface_z(x: float, y: float) -> float:
     """Return the baked top-shell height at a horizontal decoration position."""
     radius = math.sqrt(x * x + y * y)
-    return 0.68 + 0.54 * shell_cap_profile(radius / 1.88)
+    low = 0.0
+    high = 1.0
+    for _ in range(18):
+        midpoint = (low + high) / 2
+        midpoint_radius, _ = shell_cap_point(midpoint)
+        if midpoint_radius < radius:
+            low = midpoint
+        else:
+            high = midpoint
+    _, height = shell_cap_point((low + high) / 2)
+    return height
 
 
 def create_shell(
@@ -475,51 +497,50 @@ def create_shell(
     material: bpy.types.Material,
     phase: float,
 ) -> bpy.types.Object:
-    """Build a baked macaron shell profile with a broad dome and flat joined underside."""
-    segments = 256
-    radial_steps = 64
-    outer_radius = 1.88
-    edge_height = 0.68
-    cap_rise = 0.54
+    """Build one continuous baked shell profile with a broad crown and round shoulder."""
+    segments = 288
+    radial_steps = 80
+    shoulder_steps = 24
     joined_underside_height = 0.495
     sign = 1 if upper else -1
-    vertices: list[tuple[float, float, float]] = [(0, 0, sign * (edge_height + cap_rise))]
+    vertices: list[tuple[float, float, float]] = [(0, 0, sign * shell_cap_point(0)[1])]
     faces: list[tuple[int, ...]] = []
     loops: list[list[int]] = []
 
     for ring in range(1, radial_steps + 1):
         t = ring / radial_steps
-        radius = outer_radius * t
-        # A fourth-order superellipse keeps a broad crown before turning down
-        # into the outer shoulder, so the shell reads as a baked lid rather
-        # than a uniformly sloped cone or hemisphere.
-        cap_profile = shell_cap_profile(t)
-        baked_height = edge_height + cap_rise * cap_profile
+        radius, baked_height = shell_cap_point(t)
         loop: list[int] = []
         for index in range(segments):
             angle = index / segments * math.tau
-            handmade = 1 + 0.012 * math.sin(angle * 3 + phase) + 0.005 * math.sin(angle * 7 - phase)
-            fine_edge = 0.004 * math.sin(angle * 23 + phase * 2) * t**2
+            # Keep the silhouette handmade without interrupting the continuous
+            # large-scale curve of the baked lid.
+            profile_envelope = math.sin(t * math.pi)
+            handmade = 1 + profile_envelope * (
+                0.0055 * math.sin(angle * 3 + phase) + 0.0025 * math.sin(angle * 7 - phase)
+            )
+            fine_edge = 0.0015 * math.sin(angle * 23 + phase * 2) * profile_envelope
             ring_radius = radius * (handmade + fine_edge)
-            surface_wobble = 0.012 * math.sin(angle * 4 + phase) * math.sin(t * math.pi)
-            surface_wobble += 0.006 * math.sin(angle * 13 - phase) * t
+            surface_wobble = 0.0035 * math.sin(angle * 4 + phase) * profile_envelope
+            surface_wobble += 0.0018 * math.sin(angle * 13 - phase) * profile_envelope
             loop.append(len(vertices))
             vertices.append((math.cos(angle) * ring_radius, math.sin(angle) * ring_radius, sign * (baked_height + surface_wobble)))
         loops.append(loop)
 
-    # The outer wall rolls inward to a broad, nearly flat base instead of ending in a sphere pole.
-    for radius, height in (
-        (1.91, 0.665),
-        (1.925, 0.63),
-        (1.905, 0.595),
-        (1.85, 0.56),
-        (1.75, 0.525),
-        (1.62, 0.5),
-    ):
+    # Preserve the concept's quick outer turn: the crown reaches the edge
+    # before a short baked shoulder tucks under. Extra samples and restrained
+    # displacement smooth the surface without changing that late transition.
+    for step in range(1, shoulder_steps + 1):
+        t = step / shoulder_steps
+        radius = cubic_bezier(1.88, 1.95, 1.77, 1.62, t)
+        height = cubic_bezier(0.68, 0.655, 0.5, joined_underside_height, t)
         loop = []
         for index in range(segments):
             angle = index / segments * math.tau
-            handmade = 1 + 0.007 * math.sin(angle * 3 + phase) + 0.003 * math.sin(angle * 7 - phase)
+            envelope = math.sin(t * math.pi)
+            handmade = 1 + envelope * (
+                0.004 * math.sin(angle * 3 + phase) + 0.0018 * math.sin(angle * 7 - phase)
+            )
             loop.append(len(vertices))
             vertices.append((math.cos(angle) * radius * handmade, math.sin(angle) * radius * handmade, sign * height))
         loops.append(loop)
@@ -546,7 +567,7 @@ def create_shell(
     mesh.update()
     shell = bpy.data.objects.new(name, mesh)
     bpy.context.collection.objects.link(shell)
-    add_displacement(shell, 0.01, 0.045, round(phase * 1000))
+    add_displacement(shell, 0.0032, 0.07, round(phase * 1000))
     cube_project_uv(shell, 3.84)
     smooth(shell)
     return shell
@@ -730,13 +751,14 @@ def create_ruffled_foot(
     z: float,
     material: bpy.types.Material,
     crumb_material: bpy.types.Material,
+    pore_material: bpy.types.Material,
     seed: int,
 ) -> bpy.types.Object:
-    """Create the macaron foot as a continuous, airy ruffle instead of a smooth torus."""
+    """Create a crisp, airy pied with recessed pores and fragile baked folds."""
     local_rng = random.Random(seed)
-    segments = 192
-    levels = 13
-    height = 0.28
+    segments = 256
+    levels = 17
+    height = 0.30
     # The ruffled pied is visible at the seam, but it stays inside the smooth
     # baked shell outline. Letting it overhang around the full circumference
     # made top views read as a torn cake rather than this same macaron.
@@ -746,6 +768,16 @@ def create_ruffled_foot(
     phase_a = local_rng.random() * math.tau
     phase_b = local_rng.random() * math.tau
     phase_c = local_rng.random() * math.tau
+    pore_specs = [
+        (
+            local_rng.uniform(0, math.tau),
+            local_rng.uniform(-height * 0.38, height * 0.38),
+            local_rng.uniform(0.040, 0.074),
+            local_rng.uniform(0.022, 0.041),
+            local_rng.uniform(0.024, 0.055),
+        )
+        for _ in range(72)
+    ]
 
     for level in range(levels):
         t = level / (levels - 1)
@@ -762,7 +794,18 @@ def create_ruffled_foot(
             radius += profile * (folded_edge + crisp_ruffle + narrow_fissure) + baked_grain
             vertical_wobble = 0.004 * math.sin(angle * 13 + phase_b) * profile
             vertical_wobble += 0.002 * math.sin(angle * 31 + phase_a + level)
-            vertices.append((math.cos(angle) * radius, math.sin(angle) * radius, z + (t - 0.5) * height + vertical_wobble))
+            local_z = (t - 0.5) * height + vertical_wobble
+            pore_indent = 0.0
+            for pore_angle, pore_z, tangent_width, vertical_width, depth in pore_specs:
+                angle_distance = abs((angle - pore_angle + math.pi) % math.tau - math.pi)
+                tangent_distance = angle_distance * base_radius
+                distance_squared = (tangent_distance / tangent_width) ** 2 + (
+                    (local_z - pore_z) / vertical_width
+                ) ** 2
+                if distance_squared < 1:
+                    pore_indent = max(pore_indent, depth * (1 - distance_squared) ** 2)
+            radius -= pore_indent
+            vertices.append((math.cos(angle) * radius, math.sin(angle) * radius, z + local_z))
 
     for level in range(levels - 1):
         for index in range(segments):
@@ -782,6 +825,50 @@ def create_ruffled_foot(
     add_displacement(foot, 0.005, 0.065, seed)
     cube_project_uv(foot, 3.6)
     smooth(foot)
+
+    # Each opening has a shallow concave dark interior. Together with the
+    # matching indentation above, these remain dimensional pores when the
+    # model rotates instead of becoming painted dots on a texture.
+    pore_mesh = bpy.data.meshes.new(f"{name} pore cavity mesh")
+    pore_cavities = bpy.data.objects.new(f"{name} airy pore cavities", pore_mesh)
+    bpy.context.collection.objects.link(pore_cavities)
+    pore_mesh.materials.append(pore_material)
+    pore_vertices: list[tuple[float, float, float]] = []
+    pore_faces: list[tuple[int, ...]] = []
+    pore_sides = 12
+    for pore_angle, pore_z, tangent_width, vertical_width, depth in pore_specs:
+        profile_t = pore_z / height + 0.5
+        profile = math.sin(max(0.0, min(1.0, profile_t)) * math.pi) ** 0.58
+        broad_wobble = 0.011 * math.sin(pore_angle * 7 + phase_a)
+        surface_radius = base_radius + 0.11 * profile + broad_wobble
+        normal = Vector((math.cos(pore_angle), math.sin(pore_angle), 0))
+        tangent = Vector((-math.sin(pore_angle), math.cos(pore_angle), 0))
+        center = normal * (surface_radius - depth * 0.80) + Vector((0, 0, z + pore_z))
+        center_index = len(pore_vertices)
+        pore_vertices.append(tuple(center))
+        inner_start = len(pore_vertices)
+        outer_start = inner_start + pore_sides
+        for ring_scale, radial_depth in ((0.48, depth * 0.55), (1.0, depth * 0.22)):
+            for side in range(pore_sides):
+                ring_angle = side / pore_sides * math.tau
+                point = normal * (surface_radius - radial_depth)
+                point += tangent * (math.cos(ring_angle) * tangent_width * ring_scale)
+                point += Vector((0, 0, z + pore_z + math.sin(ring_angle) * vertical_width * ring_scale))
+                pore_vertices.append(tuple(point))
+        for side in range(pore_sides):
+            following = (side + 1) % pore_sides
+            pore_faces.append((center_index, inner_start + side, inner_start + following))
+            pore_faces.append(
+                (
+                    inner_start + side,
+                    outer_start + side,
+                    outer_start + following,
+                    inner_start + following,
+                )
+            )
+    pore_mesh.from_pydata(pore_vertices, [], pore_faces)
+    pore_mesh.update()
+    smooth(pore_cavities)
 
     # A restrained number of embedded crumbs supports the ruffle instead of defining it.
     crumb_mesh = bpy.data.meshes.new(f"{name} crumb mesh")
@@ -1301,49 +1388,188 @@ def create_window_group(materials: dict[str, bpy.types.Material]) -> bpy.types.O
 
 
 def create_garland(materials: dict[str, bpy.types.Material]) -> None:
-    # A single measured half-ellipse produces a professional piped sweep.
-    # The previous hand-placed polyline doubled back near the right endpoint
-    # and made the garland look kinked even though all five candies existed.
-    # Keep the garland visually independent from the window plaque. Moving the
-    # whole measured sweep slightly outward along the shell gives the sill and
-    # nearest candy a deliberate breathing gap without changing the approved
-    # short, shallow smile silhouette.
-    center_x, center_y = 0.37, 0.59
-    u_axis = (0.669, 0.743)
-    v_axis = (0.743, -0.669)
-    radius_u = 0.95
-    radius_v = 1.05
+    """Model the canonical five-star crescent that cups the arched window."""
+    anchor = Vector((0.54, 0.20))
+    screen_right = Vector((0.5, 0.866)).normalized()
+    screen_up = Vector((-0.866, 0.5)).normalized()
 
-    def garland_xy(t: float) -> tuple[float, float]:
-        angle = math.pi + t * math.pi
-        local_u = math.cos(angle) * radius_u
-        local_v = -math.sin(angle) * radius_v
-        return (
-            center_x + local_u * u_axis[0] + local_v * v_axis[0],
-            center_y + local_u * u_axis[1] + local_v * v_axis[1],
-        )
+    def from_design_plane(local_x: float, local_y: float) -> tuple[float, float]:
+        point = anchor + screen_right * local_x + screen_up * local_y
+        return point.x, point.y
 
-    path_xy = [garland_xy(0.04 + index / 56 * 0.92) for index in range(57)]
-    path = [(x, y, top_shell_surface_z(x, y) + 0.025) for x, y in path_xy]
-    create_curve("Garland warm pencil line", path, 0.038, materials["garland_outline"], bezier=False)
+    def ring_local(t: float) -> tuple[float, float]:
+        # The 2D design is a deep, asymmetric crescent around the window, not
+        # a shallow smile beneath it. The right side finishes slightly lower
+        # so it clears the open shutter in three dimensions.
+        local_x = -1.08 + 2.16 * t
+        local_y = 0.20 - 0.76 * math.sin(t * math.pi) ** 0.86 - 0.035 * t
+        return local_x, local_y
+
+    def surface_path(local_points: list[tuple[float, float]], lift: float) -> list[tuple[float, float, float]]:
+        points = []
+        for local_x, local_y in local_points:
+            x, y = from_design_plane(local_x, local_y)
+            points.append((x, y, top_shell_surface_z(x, y) + lift))
+        return points
+
+    def smooth_branch(local_points: list[tuple[float, float]], samples_per_segment: int = 10) -> list[tuple[float, float]]:
+        """Densely sample a Catmull-Rom branch so exported tubes have no broken elbows."""
+        result: list[tuple[float, float]] = []
+        for segment in range(len(local_points) - 1):
+            p0 = Vector(local_points[max(0, segment - 1)])
+            p1 = Vector(local_points[segment])
+            p2 = Vector(local_points[segment + 1])
+            p3 = Vector(local_points[min(len(local_points) - 1, segment + 2)])
+            for sample in range(samples_per_segment):
+                t = sample / samples_per_segment
+                point = 0.5 * (
+                    2 * p1
+                    + (-p0 + p2) * t
+                    + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t**2
+                    + (-p0 + 3 * p1 - 3 * p2 + p3) * t**3
+                )
+                result.append((point.x, point.y))
+        result.append(local_points[-1])
+        return result
+
+    path_local = [ring_local(0.02 + index / 72 * 0.96) for index in range(73)]
     create_curve(
-        "Short cream sugar garland",
-        [(x, y, z + 0.014) for x, y, z in path],
-        0.023,
+        "Five-star crescent warm pencil edge",
+        surface_path(path_local, 0.026),
+        0.041,
+        materials["garland_outline"],
+        bezier=False,
+    )
+    create_curve(
+        "Five-star crescent vanilla sugar piping",
+        surface_path(path_local, 0.043),
+        0.025,
         materials["pearl"],
         bezier=False,
     )
 
+    # Two continuous end stems rise beside the window. The smaller decorations
+    # are added below as a strict alternating bud sequence, not loose beads or
+    # literal leaf silhouettes.
+    end_branch_controls = [
+        [ring_local(0.055), (-1.08, 0.18), (-1.15, 0.39), (-1.12, 0.60), (-1.02, 0.76)],
+        [ring_local(0.945), (1.06, 0.13), (1.12, 0.31), (1.08, 0.49), (0.99, 0.61)],
+    ]
+    end_branches: list[list[tuple[float, float]]] = []
+    for index, control_points in enumerate(end_branch_controls):
+        local_points = smooth_branch(control_points)
+        end_branches.append(local_points)
+        create_curve(
+            f"Five-star crescent end stem {index + 1} edge",
+            surface_path(local_points, 0.028),
+            0.032,
+            materials["garland_outline"],
+            bezier=False,
+        )
+        create_curve(
+            f"Five-star crescent end stem {index + 1}",
+            surface_path(local_points, 0.045),
+            0.019,
+            materials["pearl"],
+            bezier=False,
+        )
+
+    bud_index = 0
+
+    def add_alternating_buds(
+        stem_points: list[tuple[float, float]],
+        fractions: list[float],
+        first_side: int,
+        label: str,
+    ) -> None:
+        nonlocal bud_index
+        for sequence_index, fraction in enumerate(fractions):
+            point_index = round(fraction * (len(stem_points) - 1))
+            previous_index = max(0, point_index - 1)
+            following_index = min(len(stem_points) - 1, point_index + 1)
+            base = Vector(stem_points[point_index])
+            tangent = (Vector(stem_points[following_index]) - Vector(stem_points[previous_index])).normalized()
+            normal = Vector((-tangent.y, tangent.x))
+            side = first_side if sequence_index % 2 == 0 else -first_side
+            reach = 0.085 + 0.008 * (sequence_index % 3)
+            tip = base + normal * reach * side
+            branchlet = smooth_branch(
+                [
+                    tuple(base),
+                    tuple(base + normal * reach * 0.48 * side + tangent * 0.008),
+                    tuple(tip),
+                ],
+                samples_per_segment=6,
+            )
+            create_curve(
+                f"Five-star crescent {label} bud stem {sequence_index + 1} edge",
+                surface_path(branchlet, 0.030),
+                0.020,
+                materials["garland_outline"],
+                bezier=False,
+            )
+            create_curve(
+                f"Five-star crescent {label} bud stem {sequence_index + 1}",
+                surface_path(branchlet, 0.046),
+                0.011,
+                materials["pearl"],
+                bezier=False,
+            )
+
+            bud_index += 1
+            x, y = from_design_plane(tip.x, tip.y)
+            radius = (0.050, 0.046, 0.053)[bud_index % 3]
+            surface_z = top_shell_surface_z(x, y)
+            bpy.ops.mesh.primitive_uv_sphere_add(
+                segments=24,
+                ring_count=16,
+                radius=radius + 0.009,
+                location=(x, y, surface_z + radius * 0.78),
+            )
+            backing = bpy.context.object
+            backing.name = f"Five-star crescent alternating bud {bud_index} cocoa base"
+            backing.data.materials.append(materials["garland_outline"])
+            smooth(backing)
+            bpy.ops.mesh.primitive_uv_sphere_add(
+                segments=24,
+                ring_count=16,
+                radius=radius,
+                location=(x, y, surface_z + radius * 0.92 + 0.008),
+            )
+            bud = bpy.context.object
+            bud.name = f"Five-star crescent alternating bud {bud_index} vanilla sphere"
+            bud.data.materials.append(materials["pearl"])
+            smooth(bud)
+
+    add_alternating_buds(
+        path_local,
+        [0.16, 0.23, 0.38, 0.45, 0.57, 0.64, 0.77, 0.84],
+        1,
+        "main vine",
+    )
+    add_alternating_buds(
+        end_branches[0],
+        [0.30, 0.50, 0.70, 0.91],
+        1,
+        "left rise",
+    )
+    add_alternating_buds(
+        end_branches[1],
+        [0.30, 0.50, 0.70, 0.91],
+        -1,
+        "right rise",
+    )
+
     stars = [
-        (0.07, "green", 0.18, -0.18),
-        (0.29, "pink", 0.205, 0.12),
-        (0.50, "green", 0.19, -0.08),
-        (0.71, "pink", 0.205, 0.16),
-        (0.93, "green", 0.18, -0.12),
+        (0.10, "green", 0.19, -0.18),
+        (0.31, "pink", 0.22, 0.12),
+        (0.50, "green", 0.20, -0.08),
+        (0.70, "pink", 0.22, 0.16),
+        (0.90, "green", 0.19, -0.12),
     ]
     for index, (t, color, size, rotation) in enumerate(stars):
-        x, y = garland_xy(t)
-        z = top_shell_surface_z(x, y) + 0.035
+        x, y = from_design_plane(*ring_local(t))
+        z = top_shell_surface_z(x, y) + 0.045
         backing = create_puffed_sugar_star(
             f"Star {index + 1} pencil edge",
             size + 0.019,
@@ -1384,32 +1610,6 @@ def create_garland(materials: dict[str, bpy.types.Material]) -> None:
                 bezier=False,
             )
 
-    pearl_points = [
-        (0.04, 0.047),
-        (0.12, 0.042),
-        (0.17, 0.047),
-        (0.23, 0.043),
-        (0.35, 0.049),
-        (0.40, 0.042),
-        (0.45, 0.047),
-        (0.55, 0.043),
-        (0.60, 0.049),
-        (0.65, 0.042),
-        (0.77, 0.047),
-        (0.83, 0.043),
-        (0.88, 0.047),
-        (0.96, 0.042),
-    ]
-    for index, (t, radius) in enumerate(pearl_points):
-        x, y = garland_xy(t)
-        location = (x, y, top_shell_surface_z(x, y) + radius * 0.8)
-        bpy.ops.mesh.primitive_uv_sphere_add(segments=20, ring_count=12, radius=radius, location=location)
-        pearl = bpy.context.object
-        pearl.name = f"Cream sugar pearl {index + 1}"
-        pearl.data.materials.append(materials["pearl"])
-        smooth(pearl)
-
-
 def build_model() -> None:
     WORK_DIR.mkdir(parents=True, exist_ok=True)
     TEXTURE_DIR.mkdir(parents=True, exist_ok=True)
@@ -1441,6 +1641,15 @@ def build_model() -> None:
             "Toasted violet foot crumbs",
             "#98616E",
             roughness=0.94,
+        ),
+        "foot_pore": create_material(
+            "Deep baked violet foot pores",
+            "#2E1B2B",
+            roughness=1.0,
+            texture_seed=769,
+            texture_profile="foot",
+            texture_size=256,
+            roughness_variation=0.025,
         ),
         "cream": create_material(
             "Warm white chocolate cream",
@@ -1610,8 +1819,22 @@ def build_model() -> None:
 
     create_shell("Upper night-violet shell", True, materials["shell"], 0.35)
     create_shell("Lower night-violet shell", False, materials["shell"], 1.25)
-    create_ruffled_foot("Upper crisp macaron foot", 0.49, materials["foot"], materials["foot_crumb"], 731)
-    create_ruffled_foot("Lower crisp macaron foot", -0.5, materials["foot"], materials["foot_crumb"], 947)
+    create_ruffled_foot(
+        "Upper crisp macaron foot",
+        0.49,
+        materials["foot"],
+        materials["foot_crumb"],
+        materials["foot_pore"],
+        731,
+    )
+    create_ruffled_foot(
+        "Lower crisp macaron foot",
+        -0.5,
+        materials["foot"],
+        materials["foot_crumb"],
+        materials["foot_pore"],
+        947,
+    )
 
     create_cylinder("White chocolate cream core", 1.3, 0.92, 0, materials["cream"], 0.13)
     create_cream_layer(
