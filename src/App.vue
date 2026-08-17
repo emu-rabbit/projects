@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import MacaronGallery from './components/MacaronGallery.vue'
 
 type Language = 'zh' | 'en'
 type Theme = 'light' | 'dark'
-
-const WindowNotesMacaronViewer = defineAsyncComponent(
-  () => import('./components/WindowNotesMacaronViewer.vue'),
-)
 
 const copy = {
   zh: {
@@ -22,6 +19,15 @@ const copy = {
     classicTitle: '早期懷念口味',
     signatureCta: '仔細查看這顆馬卡龍',
     backHome: '返回首頁',
+    projectLinksLabel: '作品連結',
+    galleryLabel: '窗邊手記作品畫廊',
+    previousImage: '上一張圖片',
+    nextImage: '下一張圖片',
+    openImage: '以全螢幕檢視圖片',
+    closeImage: '退出全螢幕檢視',
+    zoomIn: '放大圖片',
+    zoomOut: '縮小圖片',
+    resetZoom: '重設圖片縮放與位置',
     languageLabel: '切換語言',
     lightTheme: '切換為明亮主題',
     darkTheme: '切換為暗色主題',
@@ -39,6 +45,15 @@ const copy = {
     classicTitle: 'Nostalgic Flavors',
     signatureCta: 'Take a closer look',
     backHome: 'Back home',
+    projectLinksLabel: 'Project links',
+    galleryLabel: 'Window Notes project gallery',
+    previousImage: 'Previous image',
+    nextImage: 'Next image',
+    openImage: 'View image full screen',
+    closeImage: 'Exit full-screen view',
+    zoomIn: 'Zoom in',
+    zoomOut: 'Zoom out',
+    resetZoom: 'Reset image zoom and position',
     languageLabel: 'Switch language',
     lightTheme: 'Switch to light theme',
     darkTheme: 'Switch to dark theme',
@@ -47,8 +62,59 @@ const copy = {
 
 const macaronBoxImage = new URL('../assets/hero/macaron-box-empty.webp', import.meta.url).href
 const navMacaronImage = new URL('../assets/ui/nav-macaron.svg', import.meta.url).href
-const windowNotesModel = new URL('../assets/models/window-notes-macaron.glb', import.meta.url).href
-const boundaryNotesModel = new URL('../assets/models/boundary-notes-macaron.glb', import.meta.url).href
+
+const windowNotesGallerySources = {
+  defaultView: new URL('../assets/galleries/window-notes/default-view.webp', import.meta.url).href,
+  threeViews: new URL('../assets/galleries/window-notes/three-views.webp', import.meta.url).href,
+  homepage: new URL('../assets/galleries/window-notes/homepage.webp', import.meta.url).href,
+  skills: new URL('../assets/galleries/window-notes/skills.webp', import.meta.url).href,
+  mobileStory: new URL('../assets/galleries/window-notes/mobile-story.webp', import.meta.url).href,
+} as const
+
+const windowNotesProjectLinks = [
+  { label: { zh: '線上展示', en: 'Live Website' }, href: 'https://emu-rabbit.github.io/' },
+  {
+    label: { zh: 'Github頁面', en: 'GitHub Repo' },
+    href: 'https://github.com/emu-rabbit/emu-rabbit.github.io',
+  },
+] as const
+
+const windowNotesDetailCopy = {
+  zh: {
+    category: '個人網頁',
+    title: '絵夢羽さ沂的窗邊手記',
+    paragraphs: [
+      '我其實是一個很愛寫自我介紹的人，每一次的撰寫，都可以讓我在不同的時間點回頭審視自己。我是誰，我是怎樣的人，我喜歡什麼，我討厭什麼，還有最重要的——此時此刻我想往哪裡去。',
+      '所以，我好好地做了一個真正屬於我自己的個人頁面，向所有人介紹我自己，讓想認識我的人有扇窗口可以靠近。',
+      '即使和 AI 一起協作，也不能在這麼重要的專案裡，遺失屬於我的味道，這是我在做這個專案時最在乎的事。',
+    ],
+    closing: '「那麼，此時此刻的你正在看著我嗎？」',
+    gallery: [
+      { alt: '窗邊手記馬卡龍的預設視角插畫', caption: '紫夜兔耳馬卡龍' },
+      { alt: '窗邊手記馬卡龍的預設、頂面與平放側面視圖', caption: '更多角度的我' },
+      { alt: '窗邊手記個人網頁的桌機首頁截圖', caption: '網頁主視覺' },
+      { alt: '窗邊手記個人網頁的英文版頁面截圖', caption: '支援英文版' },
+      { alt: '窗邊手記個人網頁的手機版頁面截圖', caption: '支援手機版面' },
+    ],
+  },
+  en: {
+    category: 'Personal Website',
+    title: "Emu-Rabbit's Window Notes",
+    paragraphs: [
+      'I love writing introductions. Each one lets me meet myself again: who I am, what I love or dislike, and where I want to go next.',
+      'So I made a page that is truly mine—a window for anyone who wants to come closer.',
+      'Even with AI, I could not let this project lose the smell that is uniquely mine. That mattered most.',
+    ],
+    closing: '“So, at this very moment, are you looking at me?”',
+    gallery: [
+      { alt: 'Default view illustration of the Window Notes macaron', caption: 'Purple Night Rabbit Macaron' },
+      { alt: 'Default, top, and flat side views of the Window Notes macaron', caption: 'More Angles of Me' },
+      { alt: 'Desktop homepage of the Window Notes personal website', caption: 'Website Hero' },
+      { alt: 'English version of the Window Notes personal website', caption: 'English Version' },
+      { alt: 'Mobile layout of the Window Notes personal website', caption: 'Mobile Layout' },
+    ],
+  },
+} as const
 
 const macarons = [
   { name: 'Frozen Rabbit Workshop', targetId: 'frozen-rabbit-workshop', image: 'workshop.webp', left: '4.4%', top: '15%', row: 0 },
@@ -391,22 +457,15 @@ const waveDuration = waveLiftDuration + waveColumnDelay * 4 + waveRowDelay
 const waveCooldown = 500
 
 const text = computed(() => copy[language.value])
-const viewerModels = {
-  'window-notes': windowNotesModel,
-  'boundary-notes': boundaryNotesModel,
-} as const
-const viewerFlavorId = computed(() => {
-  const match = currentHash.value.match(/^#\/viewer\/(window-notes|boundary-notes)$/)
-  return match?.[1] as keyof typeof viewerModels | undefined
+const windowNotesDetail = computed(() => windowNotesDetailCopy[language.value])
+const windowNotesGalleryImages = computed(() => {
+  const sources = Object.values(windowNotesGallerySources)
+  return windowNotesDetail.value.gallery.map((image, index) => ({
+    ...image,
+    src: sources[index] ?? '',
+  }))
 })
-const viewerFlavor = computed(() =>
-  signatureFlavors.find((flavor) => flavor.id === viewerFlavorId.value),
-)
-const viewerModelUrl = computed(() =>
-  viewerFlavorId.value ? viewerModels[viewerFlavorId.value] : undefined,
-)
-const viewerTitle = computed(() => `${viewerFlavor.value?.title[language.value] ?? ''} 3D`)
-const isViewerRoute = computed(() => Boolean(viewerFlavor.value && viewerModelUrl.value))
+const isDetailRoute = computed(() => currentHash.value === '#/macarons/window-notes')
 const flavorSections = computed(() => [
   {
     id: 'signature',
@@ -628,7 +687,7 @@ onMounted(() => {
   window.addEventListener('touchcancel', handleTouchEnd, { passive: true })
   window.addEventListener('hashchange', syncRoute)
 
-  if (isViewerRoute.value) {
+  if (isDetailRoute.value) {
     window.scrollTo({ top: 0, behavior: 'auto' })
   }
 })
@@ -667,9 +726,9 @@ watch(
 
 <template>
   <div class="site-shell">
-    <header class="site-header">
+    <header v-if="!isDetailRoute" class="site-header">
       <div class="site-header-inner">
-        <a class="brand" href="#top" @click="isViewerRoute && ($event.preventDefault(), goHome())">
+        <a class="brand" href="#top" @click="isDetailRoute && ($event.preventDefault(), goHome())">
           <img class="brand-icon" :src="navMacaronImage" alt="" draggable="false" />
           <span class="brand-label">{{ text.brand }}</span>
         </a>
@@ -713,26 +772,51 @@ watch(
       </div>
     </header>
 
-    <main v-if="isViewerRoute && viewerFlavor && viewerModelUrl" class="detail-main">
-      <section class="detail-page" :aria-labelledby="'detail-title'">
-        <h1 id="detail-title" class="visually-hidden">{{ viewerTitle }}</h1>
-
+    <main v-if="isDetailRoute" class="detail-main">
+      <section class="detail-page" aria-labelledby="detail-title">
         <button class="detail-back" type="button" @click="goHome">
           <span aria-hidden="true">←</span>
           <span>{{ text.backHome }}</span>
         </button>
 
         <div class="detail-layout">
-          <section class="detail-viewer-panel" :aria-label="viewerTitle">
-            <WindowNotesMacaronViewer
-              :accessible-label="viewerTitle"
-              :fallback-alt="viewerFlavor.imageAlt[language]"
-              :fallback-image="viewerFlavor.src"
-              :model-name="`${viewerFlavor.id}-macaron`"
-              :model-url="viewerModelUrl"
-              :theme="theme"
-            />
-          </section>
+          <article class="detail-copy">
+            <p class="detail-category">{{ windowNotesDetail.category }}</p>
+            <h1 id="detail-title" :class="{ 'is-english': language === 'en' }">
+              {{ windowNotesDetail.title }}
+            </h1>
+            <div class="detail-prose">
+              <p v-for="paragraph in windowNotesDetail.paragraphs" :key="paragraph">
+                {{ paragraph }}
+              </p>
+            </div>
+            <blockquote>{{ windowNotesDetail.closing }}</blockquote>
+            <nav class="detail-links" :aria-label="text.projectLinksLabel">
+              <a
+                v-for="link in windowNotesProjectLinks"
+                :key="link.href"
+                class="detail-link"
+                :href="link.href"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>{{ link.label[language] }}</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </nav>
+          </article>
+
+          <MacaronGallery
+            :images="windowNotesGalleryImages"
+            :label="text.galleryLabel"
+            :previous-label="text.previousImage"
+            :next-label="text.nextImage"
+            :open-label="text.openImage"
+            :close-label="text.closeImage"
+            :zoom-in-label="text.zoomIn"
+            :zoom-out-label="text.zoomOut"
+            :reset-zoom-label="text.resetZoom"
+          />
         </div>
       </section>
     </main>
@@ -796,7 +880,10 @@ watch(
             :id="flavor.id"
             :key="flavor.id"
             class="signature-card"
-            :class="{ 'is-scroll-highlighted': highlightedFlavorId === flavor.id }"
+            :class="{
+              'is-scroll-highlighted': highlightedFlavorId === flavor.id,
+              'is-clickable': flavor.id === 'window-notes',
+            }"
           >
             <div
               class="signature-art"
@@ -837,7 +924,15 @@ watch(
                   </span>
                 </span>
               </p>
-              <p class="signature-cta">
+              <a
+                v-if="flavor.id === 'window-notes'"
+                class="signature-cta signature-cta-link"
+                href="#/macarons/window-notes"
+              >
+                <span>{{ text.signatureCta }}</span>
+                <span aria-hidden="true">→</span>
+              </a>
+              <p v-else class="signature-cta">
                 <span>{{ text.signatureCta }}</span>
                 <span aria-hidden="true">→</span>
               </p>

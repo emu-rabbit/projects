@@ -26,8 +26,8 @@
   --card-shadow: rgb(75 53 37 / 8%);
   --card-shadow-hover: rgb(75 53 37 / 14%);
   --header-surface: rgb(247 242 233 / 88%);
-  --viewer-surface: #eee5ef;
-  --viewer-glow: rgb(255 250 236 / 76%);
+  --gallery-surface: #eee5ef;
+  --gallery-glow: rgb(255 250 236 / 76%);
 }
 
 :root[data-theme="dark"] {
@@ -47,8 +47,8 @@
   --card-shadow: rgb(0 0 0 / 20%);
   --card-shadow-hover: rgb(0 0 0 / 34%);
   --header-surface: rgb(33 29 27 / 88%);
-  --viewer-surface: #2e2632;
-  --viewer-glow: rgb(126 91 124 / 24%);
+  --gallery-surface: #2e2632;
+  --gallery-glow: rgb(126 91 124 / 24%);
 }
 
 * {
@@ -393,6 +393,7 @@ main {
 }
 
 .signature-card {
+  position: relative;
   display: flex;
   min-width: 0;
   flex-direction: column;
@@ -407,6 +408,15 @@ main {
     border-color 240ms ease,
     box-shadow 280ms ease,
     transform 280ms cubic-bezier(0.22, 0.72, 0.25, 1);
+}
+
+.signature-card.is-clickable {
+  cursor: pointer;
+}
+
+.signature-card.is-clickable:focus-within {
+  outline: 3px solid color-mix(in srgb, var(--accent) 72%, transparent);
+  outline-offset: 4px;
 }
 
 .signature-art {
@@ -557,33 +567,42 @@ main {
   transition: transform 240ms ease;
 }
 
+.signature-cta-link {
+  text-decoration: none;
+}
+
+.signature-cta-link::before {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  content: "";
+}
+
 .detail-main {
-  min-height: calc(100svh - 88px);
+  min-height: 100svh;
 }
 
 .detail-page {
   display: flex;
-  min-height: calc(100svh - 88px);
+  min-height: 100svh;
   flex-direction: column;
-  padding: clamp(22px, 3.5vh, 38px) 0 clamp(36px, 5vh, 64px);
+  padding: clamp(24px, 4vh, 44px) 0 clamp(56px, 8vh, 96px);
 }
 
 .detail-back {
   display: inline-flex;
-  min-height: 42px;
+  min-height: 36px;
   align-items: center;
   align-self: flex-start;
   gap: 10px;
-  padding: 0 15px 0 12px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--control);
-  box-shadow: 0 5px 18px var(--control-shadow);
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: var(--ink);
   cursor: pointer;
   font-size: 0.78rem;
   letter-spacing: 0.04em;
-  transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  transition: color 180ms ease, transform 180ms ease;
 }
 
 .detail-back [aria-hidden="true"] {
@@ -594,157 +613,106 @@ main {
 .detail-layout {
   display: grid;
   width: 100%;
-  max-width: 980px;
+  max-width: 1280px;
   min-height: 0;
   flex: 1;
-  grid-template-columns: minmax(0, 1fr);
-  align-items: stretch;
-  margin: clamp(22px, 3vh, 34px) auto 0;
-}
-
-.detail-viewer-panel {
-  position: relative;
-  min-width: 0;
-  min-height: clamp(420px, 68svh, 720px);
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: clamp(24px, 2.4vw, 36px);
-  background:
-    radial-gradient(circle at 50% 34%, var(--viewer-glow), transparent 42%),
-    var(--viewer-surface);
-  box-shadow: 0 22px 60px var(--card-shadow);
-}
-
-.model-viewer,
-.model-viewer-canvas,
-.model-viewer-fallback {
-  width: 100%;
-  height: 100%;
-}
-
-.model-viewer {
-  position: relative;
-  min-height: inherit;
-  overflow: hidden;
-}
-
-.model-viewer-canvas {
-  position: absolute;
-  inset: 0;
-  display: block;
-  cursor: grab;
-  outline: none;
-  opacity: 0;
-  touch-action: none;
-  transition: opacity 320ms ease;
-}
-
-.model-viewer.is-ready .model-viewer-canvas {
-  opacity: 1;
-}
-
-.model-viewer-canvas:active {
-  cursor: grabbing;
-}
-
-.model-viewer-fallback {
-  position: absolute;
-  z-index: 2;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: clamp(28px, 5vw, 72px);
-  background:
-    radial-gradient(circle at 50% 34%, var(--viewer-glow), transparent 42%),
-    var(--viewer-surface);
-}
-
-.model-viewer-fallback img {
-  display: block;
-  width: min(88%, 720px);
-  height: auto;
-  filter: drop-shadow(0 22px 18px rgb(62 37 55 / 16%));
-}
-
-.model-viewer-progress {
-  position: absolute;
-  right: clamp(22px, 4vw, 52px);
-  bottom: clamp(22px, 4vw, 44px);
-  left: clamp(22px, 4vw, 52px);
-  height: 3px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: var(--line);
-}
-
-.model-viewer-progress::after {
-  display: block;
-  width: var(--load-progress);
-  height: 100%;
-  border-radius: inherit;
-  background: var(--accent);
-  content: "";
-  transition: width 140ms ease;
-}
-
-.model-viewer-toolbar {
-  position: absolute;
-  z-index: 3;
-  right: clamp(14px, 2vw, 22px);
-  bottom: clamp(14px, 2vw, 22px);
-  left: clamp(14px, 2vw, 22px);
-  display: flex;
+  grid-template-columns: minmax(380px, 0.95fr) minmax(0, 1.05fr);
   align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  pointer-events: none;
+  gap: clamp(54px, 7vw, 104px);
+  margin: clamp(48px, 7vh, 82px) auto 0;
 }
 
-.model-viewer-toolbar p {
+.detail-copy {
+  min-width: 0;
+  max-width: 570px;
+}
+
+.detail-category {
+  margin: 0 0 18px;
+  color: var(--accent);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+}
+
+.detail-copy h1 {
+  max-width: 10em;
   margin: 0;
-  padding: 8px 12px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--header-surface);
-  box-shadow: 0 4px 16px var(--control-shadow);
-  color: var(--ink-soft);
-  font-size: 0.68rem;
-  letter-spacing: 0.045em;
-  backdrop-filter: blur(12px);
+  font-size: clamp(2.5rem, 4.2vw, 4.65rem);
+  font-weight: 400;
+  letter-spacing: -0.065em;
+  line-height: 1.16;
+  text-wrap: balance;
 }
 
-.model-viewer-toolbar button {
-  display: grid;
-  width: 40px;
-  height: 40px;
-  flex: 0 0 auto;
-  place-items: center;
-  padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: var(--header-surface);
-  box-shadow: 0 4px 16px var(--control-shadow);
+.detail-copy h1.is-english {
+  max-width: 8.5em;
+  font-size: clamp(2.35rem, 3.75vw, 4.15rem);
+  letter-spacing: -0.04em;
+}
+
+.detail-prose {
+  margin-top: 38px;
+}
+
+.detail-prose p {
+  margin: 0;
   color: var(--ink);
-  cursor: pointer;
-  pointer-events: auto;
-  backdrop-filter: blur(12px);
+  font-size: clamp(0.96rem, 1.08vw, 1.04rem);
+  letter-spacing: 0.02em;
+  line-height: 2.05;
 }
 
-.model-viewer-toolbar svg {
-  width: 19px;
-  height: 19px;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.7;
+.detail-prose p + p {
+  margin-top: 15px;
+}
+
+.detail-copy blockquote {
+  margin: 31px 0 0;
+  padding: 4px 0 4px 19px;
+  border-left: 2px solid var(--accent);
+  color: var(--ink);
+  font-size: clamp(1rem, 1.3vw, 1.18rem);
+  letter-spacing: 0.035em;
+  line-height: 1.8;
+}
+
+.detail-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 26px;
+  margin-top: 27px;
+}
+
+.detail-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  letter-spacing: 0.045em;
+  text-decoration: none;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.detail-link [aria-hidden="true"] {
+  transition: transform 180ms ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .detail-back:hover {
-    background: var(--control-active);
-    box-shadow: 0 8px 24px var(--control-shadow);
-    transform: translateY(-2px);
+    color: var(--accent);
+    transform: translateX(-3px);
+  }
+
+  .detail-link:hover {
+    border-color: var(--accent);
+    color: var(--ink);
+  }
+
+  .detail-link:hover [aria-hidden="true"] {
+    transform: translate(2px, -2px);
   }
 
   .macaron:hover .macaron-art {
@@ -830,6 +798,21 @@ main {
   .macaron-scene {
     width: min(92%, 810px);
     justify-self: center;
+  }
+
+  .detail-layout {
+    max-width: 860px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(44px, 7vw, 72px);
+  }
+
+  .detail-copy {
+    max-width: 720px;
+  }
+
+  .detail-copy h1,
+  .detail-copy h1.is-english {
+    max-width: 12em;
   }
 
   .signature-art {
@@ -930,11 +913,11 @@ main {
 
   .detail-main,
   .detail-page {
-    min-height: calc(100svh - 76px);
+    min-height: 100svh;
   }
 
   .detail-page {
-    padding: 18px 0 42px;
+    padding: 18px 0 56px;
   }
 
   .detail-back {
@@ -943,16 +926,27 @@ main {
   }
 
   .detail-layout {
-    margin-top: 18px;
+    gap: 48px;
+    margin-top: 34px;
   }
 
-  .detail-viewer-panel {
-    min-height: min(58svh, 560px);
-    border-radius: 24px;
+  .detail-copy h1 {
+    max-width: 9em;
+    font-size: clamp(2.2rem, 10.5vw, 3rem);
   }
 
-  .model-viewer-toolbar p {
-    font-size: 0.62rem;
+  .detail-copy h1.is-english {
+    max-width: 8em;
+    font-size: clamp(2.15rem, 9.5vw, 2.8rem);
+  }
+
+  .detail-prose p {
+    font-size: 0.92rem;
+  }
+
+  .detail-copy blockquote {
+    margin-top: 27px;
+    font-size: 1rem;
   }
 
   .signature-section {
