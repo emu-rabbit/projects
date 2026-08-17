@@ -28,6 +28,8 @@ const copy = {
     zoomIn: '放大圖片',
     zoomOut: '縮小圖片',
     resetZoom: '重設圖片縮放與位置',
+    loadingImage: '正在載入圖片',
+    imageLoadError: '圖片載入失敗，請再試一次',
     languageLabel: '切換語言',
     lightTheme: '切換為明亮主題',
     darkTheme: '切換為暗色主題',
@@ -54,6 +56,8 @@ const copy = {
     zoomIn: 'Zoom in',
     zoomOut: 'Zoom out',
     resetZoom: 'Reset image zoom and position',
+    loadingImage: 'Loading image',
+    imageLoadError: 'Image failed to load. Please try again.',
     languageLabel: 'Switch language',
     lightTheme: 'Switch to light theme',
     darkTheme: 'Switch to dark theme',
@@ -816,6 +820,8 @@ watch(
             :zoom-in-label="text.zoomIn"
             :zoom-out-label="text.zoomOut"
             :reset-zoom-label="text.resetZoom"
+            :loading-label="text.loadingImage"
+            :load-error-label="text.imageLoadError"
           />
         </div>
       </section>
