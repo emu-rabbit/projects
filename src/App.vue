@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import MacaronDetailPage from './components/MacaronDetailPage.vue'
 import PortfolioHomePage from './components/PortfolioHomePage.vue'
 import SiteHeader from './components/SiteHeader.vue'
@@ -9,6 +9,8 @@ import { portfolioCopy } from './data/portfolio'
 
 const { language, theme, setLanguage, toggleTheme } = usePortfolioPreferences()
 const currentHash = ref(window.location.hash)
+let homeScrollY = 0
+let routeScrollVersion = 0
 
 const copy = computed(() => portfolioCopy[language.value])
 const detailSlug = computed(() => {
@@ -33,9 +35,53 @@ const detailUi = computed(() => ({
   imageLoadError: copy.value.imageLoadError,
 }))
 
+const isDetailHash = (hash: string) => {
+  const match = hash.match(/^#\/macarons\/([^/?#]+)$/)
+  return match ? macaronDetailsBySlug.has(match[1]) : false
+}
+
+const scrollAfterRouteRender = async (top: number) => {
+  const version = ++routeScrollVersion
+
+  await nextTick()
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      if (version === routeScrollVersion) {
+        window.scrollTo({ top, behavior: 'auto' })
+      }
+    })
+  })
+}
+
+const rememberHomeScrollBeforeNavigation = (event: MouseEvent) => {
+  if (currentDetail.value) {
+    return
+  }
+
+  const target = event.target
+  const link = target instanceof Element ? target.closest<HTMLAnchorElement>('a[href]') : null
+
+  if (link && isDetailHash(link.hash)) {
+    homeScrollY = window.scrollY
+  }
+}
+
 const syncRoute = () => {
-  currentHash.value = window.location.hash
-  window.scrollTo({ top: 0, behavior: 'auto' })
+  const wasDetail = currentDetail.value !== null
+  const nextHash = window.location.hash
+  const willBeDetail = isDetailHash(nextHash)
+
+  if (!wasDetail && willBeDetail) {
+    homeScrollY = window.scrollY
+  }
+
+  currentHash.value = nextHash
+
+  if (willBeDetail) {
+    void scrollAfterRouteRender(0)
+  } else if (wasDetail) {
+    void scrollAfterRouteRender(homeScrollY)
+  }
 }
 
 const goHome = () => {
@@ -43,14 +89,17 @@ const goHome = () => {
 }
 
 onMounted(() => {
+  window.addEventListener('click', rememberHomeScrollBeforeNavigation, { capture: true })
   window.addEventListener('hashchange', syncRoute)
 
   if (currentDetail.value) {
-    window.scrollTo({ top: 0, behavior: 'auto' })
+    void scrollAfterRouteRender(0)
   }
 })
 
 onBeforeUnmount(() => {
+  routeScrollVersion += 1
+  window.removeEventListener('click', rememberHomeScrollBeforeNavigation, { capture: true })
   window.removeEventListener('hashchange', syncRoute)
 })
 </script>
