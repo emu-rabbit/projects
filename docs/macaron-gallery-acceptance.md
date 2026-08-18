@@ -2,7 +2,7 @@
 
 狀態：Canonical
 
-最後核對：2026-08-17
+最後核對：2026-08-18
 
 ## 文件責任
 
@@ -26,7 +26,7 @@
 4. `skills.webp`
 5. `mobile-story.webp`
 
-`src/App.vue` 持有雙語文案、圖片順序、alt 與 caption；`src/components/MacaronGallery.vue` 持有跨作品共用的畫廊互動。
+`src/data/macaronDetails.ts` 是詳細頁內容 registry，持有每個作品的 slug、雙語文案、連結、圖片順序、alt 與 caption；只有已登錄的作品才會開放首頁卡片連結與 `#/macarons/:slug` route。`src/components/MacaronDetailPage.vue` 持有跨作品共用的詳細版型，`src/components/MacaronGallery.vue` 持有跨作品共用的畫廊互動，`src/App.vue` 只負責依 route 選擇首頁或已登錄的詳細內容。
 
 作品詳情是專注閱讀模式：不顯示首頁的品牌、語言與主題導覽列，只保留一個返回入口。作者文字在 DOM 與視覺順序都先於畫廊；畫廊是支持敘事的證據，不與標題、正文爭奪主角位置。
 
