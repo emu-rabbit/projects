@@ -692,8 +692,8 @@ onBeforeUnmount(() => {
   border: 1px solid var(--line);
   border-radius: clamp(22px, 2vw, 30px);
   background:
-    radial-gradient(circle at 50% 42%, var(--gallery-glow), transparent 48%),
-    var(--gallery-surface);
+    radial-gradient(circle at 50% 43%, var(--gallery-card-glow, var(--gallery-glow)) 0 8%, transparent 58%),
+    var(--gallery-card-background, var(--gallery-surface));
 }
 
 .gallery-open {

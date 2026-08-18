@@ -1,4 +1,6 @@
 import type { Language, Localized } from '../types/portfolio'
+import { macaronPaletteBySlug } from './macaronPalette'
+import type { MacaronPalette } from './macaronPalette'
 
 type LocalizedText = Localized<string>
 
@@ -15,6 +17,7 @@ export interface MacaronProjectLink {
 
 export interface MacaronDetail {
   slug: string
+  palette: MacaronPalette
   category: LocalizedText
   title: LocalizedText
   paragraphs: Record<Language, readonly string[]>
@@ -52,6 +55,7 @@ const frozenRabbitWorkshopGallery = {
 export const macaronDetails = [
   {
     slug: 'window-notes',
+    palette: macaronPaletteBySlug['window-notes'],
     category: { zh: '個人網頁', en: 'Personal Website' },
     title: { zh: '絵夢羽さ沂的窗邊手記', en: "Emu-Rabbit's Window Notes" },
     paragraphs: {
@@ -114,6 +118,7 @@ export const macaronDetails = [
   },
   {
     slug: 'boundary-notes',
+    palette: macaronPaletteBySlug['boundary-notes'],
     category: { zh: 'BDSM整理工具', en: 'BDSM Organizer' },
     title: { zh: '兔子的祕密檔案', en: "Bunny's Secret File" },
     paragraphs: {
@@ -181,6 +186,7 @@ export const macaronDetails = [
   },
   {
     slug: 'frozen-rabbit-workshop',
+    palette: macaronPaletteBySlug['frozen-rabbit-workshop'],
     category: { zh: 'Final Fantasy XIV 巧匠工具', en: 'Final Fantasy XIV Crafting Tool' },
     title: { zh: '冷凍兔肉的巧匠工坊', en: "Frozen Rabbit's Workshop" },
     paragraphs: {
@@ -190,9 +196,9 @@ export const macaronDetails = [
         '最後，當收到大量的感謝和喜愛的時候，是我最有成就感的時刻，也是我更相信程式終究要回到為人服務的這個理念上。',
       ],
       en: [
-        'FF14 is a game I love, especially its crafting jobs. But nested recipes turn material prep into hell when several gear pieces must be made together.',
-        'Most tools mirror those dependencies with nested UIs. It is logical, but not what users want to see. I care more about what to prepare, so I made a clean cut: this project flattens the tree into one list.',
-        'Receiving so much thanks and love became my proudest moment. It strengthened my belief that software should ultimately serve people.',
+        'FF14 is a game I love, especially its crafting jobs. But nested recipes make preparing several pieces of gear hell.',
+        'Most tools mirror those dependencies with nested UIs. It is logical, but users care more about what to prepare. So I flattened the tree into one list.',
+        'The thanks and love I received became my proudest moment—and strengthened my belief that software should serve people.',
       ],
     },
     closing: {

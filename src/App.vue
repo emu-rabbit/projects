@@ -119,6 +119,7 @@ onBeforeUnmount(() => {
       v-if="currentDetail"
       :detail="currentDetail"
       :language="language"
+      :theme="theme"
       :ui="detailUi"
       @back="goHome"
     />

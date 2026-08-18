@@ -1,4 +1,5 @@
 import type { Language, Localized } from '../types/portfolio'
+import { macaronPaletteBySlug } from './macaronPalette'
 
 export interface PortfolioCopy {
   brand: string
@@ -143,8 +144,8 @@ const signatureFlavors: readonly FlavorCard[] = [
     },
     src: macaronAsset('emu-rabbit.webp'),
     imageAlt: { zh: '暮色杏桃與蜂蜜玫瑰的窗邊手記馬卡龍', en: 'Window Notes macaron with twilight apricot and honey rose' },
-    color: '#d9cddd',
-    darkColor: '#42304f',
+    color: macaronPaletteBySlug['window-notes'].color,
+    darkColor: macaronPaletteBySlug['window-notes'].darkColor,
   },
   {
     id: 'boundary-notes',
@@ -161,8 +162,8 @@ const signatureFlavors: readonly FlavorCard[] = [
     },
     src: macaronAsset('boundary-notes.webp'),
     imageAlt: { zh: '黑醋栗與玫瑰伯爵的兔子秘密檔案馬卡龍', en: 'Boundary Notes macaron with blackcurrant and rose Earl Grey' },
-    color: '#e1cfd2',
-    darkColor: '#52303a',
+    color: macaronPaletteBySlug['boundary-notes'].color,
+    darkColor: macaronPaletteBySlug['boundary-notes'].darkColor,
   },
   {
     id: 'frozen-rabbit-workshop',
@@ -179,8 +180,8 @@ const signatureFlavors: readonly FlavorCard[] = [
     },
     src: macaronAsset('workshop.webp'),
     imageAlt: { zh: '開心果、青檸與白巧克力的巧匠工坊馬卡龍', en: 'Workshop macaron with pistachio, lime, and white chocolate' },
-    color: '#d4dfce',
-    darkColor: '#324d3b',
+    color: macaronPaletteBySlug['frozen-rabbit-workshop'].color,
+    darkColor: macaronPaletteBySlug['frozen-rabbit-workshop'].darkColor,
   },
   {
     id: 'frozen-rabbit-tome',
@@ -197,8 +198,8 @@ const signatureFlavors: readonly FlavorCard[] = [
     },
     src: macaronAsset('tome.webp'),
     imageAlt: { zh: '深焙抹茶與柚子金砂的大地秘笈馬卡龍', en: 'Tome macaron with roasted matcha and yuzu gold dust' },
-    color: '#ccdcd4',
-    darkColor: '#2a473d',
+    color: macaronPaletteBySlug['frozen-rabbit-tome'].color,
+    darkColor: macaronPaletteBySlug['frozen-rabbit-tome'].darkColor,
   },
 ]
 
@@ -218,8 +219,8 @@ const innovationFlavors: readonly FlavorCard[] = [
     },
     src: macaronAsset('link-array.webp'),
     imageAlt: { zh: '黑白芝麻與鹽焦糖的 LinkArray 馬卡龍', en: 'LinkArray macaron with black and white sesame and salted caramel' },
-    color: '#ddd8d1',
-    darkColor: '#35322f',
+    color: macaronPaletteBySlug['link-array'].color,
+    darkColor: macaronPaletteBySlug['link-array'].darkColor,
   },
   {
     id: 'vue-router-rule',
@@ -236,8 +237,8 @@ const innovationFlavors: readonly FlavorCard[] = [
     },
     src: macaronAsset('vue-router-rule.webp'),
     imageAlt: { zh: '青葡萄、荔枝與紫羅蘭的 Vue Router Rule 馬卡龍', en: 'Vue Router Rule macaron with green grape, lychee, and violet' },
-    color: '#d7dfd7',
-    darkColor: '#28473f',
+    color: macaronPaletteBySlug['vue-router-rule'].color,
+    darkColor: macaronPaletteBySlug['vue-router-rule'].darkColor,
   },
   {
     id: 'dandelifeon',
@@ -254,8 +255,8 @@ const innovationFlavors: readonly FlavorCard[] = [
     },
     src: macaronAsset('dandelifeon.webp'),
     imageAlt: { zh: '蒲公英蜜與青蘋果的 Dandelifeon 馬卡龍', en: 'Dandelifeon macaron with dandelion honey and green apple' },
-    color: '#e6dfbd',
-    darkColor: '#334f32',
+    color: macaronPaletteBySlug['dandelifeon'].color,
+    darkColor: macaronPaletteBySlug['dandelifeon'].darkColor,
   },
 ]
 
@@ -275,8 +276,8 @@ const classicFlavors: readonly FlavorCard[] = [
     },
     src: macaronAsset('nanb.webp'),
     imageAlt: { zh: '藍莓優格與葵花子的 nAnB 馬卡龍', en: 'nAnB macaron with blueberry yogurt and sunflower seeds' },
-    color: '#d8d8e4',
-    darkColor: '#313853',
+    color: macaronPaletteBySlug.nanb.color,
+    darkColor: macaronPaletteBySlug.nanb.darkColor,
   },
   {
     id: '75-alchohol',
@@ -293,8 +294,8 @@ const classicFlavors: readonly FlavorCard[] = [
     },
     src: macaronAsset('75-alchohol.webp'),
     imageAlt: { zh: '白葡萄與檸檬蘇打的 75 Alchohol 馬卡龍', en: '75 Alchohol macaron with white grape, lemon soda' },
-    color: '#d7e3e5',
-    darkColor: '#294753',
+    color: macaronPaletteBySlug['75-alchohol'].color,
+    darkColor: macaronPaletteBySlug['75-alchohol'].darkColor,
   },
   {
     id: '50-hiragana-test',
@@ -311,8 +312,8 @@ const classicFlavors: readonly FlavorCard[] = [
     },
     src: macaronAsset('50-hiragana-test.webp'),
     imageAlt: { zh: '櫻花牛奶與紅豆的 50 Hiragana Test 馬卡龍', en: '50 Hiragana Test macaron with sakura milk and red bean' },
-    color: '#ead7dc',
-    darkColor: '#56343f',
+    color: macaronPaletteBySlug['50-hiragana-test'].color,
+    darkColor: macaronPaletteBySlug['50-hiragana-test'].darkColor,
   },
 ]
 

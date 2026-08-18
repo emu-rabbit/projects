@@ -45,6 +45,8 @@
 
 `src/data/macaronDetails.ts` 是詳細頁內容 registry，持有每個作品的 slug、雙語文案、連結、圖片順序、alt 與 caption；只有已登錄的作品才會開放首頁卡片連結與 `#/macarons/:slug` route。`src/components/MacaronDetailPage.vue` 持有跨作品共用的詳細版型，`src/components/MacaronGallery.vue` 持有跨作品共用的畫廊互動，`src/App.vue` 只負責依 route 選擇首頁或已登錄的詳細內容。
 
+`src/data/macaronPalette.ts` 是首頁馬卡龍卡片與詳細頁畫廊共用的背景色 owner；兩個 surface 必須引用同一筆 light／dark 色彩，不得各自複製色碼。透明馬卡龍圖片會直接露出畫廊 surface，因此詳細頁沿用首頁卡片的同一組 radial glow 與背景色混合方式，不使用全站固定的紫色畫廊底。
+
 作品詳情是專注閱讀模式：不顯示首頁的品牌、語言與主題導覽列，只保留一個返回入口。作者文字在 DOM 與視覺順序都先於畫廊；畫廊是支持敘事的證據，不與標題、正文爭奪主角位置。
 
 作品對外的 GitHub repository 與 Live Website 連結放在文字區塊結尾，使用簡潔文字連結而非大型按鈕或卡片，並在新分頁開啟。
@@ -58,9 +60,10 @@
 1. 頁首只保留返回首頁入口；主要內容由作者文字與 2D 畫廊組成。
 2. 作者文字依序為 category、title、段落、closing quote、外部連結；不得在未經指示時增設摘要卡、功能標籤、額外 CTA 或首頁導覽。
 3. 桌機使用文字在左、畫廊在右的雙欄閱讀順序；窄於既有 breakpoint 時轉為單欄，仍保持文字先於畫廊。
-4. 中文與英文共用同一版型。中文保留作者原文；英文以保留語意的精簡翻譯控制高度，在常見桌機 viewport 中避免因翻譯冗長產生不必要的頁面捲動。
-5. 圖片張數依作品內容決定，但前兩張仍是正式預設視角與多視角圖；後續圖片以專案敘事順序排列。
-6. 新作品只在 `src/data/macaronDetails.ts` 登錄資料並新增 `assets/galleries/<slug>/` runtime 資產；共用結構由 `MacaronDetailPage.vue`、共用互動由 `MacaronGallery.vue` 持有。只有需求真正改變共用契約時才修改這兩個元件。
+4. 中文與英文共用同一版型。中文保留作者原文；英文以保留語意的精簡翻譯控制高度。桌機雙欄版在 100% zoom 的 `1440 × 900` 與 `1920 × 900` viewport 中，`document.documentElement.scrollHeight` 必須小於或等於 `clientHeight`，不得出現頁面垂直捲軸。這是內容高度契約；不得以隱藏 scrollbar、縮小既定字級、壓縮畫廊或裁切內容通過。平板與手機轉為單欄後允許自然垂直閱讀，但仍不得出現橫向捲軸。
+5. 畫廊背景使用 `src/data/macaronPalette.ts` 中該 slug 的 light／dark 色彩，並與首頁 `.signature-art` 使用相同的 glow 與混色規則；透明圖片在首頁卡片與詳細頁中必須呈現一致背景，不為單一詳情另配色。
+6. 圖片張數依作品內容決定，但前兩張仍是正式預設視角與多視角圖；後續圖片以專案敘事順序排列。
+7. 新作品只在 `src/data/macaronDetails.ts` 登錄資料、在 `src/data/macaronPalette.ts` 登錄共用背景色，並新增 `assets/galleries/<slug>/` runtime 資產；共用結構由 `MacaronDetailPage.vue`、共用互動由 `MacaronGallery.vue` 持有。只有需求真正改變共用契約時才修改這兩個元件。
 
 若使用者明確要求不同敘事結構，可以提出可逆差異；未取得新指示時，以上是後續詳細頁的 default，而不是重新設計的起點。
 
@@ -106,7 +109,7 @@
 ## 交付閘門
 
 1. `npm run build`、`git diff --check` 與資產路徑檢查通過。
-2. 桌機、平板、手機與明暗主題都完成實際 browser QA，沒有裁切、溢出、缺字、錯誤 fallback 或控制遮擋。
+2. 桌機、平板、手機與明暗主題都完成實際 browser QA，沒有裁切、溢出、缺字、錯誤 fallback 或控制遮擋；桌機另以中英文逐一驗證 `1440 × 900`、`1920 × 900`，確認 root `scrollHeight <= clientHeight` 且畫面沒有垂直捲軸。
 3. 逐張切換圖片，確認 caption、計數、alt 與圖片順序正確。
 4. 實際開啟全螢幕，驗證滑鼠滾輪、按鈕、拖曳、雙指、鍵盤切圖與退出路徑。
-5. 放大檢查馬卡龍線條、截圖細字與生成多視角圖，確認 WebP 壓縮沒有造成不可接受的品質下降。
+5. 放大檢查馬卡龍線條、截圖細字與生成多視角圖，確認 WebP 壓縮沒有造成不可接受的品質下降；同時比對首頁卡片與詳細頁畫廊在 light／dark theme 下的背景，確認透明圖片露出的色彩一致。

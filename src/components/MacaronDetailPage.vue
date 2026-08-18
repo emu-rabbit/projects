@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { MacaronDetail } from '../data/macaronDetails'
-import type { Language } from '../types/portfolio'
+import type { Language, Theme } from '../types/portfolio'
 import MacaronGallery from './MacaronGallery.vue'
 
 interface MacaronDetailUiCopy {
@@ -21,6 +21,7 @@ interface MacaronDetailUiCopy {
 const props = defineProps<{
   detail: MacaronDetail
   language: Language
+  theme: Theme
   ui: MacaronDetailUiCopy
 }>()
 
@@ -44,11 +45,20 @@ const content = computed(() => ({
     label: link.label[props.language],
   })),
 }))
+
+const galleryPalette = computed(() => ({
+  '--gallery-card-background': props.theme === 'dark'
+    ? props.detail.palette.darkColor
+    : `color-mix(in srgb, ${props.detail.palette.color} 76%, var(--canvas))`,
+  '--gallery-card-glow': props.theme === 'dark'
+    ? 'rgb(255 255 255 / 8%)'
+    : 'rgb(255 255 255 / 68%)',
+}))
 </script>
 
 <template>
   <main class="detail-main">
-    <section class="detail-page" aria-labelledby="detail-title">
+    <section class="detail-page" aria-labelledby="detail-title" :style="galleryPalette">
       <button class="detail-back" type="button" @click="emit('back')">
         <span aria-hidden="true">←</span>
         <span>{{ ui.backHome }}</span>
