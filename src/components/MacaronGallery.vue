@@ -60,15 +60,20 @@ let lastLightboxSwipeAt = 0
 
 const clampZoom = (value: number) => Math.min(5, Math.max(1, value))
 
-const resetTransform = () => {
-  zoom.value = 1
-  panX.value = 0
-  panY.value = 0
+const clearLightboxGesture = () => {
+  lightboxSwipeStart = null
   lightboxDragOffsetX.value = 0
   lightboxDragging.value = false
   pointers.clear()
   pinchDistance = 0
-  pinchZoom = 1
+  pinchZoom = zoom.value
+}
+
+const resetTransform = () => {
+  zoom.value = 1
+  panX.value = 0
+  panY.value = 0
+  clearLightboxGesture()
 }
 
 const constrainPan = () => {
@@ -372,12 +377,20 @@ const pointerDistance = () => {
 }
 
 const handlePointerDown = (event: PointerEvent) => {
-  if (event.button !== 0) {
+  if (event.button !== 0 || isSwitching.value || swipeAnimating.value) {
     return
   }
 
-  const target = event.currentTarget as HTMLElement
-  target.setPointerCapture(event.pointerId)
+  const target = event.target
+  if (!(target instanceof Element) || !target.closest('.gallery-lightbox-stage')) {
+    return
+  }
+
+  if (event.isPrimary) {
+    clearLightboxGesture()
+  }
+
+  dialog.value?.setPointerCapture(event.pointerId)
   pointers.set(event.pointerId, { x: event.clientX, y: event.clientY })
   lightboxDragging.value = true
 
@@ -401,6 +414,15 @@ const handlePointerMove = (event: PointerEvent) => {
   }
 
   pointers.set(event.pointerId, { x: event.clientX, y: event.clientY })
+
+  if (
+    zoom.value === 1
+    && lightboxSwipeStart?.pointerId === event.pointerId
+  ) {
+    lightboxDragOffsetX.value = event.clientX - lightboxSwipeStart.x
+    event.preventDefault()
+    return
+  }
 
   if (pointers.size === 2 && pinchDistance > 0) {
     lightboxDragOffsetX.value = 0
@@ -447,19 +469,20 @@ const handlePointerMove = (event: PointerEvent) => {
 }
 
 const handlePointerEnd = (event: PointerEvent) => {
-  const finalPoint = pointers.get(event.pointerId)
+  if (!pointers.has(event.pointerId)) {
+    return
+  }
+
   let direction: -1 | 0 | 1 = 0
   if (
-    finalPoint
-    && lightboxSwipeStart?.pointerId === event.pointerId
-    && pointers.size === 1
+    lightboxSwipeStart?.pointerId === event.pointerId
   ) {
     if (zoom.value === 1) {
       direction = swipeDirection(
         lightboxSwipeStart.x,
         lightboxSwipeStart.y,
-        finalPoint.x,
-        finalPoint.y,
+        event.clientX,
+        event.clientY,
       )
     } else if (Math.abs(lightboxDragOffsetX.value) >= swipeThreshold) {
       direction = lightboxDragOffsetX.value > 0 ? -1 : 1
@@ -472,8 +495,9 @@ const handlePointerEnd = (event: PointerEvent) => {
   pinchDistance = 0
   pinchZoom = zoom.value
 
-  if (direction !== 0) {
+  if (direction !== 0 && !isSwitching.value && !swipeAnimating.value) {
     lastLightboxSwipeAt = Date.now()
+    event.preventDefault()
     void selectImage(currentIndex.value + direction, { surface: 'lightbox', direction })
   } else {
     lightboxDragOffsetX.value = 0
@@ -481,6 +505,10 @@ const handlePointerEnd = (event: PointerEvent) => {
 }
 
 const handlePointerCancel = (event: PointerEvent) => {
+  if (!pointers.has(event.pointerId)) {
+    return
+  }
+
   pointers.delete(event.pointerId)
   lightboxSwipeStart = null
   lightboxDragOffsetX.value = 0
@@ -588,6 +616,11 @@ onBeforeUnmount(() => {
         :aria-label="images[currentIndex]?.caption"
         tabindex="-1"
         @keydown="handleDialogKeydown"
+        @pointerdown.capture="handlePointerDown"
+        @pointermove.capture="handlePointerMove"
+        @pointerup.capture="handlePointerEnd"
+        @pointercancel.capture="handlePointerCancel"
+        @dragstart.capture.prevent
       >
         <div
           class="gallery-lightbox-stage"
@@ -595,10 +628,6 @@ onBeforeUnmount(() => {
           :style="{ '--lightbox-drag-x': `${lightboxDragOffsetX}px` }"
           :aria-busy="isSwitching"
           @wheel="handleWheel"
-          @pointerdown="handlePointerDown"
-          @pointermove="handlePointerMove"
-          @pointerup="handlePointerEnd"
-          @pointercancel="handlePointerCancel"
           @dblclick="handleStageDoubleClick"
         >
           <div class="gallery-lightbox-slide gallery-lightbox-slide-previous" aria-hidden="true">
@@ -834,6 +863,8 @@ onBeforeUnmount(() => {
   background: #111011;
   color: #f7eee7;
   outline: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .gallery-lightbox-stage {
@@ -884,6 +915,7 @@ onBeforeUnmount(() => {
   transform-origin: center;
   transition: transform 220ms cubic-bezier(0.22, 0.72, 0.25, 1);
   user-select: none;
+  -webkit-user-drag: none;
   will-change: transform;
 }
 
