@@ -116,7 +116,7 @@ a:focus-visible {
 
 .site-header-inner,
 main {
-  width: min(calc(100% - clamp(48px, 6vw, 96px)), 1440px);
+  width: min(calc(100% - clamp(48px, 6vw, 96px)), 1200px);
   margin-inline: auto;
 }
 
@@ -634,6 +634,47 @@ main {
  *
  * The hero layout and title wrapping strategy change at the same boundaries.
  */
+@media (min-width: 1101px) {
+  .signature-section-signature .signature-art {
+    min-height: 320px;
+    aspect-ratio: 1.7;
+  }
+
+  .signature-section-signature .signature-art img {
+    width: min(68%, 360px);
+  }
+
+  .signature-section-signature .signature-card-body {
+    min-height: 300px;
+    padding: 28px 34px 30px;
+  }
+
+  .signature-section-signature .signature-category {
+    margin-bottom: 12px;
+  }
+
+  .signature-section-signature .signature-card h3 {
+    font-size: clamp(1.72rem, 2vw, 2.2rem);
+  }
+
+  .signature-section-signature .signature-card h3.is-english {
+    font-size: clamp(1.58rem, 1.85vw, 2.05rem);
+  }
+
+  .signature-section-signature .signature-flavor {
+    margin-top: 14px;
+  }
+
+  .signature-section-signature .signature-description {
+    margin: 16px 0 20px;
+    line-height: 1.75;
+  }
+
+  .signature-section-signature .signature-cta {
+    padding-top: 18px;
+  }
+}
+
 @media (max-width: 1100px) {
   .hero {
     grid-template-columns: 1fr;

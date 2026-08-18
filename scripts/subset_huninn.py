@@ -10,7 +10,11 @@ from fontTools.ttLib import TTFont
 
 
 ROOT = Path(__file__).resolve().parents[1]
-TEXT_SOURCES = (ROOT / "index.html", *sorted((ROOT / "src").rglob("*.vue")))
+TEXT_SOURCES = (
+    ROOT / "index.html",
+    *sorted((ROOT / "src").rglob("*.vue")),
+    *sorted((ROOT / "src/data").rglob("*.ts")),
+)
 FAMILY_NAME = "Emu Portfolio Round"
 POSTSCRIPT_NAME = "EmuPortfolioRound-Regular"
 

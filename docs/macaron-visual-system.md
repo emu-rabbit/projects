@@ -157,9 +157,9 @@
 ### 字型 subset
 
 - 網站正文使用 `assets/fonts/emu-portfolio-round-subset.woff2`；它是由 jf open 粉圓 2.1 產生的專案字元 subset，不是可以在文案變更後繼續沿用的完整字型。
-- 只要 `index.html` 或 `src/**/*.vue` 的使用者可見文字有增減，交付前必須用官方 jf open 粉圓 2.1 TTF 重跑 `scripts/subset_huninn.py`，並將更新後的 WOFF2 與文案一起納入變更。
+- 只要 `index.html`、`src/**/*.vue` 或 `src/data/**/*.ts` 的使用者可見文字有增減，交付前必須用官方 jf open 粉圓 2.1 TTF 重跑 `scripts/subset_huninn.py`，並將更新後的 WOFF2 與文案一起納入變更。
 - 標準呼叫方式是 `python scripts/subset_huninn.py <jf-openhuninn-2.1.ttf>`。來源 TTF 的本機路徑不寫進 repository；字型授權資訊由 `assets/fonts/OFL.txt` 持有。
-- 目前腳本只會收集 `index.html` 與 `src/**/*.vue`。如果日後可見文字移到其他檔案類型，要同步擴充 `TEXT_SOURCES`，不能以系統 fallback 字型掩蓋缺字。
+- 目前腳本會收集 `index.html`、`src/**/*.vue` 與 `src/data/**/*.ts`。如果日後可見文字移到其他位置，要同步擴充 `TEXT_SOURCES`，不能以系統 fallback 字型掩蓋缺字。
 
 ### 交付前視覺驗收
 

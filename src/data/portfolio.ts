@@ -209,7 +209,7 @@ const innovationFlavors: readonly FlavorCard[] = [
     title: { zh: 'LinkArray', en: 'LinkArray' },
     flavor: { zh: '黑白芝麻・鹽焦糖', en: 'Black & White Sesame · Salted Caramel' },
     description: {
-      zh: ['陣列擅長隨機存取，鏈結串列擅長插入移除，', '加起來究竟是優點相加還是缺點倍顯呢？'],
+      zh: ['陣列擅長隨機存取，', '鏈結串列擅長插入移除，', '加起來究竟是優點相加還是缺點倍顯呢？'],
       en: ['Arrays excel at random access;', 'linked lists at insertion and removal.', 'Together, do their strengths add up—', 'or do their flaws multiply?'],
     },
     mobileDescription: {
@@ -227,11 +227,11 @@ const innovationFlavors: readonly FlavorCard[] = [
     title: { zh: 'Vue Router Rule', en: 'Vue Router Rule' },
     flavor: { zh: '青葡萄・荔枝・紫羅蘭', en: 'Green Grape · Lychee · Violet' },
     description: {
-      zh: ['撰寫簡單，容易閱讀的 Vue Router 鉤子，', '不會遇到義大利麵程式碼了（應該）。'],
+      zh: ['撰寫簡單易讀的 Vue Router 鉤子，', '不會遇到義大利麵程式碼了（應該）。'],
       en: ['Simple, readable Vue Router hooks—', 'no more spaghetti code. (Probably.)'],
     },
     mobileDescription: {
-      zh: ['撰寫簡單，容易閱讀的', 'Vue Router 鉤子，不會遇到', '義大利麵程式碼了（應該）。'],
+      zh: ['撰寫簡單易讀的 Vue Router 鉤子，', '不會遇到義大利麵程式碼了', '（應該）。'],
       en: ['Simple, readable Vue Router hooks—', 'no more spaghetti code. (Probably.)'],
     },
     src: macaronAsset('vue-router-rule.webp'),
@@ -245,11 +245,11 @@ const innovationFlavors: readonly FlavorCard[] = [
     title: { zh: 'Dandelifeon', en: 'Dandelifeon' },
     flavor: { zh: '蒲公英蜜・青蘋果', en: 'Dandelion Honey · Green Apple' },
     description: {
-      zh: ['Minecraft 的 Botania 模組有個特別的花，', '到底怎樣才能生成最大魔力呢？'],
+      zh: ['Minecraft 的魔法模組有個特別的花，', '到底怎樣才能生成最大魔力呢？'],
       en: ["Minecraft's Botania mod", 'has a peculiar flower.', 'What arrangement generates', 'the most mana?'],
     },
     mobileDescription: {
-      zh: ['Minecraft 的 Botania 模組', '有個特別的花，到底怎樣才能', '生成最大魔力呢？'],
+      zh: ['Minecraft 的魔法模組有個特別的花，', '到底怎樣才能生成最大魔力呢？'],
       en: ["Minecraft's Botania mod", 'has a peculiar flower.', 'What arrangement generates', 'the most mana?'],
     },
     src: macaronAsset('dandelifeon.webp'),
