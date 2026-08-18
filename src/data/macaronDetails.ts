@@ -41,6 +41,14 @@ const boundaryNotesGallery = {
   shareImage: new URL('../../assets/galleries/boundary-notes/share-image.webp', import.meta.url).href,
 } as const
 
+const frozenRabbitWorkshopGallery = {
+  defaultView: new URL('../../assets/galleries/frozen-rabbit-workshop/default-view.webp', import.meta.url).href,
+  threeViews: new URL('../../assets/galleries/frozen-rabbit-workshop/three-views.webp', import.meta.url).href,
+  prepWorkbench: new URL('../../assets/galleries/frozen-rabbit-workshop/prep-workbench.webp', import.meta.url).href,
+  todoList: new URL('../../assets/galleries/frozen-rabbit-workshop/todo-list.webp', import.meta.url).href,
+  mobileLanguages: new URL('../../assets/galleries/frozen-rabbit-workshop/mobile-languages.webp', import.meta.url).href,
+} as const
+
 export const macaronDetails = [
   {
     slug: 'window-notes',
@@ -168,6 +176,68 @@ export const macaronDetails = [
       {
         label: { zh: 'Github頁面', en: 'GitHub Repo' },
         href: 'https://github.com/emu-rabbit/boundary_notes',
+      },
+    ],
+  },
+  {
+    slug: 'frozen-rabbit-workshop',
+    category: { zh: 'Final Fantasy XIV 巧匠工具', en: 'Final Fantasy XIV Crafting Tool' },
+    title: { zh: '冷凍兔肉的巧匠工坊', en: "Frozen Rabbit's Workshop" },
+    paragraphs: {
+      zh: [
+        'FF14是我很愛的遊戲，我喜歡裡面的巧匠職業。然而，巢狀的配方依賴，加上多件裝備要一起製作的時候，備料的過程就成了一種地獄。',
+        '大多數的工具都使用巢狀的方式來做UI呈現，但我認為這很理性，卻不太是使用者想看到的東西。憑藉著比起配方依賴關係，更在乎自己要備哪些料，我一刀切地決定：這專案會把巢狀打成平面列表。',
+        '最後，當收到大量的感謝和喜愛的時候，是我最有成就感的時刻，也是我更相信程式終究要回到為人服務的這個理念上。',
+      ],
+      en: [
+        'FF14 is a game I love, especially its crafting jobs. But nested recipes turn material prep into hell when several gear pieces must be made together.',
+        'Most tools mirror those dependencies with nested UIs. It is logical, but not what users want to see. I care more about what to prepare, so I made a clean cut: this project flattens the tree into one list.',
+        'Receiving so much thanks and love became my proudest moment. It strengthened my belief that software should ultimately serve people.',
+      ],
+    },
+    closing: {
+      zh: '「Q：兔肉可以烤來吃嗎？A：不可以。」',
+      en: '“Q: Can rabbit meat be roasted? A: No.”',
+    },
+    galleryLabel: {
+      zh: '冷凍兔肉的巧匠工坊作品畫廊',
+      en: "Frozen Rabbit's Workshop project gallery",
+    },
+    gallery: [
+      {
+        src: frozenRabbitWorkshopGallery.defaultView,
+        alt: { zh: '冷凍兔肉的巧匠工坊薄荷青檸馬卡龍預設視角插畫', en: "Default view of Frozen Rabbit's Workshop mint lime macaron" },
+        caption: { zh: '薄荷青檸馬卡龍', en: 'Mint Lime Macaron' },
+      },
+      {
+        src: frozenRabbitWorkshopGallery.threeViews,
+        alt: { zh: '冷凍兔肉的巧匠工坊馬卡龍預設、頂面與平放側面視圖', en: "Default, top, and flat side views of Frozen Rabbit's Workshop macaron" },
+        caption: { zh: '想怎樣備料都可以，計算就交給我', en: 'Prep Your Way. I’ll Do the Math.' },
+      },
+      {
+        src: frozenRabbitWorkshopGallery.prepWorkbench,
+        alt: { zh: '冷凍兔肉的巧匠工坊備料台桌機畫面', en: "Frozen Rabbit's Workshop desktop prep workbench" },
+        caption: { zh: '詳盡但不會迷路的備料台', en: 'A Detailed, Clear Workbench' },
+      },
+      {
+        src: frozenRabbitWorkshopGallery.todoList,
+        alt: { zh: '冷凍兔肉的巧匠工坊平面待辦清單畫面', en: "Frozen Rabbit's Workshop flat checklist" },
+        caption: { zh: '簡潔但好用的待辦清單輸出', en: 'A Simple, Useful Checklist' },
+      },
+      {
+        src: frozenRabbitWorkshopGallery.mobileLanguages,
+        alt: { zh: '冷凍兔肉的巧匠工坊英文手機版畫面', en: "English mobile layout of Frozen Rabbit's Workshop" },
+        caption: { zh: '支援四語系與手機版面', en: 'Four Languages, Mobile Ready' },
+      },
+    ],
+    links: [
+      {
+        label: { zh: '線上展示', en: 'Live Website' },
+        href: 'https://emu-rabbit.github.io/frozen_rabbit_workshop/',
+      },
+      {
+        label: { zh: 'Github頁面', en: 'GitHub Repo' },
+        href: 'https://github.com/emu-rabbit/frozen_rabbit_workshop',
       },
     ],
   },

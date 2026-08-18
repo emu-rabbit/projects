@@ -35,6 +35,14 @@
 5. `mobile-languages.webp`
 6. `share-image.webp`
 
+冷凍兔肉的巧匠工坊 route 為 `#/macarons/frozen-rabbit-workshop`，runtime 圖片由 `assets/galleries/frozen-rabbit-workshop/` 持有，順序為：
+
+1. `default-view.webp`
+2. `three-views.webp`
+3. `prep-workbench.webp`
+4. `todo-list.webp`
+5. `mobile-languages.webp`
+
 `src/data/macaronDetails.ts` 是詳細頁內容 registry，持有每個作品的 slug、雙語文案、連結、圖片順序、alt 與 caption；只有已登錄的作品才會開放首頁卡片連結與 `#/macarons/:slug` route。`src/components/MacaronDetailPage.vue` 持有跨作品共用的詳細版型，`src/components/MacaronGallery.vue` 持有跨作品共用的畫廊互動，`src/App.vue` 只負責依 route 選擇首頁或已登錄的詳細內容。
 
 作品詳情是專注閱讀模式：不顯示首頁的品牌、語言與主題導覽列，只保留一個返回入口。作者文字在 DOM 與視覺順序都先於畫廊；畫廊是支持敘事的證據，不與標題、正文爭奪主角位置。
