@@ -26,6 +26,15 @@
 4. `skills.webp`
 5. `mobile-story.webp`
 
+兔子的祕密檔案 route 為 `#/macarons/boundary-notes`，runtime 圖片由 `assets/galleries/boundary-notes/` 持有，順序為：
+
+1. `default-view.webp`
+2. `three-views.webp`
+3. `guardian-rabbit.webp`
+4. `boundary-file.webp`
+5. `mobile-languages.webp`
+6. `share-image.webp`
+
 `src/data/macaronDetails.ts` 是詳細頁內容 registry，持有每個作品的 slug、雙語文案、連結、圖片順序、alt 與 caption；只有已登錄的作品才會開放首頁卡片連結與 `#/macarons/:slug` route。`src/components/MacaronDetailPage.vue` 持有跨作品共用的詳細版型，`src/components/MacaronGallery.vue` 持有跨作品共用的畫廊互動，`src/App.vue` 只負責依 route 選擇首頁或已登錄的詳細內容。
 
 作品詳情是專注閱讀模式：不顯示首頁的品牌、語言與主題導覽列，只保留一個返回入口。作者文字在 DOM 與視覺順序都先於畫廊；畫廊是支持敘事的證據，不與標題、正文爭奪主角位置。
@@ -48,6 +57,7 @@
 
 - 原始 PNG 或作者提供的截圖先保留，不直接作為 runtime 大圖引用。
 - 使用 `scripts/prepare_gallery_image.py` 依實際原始尺寸轉為 metadata-free WebP；不得放大低解析度來源。
+- 產生器若無法直接輸出 alpha，可先要求單色 chroma key 背景，再使用 `--extract-green-background` 抽出透明度；不得把棋盤格、色鍵或背景延伸瑕疵留在 runtime 資產。
 - 馬卡龍與多視角插畫預設使用 quality 90；有細字的專案截圖可在目視確認後使用 quality 86–90。
 - 必須保留原始長寬比，不裁掉使用者畫面、文字或馬卡龍輪廓。
 - 交付時比較來源與 runtime 檔案尺寸，並在實際畫廊與全螢幕放大狀態確認沒有明顯壓縮瑕疵。

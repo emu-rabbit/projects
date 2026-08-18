@@ -24,6 +24,11 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--extract-green-background",
+        action="store_true",
+        help="Replace a green chroma-key background with transparent pixels.",
+    )
+    parser.add_argument(
         "--alpha-from",
         type=Path,
         help=(
@@ -79,6 +84,18 @@ def extract_light_background(image: Image.Image) -> Image.Image:
     return rgba
 
 
+def extract_green_background(image: Image.Image) -> Image.Image:
+    rgb = image.convert("RGB")
+    alpha = Image.new("L", rgb.size, 255)
+    alpha.putdata([
+        0 if green >= 120 and green - max(red, blue) >= 40 else 255
+        for red, green, blue in rgb.get_flattened_data()
+    ])
+    rgba = rgb.convert("RGBA")
+    rgba.putalpha(alpha)
+    return rgba
+
+
 def main() -> None:
     args = parse_args()
 
@@ -86,6 +103,8 @@ def main() -> None:
         image = ImageOps.exif_transpose(source)
         if args.extract_light_background:
             image = extract_light_background(image)
+        if args.extract_green_background:
+            image = extract_green_background(image)
         if args.alpha_from:
             with Image.open(args.alpha_from) as alpha_source:
                 alpha_image = extract_light_background(ImageOps.exif_transpose(alpha_source))

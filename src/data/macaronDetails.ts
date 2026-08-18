@@ -32,6 +32,15 @@ const windowNotesGallery = {
   mobileStory: new URL('../../assets/galleries/window-notes/mobile-story.webp', import.meta.url).href,
 } as const
 
+const boundaryNotesGallery = {
+  defaultView: new URL('../../assets/galleries/boundary-notes/default-view.webp', import.meta.url).href,
+  threeViews: new URL('../../assets/galleries/boundary-notes/three-views.webp', import.meta.url).href,
+  guardianRabbit: new URL('../../assets/galleries/boundary-notes/guardian-rabbit.webp', import.meta.url).href,
+  boundaryFile: new URL('../../assets/galleries/boundary-notes/boundary-file.webp', import.meta.url).href,
+  mobileLanguages: new URL('../../assets/galleries/boundary-notes/mobile-languages.webp', import.meta.url).href,
+  shareImage: new URL('../../assets/galleries/boundary-notes/share-image.webp', import.meta.url).href,
+} as const
+
 export const macaronDetails = [
   {
     slug: 'window-notes',
@@ -92,6 +101,73 @@ export const macaronDetails = [
       {
         label: { zh: 'Github頁面', en: 'GitHub Repo' },
         href: 'https://github.com/emu-rabbit/emu-rabbit.github.io',
+      },
+    ],
+  },
+  {
+    slug: 'boundary-notes',
+    category: { zh: 'BDSM整理工具', en: 'BDSM Organizer' },
+    title: { zh: '兔子的祕密檔案', en: "Bunny's Secret File" },
+    paragraphs: {
+      zh: [
+        'BDSM的領域，用來表達自己對於各種項目的喜好、邊界的網頁較少，體驗也不佳。所以我結合了各種使用者對於測驗網頁會有的困擾，把這多達幾百個測驗項目，好好地整理、落地成一個網頁。',
+        '使用者體驗是我在乎的事，使用者的隱私也有守密兔好好的把關，同時也致力於在免登入的後端中不致被濫用打爆。',
+        'BDSM是我最喜歡的興趣，慾望可以是誠實的，有邊界的，也塑造了每個人的特色，使每個人成為了獨一無二的自己。',
+      ],
+      en: [
+        'Few BDSM sites make interests and boundaries easy to express. I organized hundreds of quiz items into one clear experience.',
+        'Experience and privacy both matter to me. The Secret-Keeping Bunny protects them, while the login-free backend resists abuse.',
+        'BDSM is my favorite interest. Honest desires and clear boundaries make each of us unique.',
+      ],
+    },
+    closing: {
+      zh: '「不用怕，我在這裡陪你慢慢梳理這一切。」——守密兔如是說道',
+      en: '“Don’t be afraid. I’ll help you sort it out.” — the Secret-Keeping Bunny',
+    },
+    galleryLabel: {
+      zh: '兔子的祕密檔案作品畫廊',
+      en: "Bunny's Secret File project gallery",
+    },
+    gallery: [
+      {
+        src: boundaryNotesGallery.defaultView,
+        alt: { zh: '兔子的祕密檔案馬卡龍預設視角插畫', en: "Default view of the Bunny's Secret File macaron" },
+        caption: { zh: '酒紅邊界馬卡龍', en: 'Burgundy Boundary Macaron' },
+      },
+      {
+        src: boundaryNotesGallery.threeViews,
+        alt: { zh: '兔子的祕密檔案馬卡龍預設、頂面與平放側面視圖', en: "Default, top, and flat side views of the Bunny's Secret File macaron" },
+        caption: { zh: '每個人都有很多不一樣的喜好、邊界', en: 'Different Desires, Different Boundaries' },
+      },
+      {
+        src: boundaryNotesGallery.guardianRabbit,
+        alt: { zh: '守密兔陪伴使用者整理祕密檔案的介紹畫面', en: 'The Secret-Keeping Bunny guiding users through their file' },
+        caption: { zh: '一路陪伴使用者的守密兔', en: 'A Bunny Who Stays With You' },
+      },
+      {
+        src: boundaryNotesGallery.boundaryFile,
+        alt: { zh: '桌機版邊界檔案的焦點喜好與分類畫面', en: 'Desktop boundary file with highlighted interests and categories' },
+        caption: { zh: '足夠仔細卻易讀的邊界檔案', en: 'Detailed, Yet Easy to Read' },
+      },
+      {
+        src: boundaryNotesGallery.mobileLanguages,
+        alt: { zh: '英文手機版兔子的祕密檔案首頁', en: "English mobile layout of Bunny's Secret File" },
+        caption: { zh: '支援四語系與手機版面', en: 'Four Languages, Mobile Ready' },
+      },
+      {
+        src: boundaryNotesGallery.shareImage,
+        alt: { zh: '適合分享到社群軟體的祕密檔案圖片', en: 'A Secret File image prepared for social sharing' },
+        caption: { zh: '可以生成檔案圖片好放上社群軟體', en: 'Shareable File Images' },
+      },
+    ],
+    links: [
+      {
+        label: { zh: '線上展示', en: 'Live Website' },
+        href: 'https://boundarynotes.com/',
+      },
+      {
+        label: { zh: 'Github頁面', en: 'GitHub Repo' },
+        href: 'https://github.com/emu-rabbit/boundary_notes',
       },
     ],
   },
