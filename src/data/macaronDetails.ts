@@ -60,6 +60,11 @@ const frozenRabbitTomeGallery = {
   mobileLanguages: new URL('../../assets/galleries/frozen-rabbit-tome/mobile-languages.webp', import.meta.url).href,
 } as const
 
+const linkArrayGallery = {
+  defaultView: new URL('../../assets/galleries/link-array/default-view.webp', import.meta.url).href,
+  threeViews: new URL('../../assets/galleries/link-array/three-views.webp', import.meta.url).href,
+} as const
+
 export const macaronDetails = [
   {
     slug: 'window-notes',
@@ -315,6 +320,50 @@ export const macaronDetails = [
       {
         label: { zh: 'Github頁面', en: 'GitHub Repo' },
         href: 'https://github.com/emu-rabbit/frozen_rabbit_tome',
+      },
+    ],
+  },
+  {
+    slug: 'link-array',
+    palette: macaronPaletteBySlug['link-array'],
+    category: { zh: '資料結構', en: 'Data Structure' },
+    title: { zh: 'LinkArray', en: 'LinkArray' },
+    paragraphs: {
+      zh: [
+        '2020那年，想起了大學時的那段時光。課程上教了陣列，也教了鏈結串列。事實上我是後者的大粉絲，所以我就想到：那如果我把兩個綁在一起呢？',
+        '抱持著這個想法，一頭熱地下去做，事實上還真的做出了不錯的成績。只是那時的我不知道該去哪裡發表，也不知道怎麼去查相近的研究。',
+        '6年後，請AI回頭幫我審視這專案。原來現在對於我當初的目標已經有更好的選擇了，但我還是很愛這個專案。',
+      ],
+      en: [
+        'In 2020, I thought back to university. We learned arrays and linked lists, and I was a big fan of the latter. So I wondered: what if I tied them together?',
+        'I dove in and built something that worked surprisingly well. Back then, I did not know where to share it or how to find related research.',
+        'Six years later, I asked AI to review the project. There are better choices now for what I once wanted to achieve, but I still love this project.',
+      ],
+    },
+    closing: {
+      zh: '「就像一個小孩子，不知世俗，不知現實，但那份勇於嘗試和求知的熱情才是最耀眼的。」',
+      en: '“Like a child, unaware of convention or reality, whose courage to try and passion to learn shine brightest.”',
+    },
+    galleryLabel: {
+      zh: 'LinkArray作品畫廊',
+      en: 'LinkArray project gallery',
+    },
+    gallery: [
+      {
+        src: linkArrayGallery.defaultView,
+        alt: { zh: 'LinkArray黑白芝麻馬卡龍預設視角插畫', en: 'Default view of the LinkArray black-and-white sesame macaron' },
+        caption: { zh: '黑白鏈結馬卡龍', en: 'Black-and-White Linked Macaron' },
+      },
+      {
+        src: linkArrayGallery.threeViews,
+        alt: { zh: 'LinkArray馬卡龍預設、頂面與平放側面視圖', en: 'Default, top, and flat side views of the LinkArray macaron' },
+        caption: { zh: '等等，那是蜈蚣還是蚯蚓？', en: 'Wait, Is That a Centipede or a Worm?' },
+      },
+    ],
+    links: [
+      {
+        label: { zh: 'Github頁面', en: 'GitHub Repo' },
+        href: 'https://github.com/emu-rabbit/LinkArray',
       },
     ],
   },
