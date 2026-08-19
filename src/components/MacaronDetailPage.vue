@@ -272,11 +272,19 @@ const galleryPalette = computed(() => ({
 
 @media (max-width: 680px) {
   .detail-page {
-    padding: 18px 0 56px;
+    padding: calc(58px + env(safe-area-inset-top)) 0 56px;
   }
 
   .detail-back {
-    min-height: 40px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10;
+    height: calc(58px + env(safe-area-inset-top));
+    padding: env(safe-area-inset-top) 24px 0;
+    border-bottom: 1px solid var(--line);
+    background: var(--canvas);
     font-size: 0.74rem;
   }
 
