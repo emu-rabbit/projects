@@ -10,6 +10,8 @@
 
 作品詳情不再以 3D 模型呈現馬卡龍。repository 內既有 `.blend`、`.glb`、texture 與 Blender script 不得由作品詳情 runtime 載入，也不能被當成新的畫廊設計真相。唯一例外是首頁信件結語的紫夜兔耳馬卡龍 3D viewer；它只在使用者明確按下載入按鈕後請求 viewer runtime 與 GLB，且不改變本文件持有的作品詳情 2D 畫廊契約。
 
+首頁結語 3D viewer 的 runtime owner 是 `src/components/WindowNotesMacaronViewer.vue`。粗略指標或窄螢幕裝置使用行動渲染預算，不啟用即時陰影與 transmission；桌面陰影只在模型加入場景後建立一次。viewer 只在載入完成、尺寸或主題改變、使用者旋轉／縮放與重設視角時請求 frame，不得在靜止畫面維持永久 render loop。失敗時保留 2D fallback、簡短錯誤訊息與診斷代碼；根因調查用的環境報告與事件時間線不得留在正式 release UI。
+
 ## 畫廊內容結構
 
 每顆作品詳情使用一組可左右切換的圖片，預設順序為：

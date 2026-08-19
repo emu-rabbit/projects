@@ -43,10 +43,6 @@ export interface AfterwordCopy {
   loadingModel: string
   modelLoadError: string
   modelDiagnosticLabel: string
-  modelDiagnosticReportLabel: string
-  copyModelDiagnosticLabel: string
-  modelDiagnosticCopiedLabel: string
-  modelDiagnosticCopyFailedLabel: string
   interactionHint: string
   resetView: string
 }
@@ -132,10 +128,6 @@ export const portfolioCopy: Localized<PortfolioCopy> = {
       loadingModel: '正在載入 3D 馬卡龍',
       modelLoadError: '3D 馬卡龍載入失敗，請重新整理頁面後再試一次。',
       modelDiagnosticLabel: '診斷代碼',
-      modelDiagnosticReportLabel: '深度診斷報告',
-      copyModelDiagnosticLabel: '複製診斷報告',
-      modelDiagnosticCopiedLabel: '已複製，請將報告貼回給我',
-      modelDiagnosticCopyFailedLabel: '複製失敗，請長按選取下方報告',
       interactionHint: '拖曳旋轉・滾輪縮放',
       resetView: '重設 3D 模型視角',
     },
@@ -191,10 +183,6 @@ export const portfolioCopy: Localized<PortfolioCopy> = {
       loadingModel: 'Loading the 3D macaron',
       modelLoadError: 'The 3D macaron could not be loaded. Refresh the page and try again.',
       modelDiagnosticLabel: 'Diagnostic code',
-      modelDiagnosticReportLabel: 'Detailed diagnostic report',
-      copyModelDiagnosticLabel: 'Copy diagnostic report',
-      modelDiagnosticCopiedLabel: 'Copied. Paste the report back to me.',
-      modelDiagnosticCopyFailedLabel: 'Copy failed. Select the report below manually.',
       interactionHint: 'Drag to rotate · Scroll to zoom',
       resetView: 'Reset the 3D model view',
     },
