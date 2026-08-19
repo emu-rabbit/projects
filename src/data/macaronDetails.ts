@@ -100,6 +100,12 @@ const alcohol75Gallery = {
   website: new URL('../../assets/galleries/75-alchohol/website.webp', import.meta.url).href,
 } as const
 
+const hiragana50Gallery = {
+  defaultView: new URL('../../assets/galleries/50-hiragana-test/default-view.webp', import.meta.url).href,
+  threeViews: new URL('../../assets/galleries/50-hiragana-test/three-views.webp', import.meta.url).href,
+  website: new URL('../../assets/galleries/50-hiragana-test/website.webp', import.meta.url).href,
+} as const
+
 export const macaronDetails = [
   {
     slug: 'window-notes',
@@ -630,6 +636,59 @@ export const macaronDetails = [
       {
         label: { zh: 'Github頁面', en: 'GitHub Repo' },
         href: 'https://github.com/emu-rabbit/75alcohol',
+      },
+    ],
+  },
+  {
+    slug: '50-hiragana-test',
+    palette: macaronPaletteBySlug['50-hiragana-test'],
+    category: { zh: '日文學習小工具', en: 'Japanese Learning Tool' },
+    title: { zh: '50 Hiragana Test', en: '50 Hiragana Test' },
+    paragraphs: {
+      zh: [
+        '對，我到現在還是沒學會日文。',
+        '這是極度陽春的作品，產生隨機的考題，然後自己在紙筆上寫下來，最後在網頁上對答案。',
+        '現在想想，最大的優點大概就是沒廣告吧。',
+      ],
+      en: [
+        'Yes, I still haven’t learned Japanese.',
+        'This was extremely bare-bones: it generated random questions, I wrote the answers on paper, then checked them on the website.',
+        'Looking back, its biggest advantage was probably having no ads.',
+      ],
+    },
+    closing: {
+      zh: '「比起練習日文，對那時的我，可能練習寫程式的效果還要更顯著。」',
+      en: '“Back then, programming practice may have helped me more than Japanese practice.”',
+    },
+    galleryLabel: {
+      zh: '50 Hiragana Test 作品畫廊',
+      en: '50 Hiragana Test project gallery',
+    },
+    gallery: [
+      {
+        src: hiragana50Gallery.defaultView,
+        alt: { zh: '櫻花紅豆馬卡龍的預設視角插畫', en: 'Sakura red bean macaron, default view' },
+        caption: macaronIdentityBySlug['50-hiragana-test'].name,
+      },
+      {
+        src: hiragana50Gallery.threeViews,
+        alt: { zh: '50 Hiragana Test 馬卡龍的預設、頂面與平放側面視圖', en: '50 Hiragana Test macaron: default, top, and side views' },
+        caption: { zh: '有50個音，但馬卡龍沒有50面', en: 'Fifty Sounds, Not Fifty Sides' },
+      },
+      {
+        src: hiragana50Gallery.website,
+        alt: { zh: '50 Hiragana Test 的網頁畫面', en: '50 Hiragana Test website' },
+        caption: { zh: '網頁畫面', en: 'Website' },
+      },
+    ],
+    links: [
+      {
+        label: { zh: '線上展示', en: 'Live Website' },
+        href: 'https://emu-rabbit.github.io/50-Hiragana-Test/',
+      },
+      {
+        label: { zh: 'Github頁面', en: 'GitHub Repo' },
+        href: 'https://github.com/emu-rabbit/50-Hiragana-Test',
       },
     ],
   },
