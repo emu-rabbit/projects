@@ -12,16 +12,35 @@ const props = defineProps<{
   interactionHint: string
   loadingLabel: string
   loadError: string
+  diagnosticLabel: string
   modelUrl: string
   resetLabel: string
   theme: 'light' | 'dark'
 }>()
+
+type ViewerFailureCode =
+  | 'VIEWER_INITIALIZATION_FAILED'
+  | 'VIEWER_RENDER_FAILED'
+  | 'WEBGL_CONTEXT_CREATION_FAILED'
+  | 'WEBGL_CONTEXT_LOST'
+  | 'MODEL_DOWNLOAD_FAILED'
+  | 'MODEL_RESOURCE_FAILED'
+  | 'MODEL_PARSE_FAILED'
+  | 'MODEL_PREPARATION_FAILED'
+
+interface ViewerFailure {
+  code: ViewerFailureCode
+  detail: string
+}
+
+type ModelLoadStage = 'download' | 'parse' | 'prepare'
 
 const canvas = ref<HTMLCanvasElement | null>(null)
 const viewer = ref<HTMLElement | null>(null)
 const modelReady = ref(false)
 const modelFailed = ref(false)
 const loadProgress = ref(0)
+const viewerFailure = ref<ViewerFailure | null>(null)
 
 let renderer: THREE.WebGLRenderer | null = null
 let scene: THREE.Scene | null = null
@@ -35,6 +54,54 @@ let animationFrame = 0
 let resizeFrame = 0
 let isVisible = true
 let disposed = false
+let contextCreationError = ''
+
+const describeError = (error: unknown) => {
+  if (error instanceof ProgressEvent && error.target instanceof XMLHttpRequest) {
+    const request = error.target
+    const status = request.status ? `HTTP ${request.status}` : 'Network request failed'
+    return [status, request.statusText].filter(Boolean).join(' · ')
+  }
+
+  if (error instanceof Error) return `${error.name}: ${error.message}`
+  if (typeof error === 'string') return error
+
+  try {
+    return JSON.stringify(error) || String(error)
+  } catch {
+    return String(error)
+  }
+}
+
+const reportFailure = (code: ViewerFailureCode, detail: string, error?: unknown) => {
+  if (disposed) return
+  if (viewerFailure.value?.code === 'WEBGL_CONTEXT_LOST') return
+
+  modelReady.value = false
+  modelFailed.value = true
+  viewerFailure.value = { code, detail }
+  console.error('[3D macaron viewer]', {
+    code,
+    detail,
+    progress: Math.round(loadProgress.value * 100),
+    error,
+  })
+}
+
+const handleContextCreationError = (event: Event) => {
+  const statusMessage = (event as WebGLContextEvent).statusMessage
+  contextCreationError = statusMessage || 'The browser rejected the WebGL context.'
+}
+
+const handleContextLost = (event: Event) => {
+  window.cancelAnimationFrame(animationFrame)
+  const statusMessage = (event as WebGLContextEvent).statusMessage
+  reportFailure(
+    'WEBGL_CONTEXT_LOST',
+    statusMessage || 'The browser reported that the WebGL context was lost.',
+    event,
+  )
+}
 
 const handleVisibilityChange = () => {
   isVisible = document.visibilityState === 'visible'
@@ -113,10 +180,18 @@ const scheduleResize = () => {
 }
 
 const render = () => {
+  if (modelFailed.value) return
+
   animationFrame = window.requestAnimationFrame(render)
   if (!renderer || !scene || !camera || !controls || !isVisible) return
-  controls.update()
-  renderer.render(scene, camera)
+
+  try {
+    controls.update()
+    renderer.render(scene, camera)
+  } catch (error) {
+    window.cancelAnimationFrame(animationFrame)
+    reportFailure('VIEWER_RENDER_FAILED', describeError(error), error)
+  }
 }
 
 const resetView = () => {
@@ -129,12 +204,24 @@ const resetView = () => {
 const loadModel = async () => {
   if (!scene || !renderer) return
 
+  const loadState: { stage: ModelLoadStage } = { stage: 'download' }
+  let failedResourceUrl = ''
+  const loadingManager = new THREE.LoadingManager()
+  loadingManager.onError = (url) => {
+    failedResourceUrl = url
+  }
+
   try {
-    const gltf = await new GLTFLoader().loadAsync(props.modelUrl, (event) => {
-      if (event.total > 0) loadProgress.value = Math.min(1, event.loaded / event.total)
+    const gltf = await new GLTFLoader(loadingManager).loadAsync(props.modelUrl, (event) => {
+      if (event.total <= 0) return
+
+      loadProgress.value = Math.min(1, event.loaded / event.total)
+      if (event.loaded >= event.total) loadState.stage = 'parse'
     })
 
-    if (disposed || !scene) {
+    loadState.stage = 'prepare'
+
+    if (disposed || modelFailed.value || !scene) {
       disposeModel(gltf.scene)
       return
     }
@@ -163,13 +250,32 @@ const loadModel = async () => {
 
     loadProgress.value = 1
     modelReady.value = true
-  } catch {
-    modelFailed.value = true
+  } catch (error) {
+    const detail = describeError(error)
+
+    if (failedResourceUrl && failedResourceUrl !== props.modelUrl) {
+      const resource = failedResourceUrl.startsWith('blob:')
+        ? 'An embedded model texture failed to decode.'
+        : `Resource failed: ${failedResourceUrl}`
+      reportFailure('MODEL_RESOURCE_FAILED', `${resource} ${detail}`.trim(), error)
+      return
+    }
+
+    const code: ViewerFailureCode =
+      loadState.stage === 'download'
+        ? 'MODEL_DOWNLOAD_FAILED'
+        : loadState.stage === 'parse'
+          ? 'MODEL_PARSE_FAILED'
+          : 'MODEL_PREPARATION_FAILED'
+    reportFailure(code, detail, error)
   }
 }
 
 onMounted(() => {
   if (!canvas.value || !viewer.value) return
+
+  canvas.value.addEventListener('webglcontextcreationerror', handleContextCreationError)
+  canvas.value.addEventListener('webglcontextlost', handleContextLost)
 
   try {
     renderer = new THREE.WebGLRenderer({
@@ -178,83 +284,91 @@ onMounted(() => {
       antialias: true,
       powerPreference: 'high-performance',
     })
-  } catch {
-    modelFailed.value = true
+  } catch (error) {
+    reportFailure(
+      'WEBGL_CONTEXT_CREATION_FAILED',
+      contextCreationError || describeError(error),
+      error,
+    )
     return
   }
 
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75))
-  renderer.outputColorSpace = THREE.SRGBColorSpace
-  renderer.toneMapping = THREE.ACESFilmicToneMapping
-  renderer.shadowMap.enabled = true
-  renderer.shadowMap.type = THREE.PCFShadowMap
+  try {
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75))
+    renderer.outputColorSpace = THREE.SRGBColorSpace
+    renderer.toneMapping = THREE.ACESFilmicToneMapping
+    renderer.shadowMap.enabled = true
+    renderer.shadowMap.type = THREE.PCFShadowMap
 
-  scene = new THREE.Scene()
-  camera = new THREE.OrthographicCamera(-2.5, 2.5, 2.5, -2.5, 0.1, 100)
-  camera.position.set(5.8, 4.2, 3.35)
+    scene = new THREE.Scene()
+    camera = new THREE.OrthographicCamera(-2.5, 2.5, 2.5, -2.5, 0.1, 100)
+    camera.position.set(5.8, 4.2, 3.35)
 
-  const pmremGenerator = new THREE.PMREMGenerator(renderer)
-  const roomEnvironment = new RoomEnvironment()
-  environmentRenderTarget = pmremGenerator.fromScene(roomEnvironment, 0.035)
-  scene.environment = environmentRenderTarget.texture
-  roomEnvironment.dispose()
-  pmremGenerator.dispose()
+    const pmremGenerator = new THREE.PMREMGenerator(renderer)
+    const roomEnvironment = new RoomEnvironment()
+    environmentRenderTarget = pmremGenerator.fromScene(roomEnvironment, 0.035)
+    scene.environment = environmentRenderTarget.texture
+    roomEnvironment.dispose()
+    pmremGenerator.dispose()
 
-  const hemisphere = new THREE.HemisphereLight('#fff8ee', '#755268', 0.25)
-  hemisphere.name = 'hemisphere-light'
-  scene.add(hemisphere)
+    const hemisphere = new THREE.HemisphereLight('#fff8ee', '#755268', 0.25)
+    hemisphere.name = 'hemisphere-light'
+    scene.add(hemisphere)
 
-  const ambientLight = new THREE.AmbientLight('#fff7ef', 0.065)
-  ambientLight.name = 'ambient-light'
-  scene.add(ambientLight)
+    const ambientLight = new THREE.AmbientLight('#fff7ef', 0.065)
+    ambientLight.name = 'ambient-light'
+    scene.add(ambientLight)
 
-  const keyLight = new THREE.DirectionalLight('#ffe8cf', 0.62)
-  keyLight.name = 'key-light'
-  keyLight.position.set(4.2, 7.5, 5.6)
-  keyLight.castShadow = true
-  keyLight.shadow.mapSize.set(1024, 1024)
-  keyLight.shadow.camera.near = 0.1
-  keyLight.shadow.camera.far = 18
-  keyLight.shadow.camera.left = -5
-  keyLight.shadow.camera.right = 5
-  keyLight.shadow.camera.top = 5
-  keyLight.shadow.camera.bottom = -5
-  keyLight.shadow.bias = -0.00015
-  keyLight.shadow.normalBias = 0.045
-  scene.add(keyLight)
+    const keyLight = new THREE.DirectionalLight('#ffe8cf', 0.62)
+    keyLight.name = 'key-light'
+    keyLight.position.set(4.2, 7.5, 5.6)
+    keyLight.castShadow = true
+    keyLight.shadow.mapSize.set(1024, 1024)
+    keyLight.shadow.camera.near = 0.1
+    keyLight.shadow.camera.far = 18
+    keyLight.shadow.camera.left = -5
+    keyLight.shadow.camera.right = 5
+    keyLight.shadow.camera.top = 5
+    keyLight.shadow.camera.bottom = -5
+    keyLight.shadow.bias = -0.00015
+    keyLight.shadow.normalBias = 0.045
+    scene.add(keyLight)
 
-  const fillLight = new THREE.DirectionalLight('#eadcf2', 0.1)
-  fillLight.name = 'fill-light'
-  fillLight.position.set(-5, 3.5, -2.5)
-  scene.add(fillLight)
+    const fillLight = new THREE.DirectionalLight('#eadcf2', 0.1)
+    fillLight.name = 'fill-light'
+    fillLight.position.set(-5, 3.5, -2.5)
+    scene.add(fillLight)
 
-  const shadowMaterial = new THREE.ShadowMaterial({ color: '#3f273c', opacity: 0.1 })
-  ground = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), shadowMaterial)
-  ground.name = 'ground-shadow'
-  ground.position.y = -1.65
-  ground.rotation.x = -Math.PI / 2
-  ground.receiveShadow = true
-  scene.add(ground)
+    const shadowMaterial = new THREE.ShadowMaterial({ color: '#3f273c', opacity: 0.1 })
+    ground = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), shadowMaterial)
+    ground.name = 'ground-shadow'
+    ground.position.y = -1.65
+    ground.rotation.x = -Math.PI / 2
+    ground.receiveShadow = true
+    scene.add(ground)
 
-  controls = new OrbitControls(camera, canvas.value)
-  controls.target.set(0, 0.04, 0)
-  controls.enableDamping = true
-  controls.dampingFactor = 0.065
-  controls.enablePan = false
-  controls.minZoom = 0.72
-  controls.maxZoom = 1.9
-  controls.minPolarAngle = Math.PI * 0.16
-  controls.maxPolarAngle = Math.PI * 0.78
-  controls.saveState()
+    controls = new OrbitControls(camera, canvas.value)
+    controls.target.set(0, 0.04, 0)
+    controls.enableDamping = true
+    controls.dampingFactor = 0.065
+    controls.enablePan = false
+    controls.minZoom = 0.72
+    controls.maxZoom = 1.9
+    controls.minPolarAngle = Math.PI * 0.16
+    controls.maxPolarAngle = Math.PI * 0.78
+    controls.saveState()
 
-  updateLightingForTheme()
-  resizeObserver = new ResizeObserver(scheduleResize)
-  resizeObserver.observe(viewer.value)
-  document.addEventListener('visibilitychange', handleVisibilityChange)
-  resize()
-  controls.update()
-  render()
-  void loadModel()
+    updateLightingForTheme()
+    resizeObserver = new ResizeObserver(scheduleResize)
+    resizeObserver.observe(viewer.value)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    resize()
+    controls.update()
+    render()
+    void loadModel()
+  } catch (error) {
+    reportFailure('VIEWER_INITIALIZATION_FAILED', describeError(error), error)
+  }
 })
 
 onBeforeUnmount(() => {
@@ -263,6 +377,8 @@ onBeforeUnmount(() => {
   window.cancelAnimationFrame(resizeFrame)
   resizeObserver?.disconnect()
   document.removeEventListener('visibilitychange', handleVisibilityChange)
+  canvas.value?.removeEventListener('webglcontextcreationerror', handleContextCreationError)
+  canvas.value?.removeEventListener('webglcontextlost', handleContextLost)
   controls?.dispose()
   if (model) disposeModel(model)
   ground?.geometry.dispose()
@@ -292,7 +408,15 @@ watch(() => props.theme, updateLightingForTheme)
 
     <div v-if="!modelReady" class="model-viewer-fallback">
       <img :src="fallbackImage" :alt="fallbackAlt" />
-      <p v-if="modelFailed" class="model-viewer-error" role="alert">{{ loadError }}</p>
+      <div v-if="modelFailed" class="model-viewer-error" role="alert">
+        <p>{{ loadError }}</p>
+        <p v-if="viewerFailure" class="model-viewer-diagnostic-code">
+          {{ diagnosticLabel }}：<code>{{ viewerFailure.code }}</code>
+        </p>
+        <p v-if="viewerFailure?.detail" class="model-viewer-diagnostic-detail">
+          {{ viewerFailure.detail }}
+        </p>
+      </div>
       <div v-else class="model-viewer-loading" role="status">
         <span>{{ loadingLabel }}</span>
         <span
@@ -400,9 +524,34 @@ watch(() => props.theme, updateLightingForTheme)
   right: 24px;
   bottom: 28px;
   left: 24px;
-  margin: 0;
+  display: grid;
+  max-height: 42%;
+  gap: 7px;
+  overflow: auto;
   color: var(--ink-soft);
   text-align: center;
+}
+
+.model-viewer-error p {
+  margin: 0;
+}
+
+.model-viewer-diagnostic-code,
+.model-viewer-diagnostic-detail {
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.model-viewer-diagnostic-code code {
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.model-viewer-diagnostic-detail {
+  opacity: 0.82;
+  overflow-wrap: anywhere;
 }
 
 .model-viewer-toolbar {

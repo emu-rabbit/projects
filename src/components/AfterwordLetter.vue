@@ -98,6 +98,7 @@ onBeforeUnmount(() => {
               :interaction-hint="copy.interactionHint"
               :loading-label="copy.loadingModel"
               :load-error="copy.modelLoadError"
+              :diagnostic-label="copy.modelDiagnosticLabel"
               :model-url="modelUrl"
               :reset-label="copy.resetView"
               :theme="theme"

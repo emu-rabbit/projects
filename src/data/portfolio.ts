@@ -42,6 +42,7 @@ export interface AfterwordCopy {
   modelFallbackAlt: string
   loadingModel: string
   modelLoadError: string
+  modelDiagnosticLabel: string
   interactionHint: string
   resetView: string
 }
@@ -126,6 +127,7 @@ export const portfolioCopy: Localized<PortfolioCopy> = {
       modelFallbackAlt: '暮色杏桃與蜂蜜玫瑰的紫夜兔耳馬卡龍',
       loadingModel: '正在載入 3D 馬卡龍',
       modelLoadError: '3D 馬卡龍載入失敗，請重新整理頁面後再試一次。',
+      modelDiagnosticLabel: '診斷代碼',
       interactionHint: '拖曳旋轉・滾輪縮放',
       resetView: '重設 3D 模型視角',
     },
@@ -180,6 +182,7 @@ export const portfolioCopy: Localized<PortfolioCopy> = {
       modelFallbackAlt: 'Violet Night Rabbit-Ear macaron with twilight apricot and honey rose',
       loadingModel: 'Loading the 3D macaron',
       modelLoadError: 'The 3D macaron could not be loaded. Refresh the page and try again.',
+      modelDiagnosticLabel: 'Diagnostic code',
       interactionHint: 'Drag to rotate · Scroll to zoom',
       resetView: 'Reset the 3D model view',
     },
