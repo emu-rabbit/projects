@@ -631,6 +631,7 @@ onBeforeUnmount(() => {
         @pointermove.capture="handlePointerMove"
         @pointerup.capture="handlePointerEnd"
         @pointercancel.capture="handlePointerCancel"
+        @dblclick.prevent
         @dragstart.capture.prevent
       >
         <div
@@ -877,6 +878,7 @@ onBeforeUnmount(() => {
   background: #111011;
   color: #f7eee7;
   outline: none;
+  touch-action: none;
   user-select: none;
   -webkit-user-select: none;
 }
