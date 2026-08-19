@@ -55,6 +55,7 @@ let resizeFrame = 0
 let isVisible = true
 let disposed = false
 let contextCreationError = ''
+let useMobileRendererBudget = false
 
 const describeError = (error: unknown) => {
   if (error instanceof ProgressEvent && error.target instanceof XMLHttpRequest) {
@@ -238,6 +239,14 @@ const loadModel = async () => {
       materials.forEach((material) => {
         const standardMaterial = material as THREE.MeshStandardMaterial
         if (standardMaterial.map) standardMaterial.map.anisotropy = Math.min(8, maxAnisotropy)
+        if (
+          useMobileRendererBudget &&
+          material instanceof THREE.MeshPhysicalMaterial &&
+          material.transmission > 0
+        ) {
+          material.transmission = 0
+          material.needsUpdate = true
+        }
       })
     })
 
@@ -275,7 +284,7 @@ const loadModel = async () => {
 onMounted(() => {
   if (!canvas.value || !viewer.value) return
 
-  const useMobileRendererBudget =
+  useMobileRendererBudget =
     window.matchMedia('(max-width: 680px)').matches ||
     window.matchMedia('(pointer: coarse)').matches
 
