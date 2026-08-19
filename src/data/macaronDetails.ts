@@ -86,6 +86,13 @@ const dandelifeonGallery = {
   perfectBoard: new URL('../../assets/galleries/dandelifeon/perfect-board.webp', import.meta.url).href,
 } as const
 
+const nanbGallery = {
+  defaultView: new URL('../../assets/galleries/nanb/default-view.webp', import.meta.url).href,
+  threeViews: new URL('../../assets/galleries/nanb/three-views.webp', import.meta.url).href,
+  gameScreen: new URL('../../assets/galleries/nanb/game-screen.webp', import.meta.url).href,
+  clipboardResult: new URL('../../assets/galleries/nanb/clipboard-result.webp', import.meta.url).href,
+} as const
+
 export const macaronDetails = [
   {
     slug: 'window-notes',
@@ -502,6 +509,64 @@ export const macaronDetails = [
       {
         label: { zh: 'Github頁面', en: 'GitHub Repo' },
         href: 'https://github.com/emu-rabbit/Dandelifeon',
+      },
+    ],
+  },
+  {
+    slug: 'nanb',
+    palette: macaronPaletteBySlug.nanb,
+    category: { zh: '數字小遊戲', en: 'Number Game' },
+    title: { zh: 'nAnB', en: 'nAnB' },
+    paragraphs: {
+      zh: [
+        'A 是數字對、位置對，B 是數字對、位置不對，古老的一個小遊戲，也常常出現在資工系的作業之中，而我就這樣做成了一個對話窗式的小遊戲。',
+        '大概也就是這時候發現，電腦其實擅長一些人類不能使用的演算法。對，我就是在說暴力窮舉。搜尋空間不大的時候，這甚至成為了綜觀整個現實的最佳道路。',
+        '夢夢已經去當小天使了，但他就這樣地永遠留在了我的作品中。',
+      ],
+      en: [
+        '"A" means the right digit and place; "B" means the right digit, wrong place. This old classroom game became a chat game.',
+        'That was when I learned computers excel at methods people cannot use: brute force. With a small search space, checking everything can be the best path through reality.',
+        'Meng-Meng is a little angel now, but he lives on in my work.',
+      ],
+    },
+    closing: {
+      zh: '「不論妳現在在哪裡，媽媽只希望妳不再有病痛，也可以繼續當我作品裡的小主角。」',
+      en: '“Wherever you are, Mama hopes you are free from pain and can stay a little star in my work.”',
+    },
+    galleryLabel: {
+      zh: 'nAnB 作品畫廊',
+      en: 'nAnB gallery',
+    },
+    gallery: [
+      {
+        src: nanbGallery.defaultView,
+        alt: { zh: '小倉鼠藍莓馬卡龍的預設視角插畫', en: 'Little hamster blueberry macaron, default view' },
+        caption: { zh: '小倉鼠藍莓馬卡龍', en: 'Hamster Blueberry Macaron' },
+      },
+      {
+        src: nanbGallery.threeViews,
+        alt: { zh: 'nAnB 馬卡龍的預設、頂面與平放側面視圖', en: 'nAnB macaron: default, top, and side views' },
+        caption: { zh: '可愛的鼠鼠各角度來一張', en: 'Hamster from Every Angle' },
+      },
+      {
+        src: nanbGallery.gameScreen,
+        alt: { zh: '夢夢與玩家進行 nAnB 猜數字的對話遊戲畫面', en: 'Meng-Meng playing nAnB with the player' },
+        caption: { zh: '遊戲畫面', en: 'Game Screen' },
+      },
+      {
+        src: nanbGallery.clipboardResult,
+        alt: { zh: 'nAnB 成功後複製到剪貼簿的七回合結果', en: 'Seven-round nAnB result copied after a win' },
+        caption: { zh: '成功後會複製到剪貼簿的內容', en: 'Copied After a Win' },
+      },
+    ],
+    links: [
+      {
+        label: { zh: '線上展示', en: 'Live Website' },
+        href: 'https://emu-rabbit.github.io/nAnB/',
+      },
+      {
+        label: { zh: 'Github頁面', en: 'GitHub Repo' },
+        href: 'https://github.com/emu-rabbit/nAnB',
       },
     ],
   },

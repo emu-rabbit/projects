@@ -68,6 +68,13 @@ Dandelifeon route 為 `#/macarons/dandelifeon`，runtime 圖片由 `assets/galle
 2. `three-views.webp`
 3. `perfect-board.webp`
 
+nAnB route 為 `#/macarons/nanb`，runtime 圖片由 `assets/galleries/nanb/` 持有，順序為：
+
+1. `default-view.webp`
+2. `three-views.webp`
+3. `game-screen.webp`
+4. `clipboard-result.webp`
+
 `src/data/macaronDetails.ts` 是詳細頁內容 registry，持有每個作品的 slug、雙語文案、連結、圖片順序、alt 與 caption；只有已登錄的作品才會開放首頁卡片連結與 `#/macarons/:slug` route。`src/components/MacaronDetailPage.vue` 持有跨作品共用的詳細版型，`src/components/MacaronGallery.vue` 持有跨作品共用的畫廊互動，`src/App.vue` 只負責依 route 選擇首頁或已登錄的詳細內容。
 
 `src/data/macaronPalette.ts` 是首頁馬卡龍卡片與詳細頁畫廊共用的背景色 owner；兩個 surface 必須引用同一筆 light／dark 色彩，不得各自複製色碼。透明馬卡龍圖片會直接露出畫廊 surface，因此詳細頁沿用首頁卡片的同一組 radial glow 與背景色混合方式，不使用全站固定的紫色畫廊底。
@@ -106,7 +113,7 @@ Dandelifeon route 為 `#/macarons/dandelifeon`，runtime 圖片由 `assets/galle
 
 - 原始 PNG 或作者提供的截圖先保留，不直接作為 runtime 大圖引用。
 - 使用 `scripts/prepare_gallery_image.py` 依實際原始尺寸轉為 metadata-free WebP；不得放大低解析度來源。
-- 產生器若無法直接輸出 alpha，可先要求單色 chroma key 背景，再使用 `--extract-green-background` 抽出透明度；不得把棋盤格、色鍵或背景延伸瑕疵留在 runtime 資產。
+- 產生器若無法直接輸出 alpha，可先要求單色 chroma key 背景，再使用 `--extract-green-background` 抽出與圖片邊緣連通的綠幕；主體內部的綠色裝飾必須保留，不得把棋盤格、色鍵或背景延伸瑕疵留在 runtime 資產。
 - 馬卡龍多視角圖若取得的是暖白／暖象牙背景，保留該張已通過設計檢查的圖，不要為了透明度重新生成主體。使用 `python scripts/prepare_gallery_image.py <source> <destination> --quality 90 --extract-light-background`，將與圖片邊緣連通的淺暖色背景轉成 alpha；這是 Frozen Rabbit Tome 三視圖實際採用並成功的處理方式。
 - 不以圖片預覽器顯示的底色判斷去背是否成功；透明像素仍可能保留原本的 RGB，部分預覽器會把這些 RGB 顯示成暖白背景。必須直接讀取輸出 WebP 的 alpha channel，確認模式為 `RGBA`、alpha extrema 同時包含 `0` 與 `255`，再到實際畫廊背景上檢查輪廓。若 alpha 已正確，不再重跑 image generation；重新生成可能改變馬卡龍光線、材質或裝飾，且仍不保證輸出真正透明。
 

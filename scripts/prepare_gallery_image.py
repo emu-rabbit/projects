@@ -26,7 +26,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--extract-green-background",
         action="store_true",
-        help="Replace a green chroma-key background with transparent pixels.",
+        help=(
+            "Replace a green chroma-key background connected to the image edges "
+            "with transparent pixels while preserving enclosed green details."
+        ),
     )
     parser.add_argument(
         "--alpha-from",
@@ -86,11 +89,39 @@ def extract_light_background(image: Image.Image) -> Image.Image:
 
 def extract_green_background(image: Image.Image) -> Image.Image:
     rgb = image.convert("RGB")
-    alpha = Image.new("L", rgb.size, 255)
-    alpha.putdata([
-        0 if green >= 120 and green - max(red, blue) >= 40 else 255
-        for red, green, blue in rgb.get_flattened_data()
-    ])
+    pixels = rgb.load()
+    width, height = rgb.size
+    background = bytearray(width * height)
+    queue: deque[tuple[int, int]] = deque()
+
+    def is_chroma_green(x: int, y: int) -> bool:
+        red, green, blue = pixels[x, y]
+        return green >= 120 and green - max(red, blue) >= 40
+
+    def enqueue(x: int, y: int) -> None:
+        index = y * width + x
+        if not background[index] and is_chroma_green(x, y):
+            background[index] = 1
+            queue.append((x, y))
+
+    for x in range(width):
+        enqueue(x, 0)
+        enqueue(x, height - 1)
+    for y in range(height):
+        enqueue(0, y)
+        enqueue(width - 1, y)
+
+    while queue:
+        x, y = queue.popleft()
+        for next_y in range(max(0, y - 1), min(height, y + 2)):
+            for next_x in range(max(0, x - 1), min(width, x + 2)):
+                enqueue(next_x, next_y)
+
+    alpha = Image.frombytes(
+        "L",
+        (width, height),
+        bytes(0 if is_background else 255 for is_background in background),
+    )
     rgba = rgb.convert("RGBA")
     rgba.putalpha(alpha)
     return rgba
