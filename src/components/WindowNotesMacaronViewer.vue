@@ -250,6 +250,7 @@ const loadModel = async () => {
 
     loadProgress.value = 1
     modelReady.value = true
+    render()
   } catch (error) {
     const detail = describeError(error)
 
@@ -274,6 +275,10 @@ const loadModel = async () => {
 onMounted(() => {
   if (!canvas.value || !viewer.value) return
 
+  const useMobileRendererBudget =
+    window.matchMedia('(max-width: 680px)').matches ||
+    window.matchMedia('(pointer: coarse)').matches
+
   canvas.value.addEventListener('webglcontextcreationerror', handleContextCreationError)
   canvas.value.addEventListener('webglcontextlost', handleContextLost)
 
@@ -281,8 +286,8 @@ onMounted(() => {
     renderer = new THREE.WebGLRenderer({
       canvas: canvas.value,
       alpha: true,
-      antialias: true,
-      powerPreference: 'high-performance',
+      antialias: !useMobileRendererBudget,
+      powerPreference: useMobileRendererBudget ? 'default' : 'high-performance',
     })
   } catch (error) {
     reportFailure(
@@ -294,7 +299,9 @@ onMounted(() => {
   }
 
   try {
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75))
+    renderer.setPixelRatio(
+      useMobileRendererBudget ? 1 : Math.min(window.devicePixelRatio, 1.75),
+    )
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     renderer.shadowMap.enabled = true
@@ -323,7 +330,8 @@ onMounted(() => {
     keyLight.name = 'key-light'
     keyLight.position.set(4.2, 7.5, 5.6)
     keyLight.castShadow = true
-    keyLight.shadow.mapSize.set(1024, 1024)
+    const shadowMapSize = useMobileRendererBudget ? 512 : 1024
+    keyLight.shadow.mapSize.set(shadowMapSize, shadowMapSize)
     keyLight.shadow.camera.near = 0.1
     keyLight.shadow.camera.far = 18
     keyLight.shadow.camera.left = -5
@@ -364,7 +372,6 @@ onMounted(() => {
     document.addEventListener('visibilitychange', handleVisibilityChange)
     resize()
     controls.update()
-    render()
     void loadModel()
   } catch (error) {
     reportFailure('VIEWER_INITIALIZATION_FAILED', describeError(error), error)
