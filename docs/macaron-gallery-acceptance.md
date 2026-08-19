@@ -62,6 +62,12 @@ LinkArray route 為 `#/macarons/link-array`，runtime 圖片由 `assets/gallerie
 
 操作複雜度與重構區圖解各自只佔一個畫廊項目，並依目前 `zh`／`en` 語系切換對應圖片；切換語系時不得同時展示兩種語言，也不得改變目前的畫廊索引。
 
+Dandelifeon route 為 `#/macarons/dandelifeon`，runtime 圖片由 `assets/galleries/dandelifeon/` 持有，順序為：
+
+1. `default-view.webp`
+2. `three-views.webp`
+3. `perfect-board.webp`
+
 `src/data/macaronDetails.ts` 是詳細頁內容 registry，持有每個作品的 slug、雙語文案、連結、圖片順序、alt 與 caption；只有已登錄的作品才會開放首頁卡片連結與 `#/macarons/:slug` route。`src/components/MacaronDetailPage.vue` 持有跨作品共用的詳細版型，`src/components/MacaronGallery.vue` 持有跨作品共用的畫廊互動，`src/App.vue` 只負責依 route 選擇首頁或已登錄的詳細內容。
 
 `src/data/macaronPalette.ts` 是首頁馬卡龍卡片與詳細頁畫廊共用的背景色 owner；兩個 surface 必須引用同一筆 light／dark 色彩，不得各自複製色碼。透明馬卡龍圖片會直接露出畫廊 surface，因此詳細頁沿用首頁卡片的同一組 radial glow 與背景色混合方式，不使用全站固定的紫色畫廊底。

@@ -80,6 +80,12 @@ const vueRouterRuleGallery = {
   unicooooorn: new URL('../../assets/galleries/vue-router-rule/unicooooorn.webp', import.meta.url).href,
 } as const
 
+const dandelifeonGallery = {
+  defaultView: new URL('../../assets/galleries/dandelifeon/default-view.webp', import.meta.url).href,
+  threeViews: new URL('../../assets/galleries/dandelifeon/three-views.webp', import.meta.url).href,
+  perfectBoard: new URL('../../assets/galleries/dandelifeon/perfect-board.webp', import.meta.url).href,
+} as const
+
 export const macaronDetails = [
   {
     slug: 'window-notes',
@@ -447,6 +453,55 @@ export const macaronDetails = [
       {
         label: { zh: 'Github頁面', en: 'GitHub Repo' },
         href: 'https://github.com/emu-rabbit/vue-router-rule',
+      },
+    ],
+  },
+  {
+    slug: 'dandelifeon',
+    palette: macaronPaletteBySlug.dandelifeon,
+    category: { zh: '遊戲機制求解', en: 'Game Mechanic Solver' },
+    title: { zh: 'Dandelifeon', en: 'Dandelifeon' },
+    paragraphs: {
+      zh: [
+        '我是一個Minecraft的重度模組玩家，Botania也是我常常玩到的模組，在那裡面，有一朵用來生產魔力卻非常特別的花就叫做Dandelifeon。',
+        '這朵花會跑一個25*25的康威生命遊戲，然後依據模組的規則決定要產生多少魔力，當然，魔力越大越好。',
+        '於是我使用了全隨機、模擬退火、基因演算法，來試圖找到那些可以產生最大魔力的遊戲設置，真酷。',
+      ],
+      en: [
+        'I am a heavy Minecraft mod player, and Botania is one I return to often. It has a very unusual mana-producing flower called the Dandelifeon.',
+        "This flower runs a 25*25 Conway's Game of Life, then uses the mod's rules to decide how much mana it produces. Of course, more is better.",
+        'So I tried pure random search, simulated annealing, and a genetic algorithm to find game setups that produce the most mana. Pretty cool.',
+      ],
+    },
+    closing: {
+      zh: '「上班寫程式，下班玩遊戲還是寫程式，而我著迷於問題被解決的那瞬間。」',
+      en: '“I code at work, play games after work—and still code. I’m hooked on the moment a problem is solved.”',
+    },
+    galleryLabel: {
+      zh: 'Dandelifeon作品畫廊',
+      en: 'Dandelifeon project gallery',
+    },
+    gallery: [
+      {
+        src: dandelifeonGallery.defaultView,
+        alt: { zh: 'Dandelifeon蒲公英蜜青蘋果馬卡龍預設視角插畫', en: 'Default view of the Dandelifeon dandelion honey and green apple macaron' },
+        caption: { zh: '蒲公英魔力馬卡龍', en: 'Dandelion Mana Macaron' },
+      },
+      {
+        src: dandelifeonGallery.threeViews,
+        alt: { zh: 'Dandelifeon馬卡龍預設、頂面與平放側面視圖', en: 'Default, top, and flat side views of the Dandelifeon macaron' },
+        caption: { zh: '常常象徵著童年的蒲公英', en: 'Dandelions Often Symbolize Childhood' },
+      },
+      {
+        src: dandelifeonGallery.perfectBoard,
+        alt: { zh: 'Dandelifeon演算法算出的一張25乘25滿分棋盤', en: 'A perfect 25 by 25 board found by the Dandelifeon algorithms' },
+        caption: { zh: '算出來的其中一張滿分棋盤', en: 'One Perfect Board I Found' },
+      },
+    ],
+    links: [
+      {
+        label: { zh: 'Github頁面', en: 'GitHub Repo' },
+        href: 'https://github.com/emu-rabbit/Dandelifeon',
       },
     ],
   },
