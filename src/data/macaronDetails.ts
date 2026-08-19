@@ -5,7 +5,7 @@ import type { MacaronPalette } from './macaronPalette'
 type LocalizedText = Localized<string>
 
 export interface MacaronGalleryImage {
-  src: string
+  src: string | Localized<string>
   alt: LocalizedText
   caption: LocalizedText
 }
@@ -63,6 +63,14 @@ const frozenRabbitTomeGallery = {
 const linkArrayGallery = {
   defaultView: new URL('../../assets/galleries/link-array/default-view.webp', import.meta.url).href,
   threeViews: new URL('../../assets/galleries/link-array/three-views.webp', import.meta.url).href,
+  operationComplexity: {
+    zh: new URL('../../assets/galleries/link-array/structure-explainer.webp', import.meta.url).href,
+    en: new URL('../../assets/galleries/link-array/operation-complexity-en.webp', import.meta.url).href,
+  },
+  refactoredArea: {
+    zh: new URL('../../assets/galleries/link-array/refactored-area.webp', import.meta.url).href,
+    en: new URL('../../assets/galleries/link-array/refactored-area-en.webp', import.meta.url).href,
+  },
 } as const
 
 export const macaronDetails = [
@@ -358,6 +366,16 @@ export const macaronDetails = [
         src: linkArrayGallery.threeViews,
         alt: { zh: 'LinkArray馬卡龍預設、頂面與平放側面視圖', en: 'Default, top, and flat side views of the LinkArray macaron' },
         caption: { zh: '等等，那是蜈蚣還是蚯蚓？', en: 'Wait, Is That a Centipede or a Worm?' },
+      },
+      {
+        src: linkArrayGallery.operationComplexity,
+        alt: { zh: 'LinkArray各項操作的時間複雜度圖，GET列出最佳O(1)與最差O(n)', en: 'LinkArray operation time complexity chart, with GET best O(1) and worst O(n)' },
+        caption: { zh: 'LinkArray操作的時間複雜度', en: 'LinkArray Operation Time Complexity' },
+      },
+      {
+        src: linkArrayGallery.refactoredArea,
+        alt: { zh: 'LinkArray重構區與未重構區的實體位置、節點索引及讀取成本示意圖', en: 'LinkArray refactored and unrefactored areas, showing physical slots, node indexes, and read costs' },
+        caption: { zh: '什麼是重構區？', en: 'What Is the Refactored Area?' },
       },
     ],
     links: [

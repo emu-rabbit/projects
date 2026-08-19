@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { MacaronDetail } from '../data/macaronDetails'
+import type { MacaronDetail, MacaronGalleryImage } from '../data/macaronDetails'
 import type { Language, Theme } from '../types/portfolio'
 import MacaronGallery from './MacaronGallery.vue'
 
@@ -29,6 +29,10 @@ const emit = defineEmits<{
   back: []
 }>()
 
+const imageSources = (source: MacaronGalleryImage['src']) => (
+  typeof source === 'string' ? [source] : [source.zh, source.en]
+)
+
 const content = computed(() => ({
   category: props.detail.category[props.language],
   title: props.detail.title[props.language],
@@ -36,7 +40,8 @@ const content = computed(() => ({
   closing: props.detail.closing[props.language],
   galleryLabel: props.detail.galleryLabel[props.language],
   gallery: props.detail.gallery.map((image) => ({
-    src: image.src,
+    src: typeof image.src === 'string' ? image.src : image.src[props.language],
+    preloadSrcs: imageSources(image.src),
     alt: image.alt[props.language],
     caption: image.caption[props.language],
   })),

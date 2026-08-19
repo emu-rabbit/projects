@@ -3,6 +3,7 @@ import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 type GalleryImage = {
   src: string
+  preloadSrcs?: readonly string[]
   alt: string
   caption: string
 }
@@ -139,8 +140,10 @@ const ensureImageReady = (source: string) => {
 }
 
 const warmGalleryImages = () => {
-  props.images.forEach(({ src }) => {
-    void ensureImageReady(src).catch(() => undefined)
+  props.images.forEach(({ src, preloadSrcs = [] }) => {
+    new Set([src, ...preloadSrcs]).forEach((source) => {
+      void ensureImageReady(source).catch(() => undefined)
+    })
   })
 }
 
@@ -526,6 +529,14 @@ const handleStageDoubleClick = () => {
 }
 
 onMounted(warmGalleryImages)
+
+watch(
+  () => props.images.flatMap(({ src, preloadSrcs = [] }) => [src, ...preloadSrcs]),
+  () => {
+    loadFailed.value = false
+    warmGalleryImages()
+  },
+)
 
 watch(lightboxOpen, (isOpen) => {
   if (isOpen) {

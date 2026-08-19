@@ -55,6 +55,12 @@ LinkArray route 為 `#/macarons/link-array`，runtime 圖片由 `assets/gallerie
 
 1. `default-view.webp`
 2. `three-views.webp`
+3. `structure-explainer.webp`
+4. `operation-complexity-en.webp`
+5. `refactored-area.webp`
+6. `refactored-area-en.webp`
+
+操作複雜度與重構區圖解各自只佔一個畫廊項目，並依目前 `zh`／`en` 語系切換對應圖片；切換語系時不得同時展示兩種語言，也不得改變目前的畫廊索引。
 
 `src/data/macaronDetails.ts` 是詳細頁內容 registry，持有每個作品的 slug、雙語文案、連結、圖片順序、alt 與 caption；只有已登錄的作品才會開放首頁卡片連結與 `#/macarons/:slug` route。`src/components/MacaronDetailPage.vue` 持有跨作品共用的詳細版型，`src/components/MacaronGallery.vue` 持有跨作品共用的畫廊互動，`src/App.vue` 只負責依 route 選擇首頁或已登錄的詳細內容。
 
