@@ -669,22 +669,25 @@ onBeforeUnmount(() => {
           <span aria-hidden="true">×</span>
         </button>
 
-        <div class="gallery-lightbox-toolbar">
-          <button type="button" :aria-label="previousLabel" :disabled="isSwitching || swipeAnimating" @click="showPrevious">
-            <span aria-hidden="true">←</span>
-          </button>
-          <span class="gallery-lightbox-count" aria-live="polite">
-            {{ currentIndex + 1 }} / {{ images.length }}
-          </span>
-          <button type="button" :aria-label="nextLabel" :disabled="isSwitching || swipeAnimating" @click="showNext">
-            <span aria-hidden="true">→</span>
-          </button>
-          <span class="gallery-lightbox-divider" aria-hidden="true" />
-          <button type="button" :aria-label="zoomOutLabel" @click="setZoom(zoom - 0.25)">−</button>
-          <button class="gallery-lightbox-reset" type="button" :aria-label="resetZoomLabel" @click="resetTransform">
-            {{ Math.round(zoom * 100) }}%
-          </button>
-          <button type="button" :aria-label="zoomInLabel" @click="setZoom(zoom + 0.25)">＋</button>
+        <div class="gallery-lightbox-bottom">
+          <p class="gallery-lightbox-caption">{{ images[currentIndex]?.caption }}</p>
+          <div class="gallery-lightbox-toolbar">
+            <button type="button" :aria-label="previousLabel" :disabled="isSwitching || swipeAnimating" @click="showPrevious">
+              <span aria-hidden="true">←</span>
+            </button>
+            <span class="gallery-lightbox-count" aria-live="polite">
+              {{ currentIndex + 1 }} / {{ images.length }}
+            </span>
+            <button type="button" :aria-label="nextLabel" :disabled="isSwitching || swipeAnimating" @click="showNext">
+              <span aria-hidden="true">→</span>
+            </button>
+            <span class="gallery-lightbox-divider" aria-hidden="true" />
+            <button type="button" :aria-label="zoomOutLabel" @click="setZoom(zoom - 0.25)">−</button>
+            <button class="gallery-lightbox-reset" type="button" :aria-label="resetZoomLabel" @click="resetTransform">
+              {{ Math.round(zoom * 100) }}%
+            </button>
+            <button type="button" :aria-label="zoomInLabel" @click="setZoom(zoom + 0.25)">＋</button>
+          </div>
         </div>
       </div>
     </Teleport>
@@ -894,7 +897,7 @@ onBeforeUnmount(() => {
   position: absolute;
   inset: 0;
   display: grid;
-  padding: 64px 24px 94px;
+  padding: 64px 24px 126px;
   place-items: center;
   pointer-events: none;
   transition: transform 220ms cubic-bezier(0.22, 0.72, 0.25, 1);
@@ -959,18 +962,44 @@ onBeforeUnmount(() => {
   backdrop-filter: blur(12px);
 }
 
-.gallery-lightbox-toolbar {
+.gallery-lightbox-bottom {
   position: absolute;
   z-index: 3;
   bottom: max(18px, env(safe-area-inset-bottom));
   left: 50%;
   display: flex;
+  width: min(680px, calc(100vw - 32px));
+  align-items: center;
+  flex-direction: column;
+  gap: 9px;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.gallery-lightbox-caption {
+  max-width: 100%;
+  margin: 0;
+  padding: 7px 14px;
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 999px;
+  background: rgb(44 38 41 / 76%);
+  color: rgb(255 246 240 / 82%);
+  font-size: 0.72rem;
+  letter-spacing: 0.045em;
+  line-height: 1.45;
+  text-align: center;
+  backdrop-filter: blur(12px);
+}
+
+.gallery-lightbox-toolbar {
+  display: flex;
+  max-width: 100%;
   overflow: hidden;
   align-items: center;
+  pointer-events: auto;
   border: 1px solid rgb(255 255 255 / 18%);
   border-radius: 999px;
   background: rgb(44 38 41 / 82%);
-  transform: translateX(-50%);
   backdrop-filter: blur(12px);
 }
 
@@ -1076,11 +1105,24 @@ onBeforeUnmount(() => {
   }
 
   .gallery-lightbox-slide {
-    padding: 62px 14px 90px;
+    padding: 62px 14px 146px;
   }
 
-  .gallery-lightbox-toolbar {
-    max-width: calc(100vw - 24px);
+  .gallery-lightbox-bottom {
+    width: calc(100vw - 24px);
+  }
+
+  .gallery-lightbox-caption {
+    max-width: calc(100vw - 40px);
+  }
+
+  .gallery-lightbox-count {
+    min-width: 52px;
+    padding-inline: 5px;
+  }
+
+  .gallery-lightbox-reset {
+    min-width: 62px !important;
   }
 }
 
