@@ -123,6 +123,6 @@ onBeforeUnmount(() => {
       :ui="detailUi"
       @back="goHome"
     />
-    <PortfolioHomePage v-else :copy="copy" :language="language" />
+    <PortfolioHomePage v-else :copy="copy" :language="language" :theme="theme" />
   </div>
 </template>

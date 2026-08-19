@@ -25,6 +25,25 @@ export interface PortfolioCopy {
   languageLabel: string
   lightTheme: string
   darkTheme: string
+  afterword: AfterwordCopy
+}
+
+export interface AfterwordCopy {
+  title: string
+  titleLines: readonly string[]
+  openedTitle: string
+  cardAlt: string
+  openCard: string
+  openingCard: string
+  paragraphs: readonly string[]
+  loadModel: string
+  preparingViewer: string
+  viewerLabel: string
+  modelFallbackAlt: string
+  loadingModel: string
+  modelLoadError: string
+  interactionHint: string
+  resetView: string
 }
 
 export interface BoxMacaron {
@@ -83,6 +102,33 @@ export const portfolioCopy: Localized<PortfolioCopy> = {
     languageLabel: '切換語言',
     lightTheme: '切換為明亮主題',
     darkTheme: '切換為暗色主題',
+    afterword: {
+      title: '……？盒子的下方似乎夾了一封信？',
+      titleLines: ['……？', '盒子的下方似乎夾了一封信？'],
+      openedTitle: 'From: 絵夢羽さ沂',
+      cardAlt: '一封以兔耳蠟封封起、點綴小花的精巧卡片',
+      openCard: '打開卡片',
+      openingCard: '正在打開卡片',
+      paragraphs: [
+        '如果有人問我，為麼想當工程師，我肯定會毫不猶豫地說：「因為我想解決問題。」',
+        '我著迷於問題被解決的那一刻，不論那是我的，還是別人的痛點。因為我認為那才是一段程式真正展現它的價值的地方，就像一本書會因為讀者的存在而開始活起來。',
+        '從最早期的50音測驗、75%的酒精計算機，製作這作品集的時候，我沒有驚訝於他們怎麼這麼陽春，那年紀的我怎麼敢把這種作品端出去（好啦，其實有一點）。我更多時候是驚訝於，原來這一路上的我都沒有變。',
+        '發現哪裡麻煩、討厭，那不如就自己來做吧。這點一直到後來的FF14巧匠網頁和BDSM測驗網頁都一樣。',
+        'AI的崛起，一開始我也害怕過，但現在的我心中更多的是興奮，因為我做這些工具再也不會嫌太過麻煩，甚至他加速了我做出新的東西的速度。',
+        '但我也注意到了：在這AI的生產力大爆炸時代，作品中擁有自己的氣味是十分重要的。',
+        '個人網頁便是我走出自己味道的第一步，我不是教AI怎麼用我的語氣說話，而是叫他不要動我的文字。我親筆的寫下了那一段又一段用來描述自己的字，然後編排，用自己的節奏，引導版面的流動。',
+        '事實是，我覺得我成功了，然後帶著這個心得還有處理視覺雜音的能力，投入DSM工具網頁的製作。',
+        '最後，就讓我用最喜歡的作品的馬卡龍來做結吧，這一次，你可以好好的，仔細的看。3D檔案有點大，對網路環境在意的朋友請多加留意囉。',
+      ],
+      loadModel: '開始載入 3D 馬卡龍（14.7 MB）',
+      preparingViewer: '正在準備 3D 檢視器',
+      viewerLabel: '可旋轉查看的紫夜兔耳馬卡龍 3D 模型',
+      modelFallbackAlt: '暮色杏桃與蜂蜜玫瑰的紫夜兔耳馬卡龍',
+      loadingModel: '正在載入 3D 馬卡龍',
+      modelLoadError: '3D 馬卡龍載入失敗，請重新整理頁面後再試一次。',
+      interactionHint: '拖曳旋轉・滾輪縮放',
+      resetView: '重設 3D 模型視角',
+    },
   },
   en: {
     brand: 'Emu Rabbit Portfolio',
@@ -110,6 +156,33 @@ export const portfolioCopy: Localized<PortfolioCopy> = {
     languageLabel: 'Switch language',
     lightTheme: 'Switch to light theme',
     darkTheme: 'Switch to dark theme',
+    afterword: {
+      title: '…? Is there a letter tucked underneath the box?',
+      titleLines: ['…?', 'Is there a letter tucked underneath the box?'],
+      openedTitle: 'From: Emu-Rabbit',
+      cardAlt: 'A delicate floral card sealed with a tiny rabbit-ear wax seal',
+      openCard: 'Open the card',
+      openingCard: 'Opening the card',
+      paragraphs: [
+        'If someone asked why I wanted to become an engineer, I would answer without hesitation: “Because I want to solve problems.”',
+        'I am fascinated by the moment a problem is solved, whether it is my own problem or someone else\'s pain point. That is when a piece of software truly shows its value, just as a book begins to live when it finds a reader.',
+        'When I looked back at my earliest projects—the 50 Hiragana Test and the 75% alcohol calculator—while making this portfolio, I was not shocked by how simple they were, or by how I had dared to show them to anyone at that age. (All right, maybe a little.) What surprised me more was realizing that I had never really changed along the way.',
+        'Whenever I find something troublesome or annoying, I think: why not make the solution myself? That remained true for the FFXIV crafting website and the BDSM quiz website that came later.',
+        'The rise of AI frightened me at first, too. Now, though, I feel far more excitement. These tools no longer feel too troublesome to make, and AI has even accelerated the pace at which I can bring new things into being.',
+        'But I also noticed that, in this age of explosive AI productivity, it matters enormously for a work to carry a scent of its own.',
+        'My personal website was my first step toward finding that scent. I did not teach AI to speak in my voice; I told it not to touch my words. I wrote every passage that describes me by hand, then arranged them in my own rhythm to guide the flow of the page.',
+        'The truth is, I think I succeeded. I carried that lesson—and the ability to clear away visual noise—into making the DSM tool website.',
+        'So let me close with the macaron from my favorite work. This time, you can take your time and look closely. The 3D file is a little large, so please keep that in mind if your connection is limited.',
+      ],
+      loadModel: 'Load the 3D macaron (14.7 MB)',
+      preparingViewer: 'Preparing the 3D viewer',
+      viewerLabel: 'Rotatable 3D model of the Violet Night Rabbit-Ear macaron',
+      modelFallbackAlt: 'Violet Night Rabbit-Ear macaron with twilight apricot and honey rose',
+      loadingModel: 'Loading the 3D macaron',
+      modelLoadError: 'The 3D macaron could not be loaded. Refresh the page and try again.',
+      interactionHint: 'Drag to rotate · Scroll to zoom',
+      resetView: 'Reset the 3D model view',
+    },
   },
 }
 

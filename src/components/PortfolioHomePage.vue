@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { getFlavorSections, type PortfolioCopy } from '../data/portfolio'
-import type { Language } from '../types/portfolio'
+import type { Language, Theme } from '../types/portfolio'
+import AfterwordLetter from './AfterwordLetter.vue'
 import FlavorSection from './FlavorSection.vue'
 import MacaronHero from './MacaronHero.vue'
 
 const props = defineProps<{
   copy: PortfolioCopy
   language: Language
+  theme: Theme
 }>()
 
 const highlightedFlavorId = ref<string | null>(null)
@@ -111,5 +113,7 @@ onBeforeUnmount(() => {
       :cta="copy.signatureCta"
       :highlighted-flavor-id="highlightedFlavorId"
     />
+
+    <AfterwordLetter :copy="copy.afterword" :language="language" :theme="theme" />
   </main>
 </template>

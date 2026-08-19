@@ -8,7 +8,7 @@
 
 本文件持有作品詳情頁的多圖 2D 畫廊、runtime 資產、全螢幕檢視互動、圖片傳輸處理與交付驗收規則。十顆馬卡龍的口味、色彩、內餡與裝飾設計仍由 [`macaron-visual-system.md`](macaron-visual-system.md) 持有；作者提供的專案文案是文字真相，不在本文件重寫。
 
-網站不再以 3D 模型呈現馬卡龍。repository 內既有 `.blend`、`.glb`、texture 與 Blender script 是歷史工作資產，不得再由首頁或作品詳情 runtime 載入，也不能被當成新的畫廊設計真相。
+作品詳情不再以 3D 模型呈現馬卡龍。repository 內既有 `.blend`、`.glb`、texture 與 Blender script 不得由作品詳情 runtime 載入，也不能被當成新的畫廊設計真相。唯一例外是首頁信件結語的紫夜兔耳馬卡龍 3D viewer；它只在使用者明確按下載入按鈕後請求 viewer runtime 與 GLB，且不改變本文件持有的作品詳情 2D 畫廊契約。
 
 ## 畫廊內容結構
 
