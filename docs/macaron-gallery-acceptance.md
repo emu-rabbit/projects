@@ -2,7 +2,7 @@
 
 狀態：Canonical
 
-最後核對：2026-08-18
+最後核對：2026-08-19
 
 ## 文件責任
 
@@ -41,6 +41,14 @@
 2. `three-views.webp`
 3. `prep-workbench.webp`
 4. `todo-list.webp`
+5. `mobile-languages.webp`
+
+冷凍兔肉的大地秘笈 route 為 `#/macarons/frozen-rabbit-tome`，runtime 圖片由 `assets/galleries/frozen-rabbit-tome/` 持有，順序為：
+
+1. `default-view.webp`
+2. `three-views.webp`
+3. `clear-entry.webp`
+4. `solver-results.webp`
 5. `mobile-languages.webp`
 
 `src/data/macaronDetails.ts` 是詳細頁內容 registry，持有每個作品的 slug、雙語文案、連結、圖片順序、alt 與 caption；只有已登錄的作品才會開放首頁卡片連結與 `#/macarons/:slug` route。`src/components/MacaronDetailPage.vue` 持有跨作品共用的詳細版型，`src/components/MacaronGallery.vue` 持有跨作品共用的畫廊互動，`src/App.vue` 只負責依 route 選擇首頁或已登錄的詳細內容。
@@ -82,6 +90,15 @@
 - 原始 PNG 或作者提供的截圖先保留，不直接作為 runtime 大圖引用。
 - 使用 `scripts/prepare_gallery_image.py` 依實際原始尺寸轉為 metadata-free WebP；不得放大低解析度來源。
 - 產生器若無法直接輸出 alpha，可先要求單色 chroma key 背景，再使用 `--extract-green-background` 抽出透明度；不得把棋盤格、色鍵或背景延伸瑕疵留在 runtime 資產。
+- 馬卡龍多視角圖若取得的是暖白／暖象牙背景，保留該張已通過設計檢查的圖，不要為了透明度重新生成主體。使用 `python scripts/prepare_gallery_image.py <source> <destination> --quality 90 --extract-light-background`，將與圖片邊緣連通的淺暖色背景轉成 alpha；這是 Frozen Rabbit Tome 三視圖實際採用並成功的處理方式。
+- 不以圖片預覽器顯示的底色判斷去背是否成功；透明像素仍可能保留原本的 RGB，部分預覽器會把這些 RGB 顯示成暖白背景。必須直接讀取輸出 WebP 的 alpha channel，確認模式為 `RGBA`、alpha extrema 同時包含 `0` 與 `255`，再到實際畫廊背景上檢查輪廓。若 alpha 已正確，不再重跑 image generation；重新生成可能改變馬卡龍光線、材質或裝飾，且仍不保證輸出真正透明。
+
+  ```powershell
+  python -c "from PIL import Image; image=Image.open(r'<destination>'); print(image.mode, image.getchannel('A').getextrema())"
+  ```
+
+  預期輸出為 `RGBA (0, 255)`；Frozen Rabbit Tome 的 `three-views.webp` 以此方式確認透明度。
+
 - 馬卡龍與多視角插畫預設使用 quality 90；有細字的專案截圖可在目視確認後使用 quality 86–90。
 - 必須保留原始長寬比，不裁掉使用者畫面、文字或馬卡龍輪廓。
 - 交付時比較來源與 runtime 檔案尺寸，並在實際畫廊與全螢幕放大狀態確認沒有明顯壓縮瑕疵。

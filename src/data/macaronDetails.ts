@@ -52,6 +52,14 @@ const frozenRabbitWorkshopGallery = {
   mobileLanguages: new URL('../../assets/galleries/frozen-rabbit-workshop/mobile-languages.webp', import.meta.url).href,
 } as const
 
+const frozenRabbitTomeGallery = {
+  defaultView: new URL('../../assets/galleries/frozen-rabbit-tome/default-view.webp', import.meta.url).href,
+  threeViews: new URL('../../assets/galleries/frozen-rabbit-tome/three-views.webp', import.meta.url).href,
+  clearEntry: new URL('../../assets/galleries/frozen-rabbit-tome/clear-entry.webp', import.meta.url).href,
+  solverResults: new URL('../../assets/galleries/frozen-rabbit-tome/solver-results.webp', import.meta.url).href,
+  mobileLanguages: new URL('../../assets/galleries/frozen-rabbit-tome/mobile-languages.webp', import.meta.url).href,
+} as const
+
 export const macaronDetails = [
   {
     slug: 'window-notes',
@@ -244,6 +252,69 @@ export const macaronDetails = [
       {
         label: { zh: 'Github頁面', en: 'GitHub Repo' },
         href: 'https://github.com/emu-rabbit/frozen_rabbit_workshop',
+      },
+    ],
+  },
+  {
+    slug: 'frozen-rabbit-tome',
+    palette: macaronPaletteBySlug['frozen-rabbit-tome'],
+    category: { zh: 'Final Fantasy XIV 大地工具', en: 'Final Fantasy XIV Gathering Tool' },
+    title: { zh: '冷凍兔肉的大地秘笈', en: "Frozen Rabbit's Tome" },
+    paragraphs: {
+      zh: [
+        '一開始要做這個專案，其實低估了它的困難度，不是說技術很難做，而是這東西真的太複雜，也需要高度的正確可靠性。',
+        '決定把遊戲中的「收藏品」機制拉進來之後，更是一場風暴，最終我在可行性、使用者體驗、可用性達到了平衡。',
+        '打從一開始就知道這專案不會很多人用，後續GA的數字也證明了這點，但我仍舊很喜歡這個專案。它教會了我在設計上降低認知負荷、處理視覺雜音，還有在多項資源中取得平衡，讓一個想法可以真正的落地。',
+      ],
+      en: [
+        'I underestimated this project. The technology was not the hard part; its complexity and need for accuracy and reliability were.',
+        "Adding the game's collectable system unleashed another storm. In the end, I balanced feasibility, user experience, and usability.",
+        'I knew few people would use it, and the GA numbers proved me right. I still love it. It taught me to reduce cognitive load and visual noise, balance resources, and turn an idea into reality.',
+      ],
+    },
+    closing: {
+      zh: '「它對我來說，就像一堂很硬的線性代數，帶我回到過去，然後重新成長。」',
+      en: '“To me, it was like a hard linear algebra class—taking me back, then helping me grow again.”',
+    },
+    galleryLabel: {
+      zh: '冷凍兔肉的大地秘笈作品畫廊',
+      en: "Frozen Rabbit's Tome project gallery",
+    },
+    gallery: [
+      {
+        src: frozenRabbitTomeGallery.defaultView,
+        alt: { zh: '冷凍兔肉的大地秘笈森林綠柚馬卡龍預設視角插畫', en: "Default view of Frozen Rabbit's Tome forest green yuzu macaron" },
+        caption: { zh: '森林綠柚馬卡龍', en: 'Forest Green Yuzu Macaron' },
+      },
+      {
+        src: frozenRabbitTomeGallery.threeViews,
+        alt: { zh: '冷凍兔肉的大地秘笈馬卡龍預設、頂面與平放側面視圖', en: "Default, top, and flat side views of Frozen Rabbit's Tome macaron" },
+        caption: { zh: '到底哪個技能比較適合呢？', en: 'Which Skill Fits Best?' },
+      },
+      {
+        src: frozenRabbitTomeGallery.clearEntry,
+        alt: { zh: '冷凍兔肉的大地秘笈採集物品選擇入口畫面', en: "Gathering item selection in Frozen Rabbit's Tome" },
+        caption: { zh: '清楚簡單的入口', en: 'A Clear, Simple Start' },
+      },
+      {
+        src: frozenRabbitTomeGallery.solverResults,
+        alt: { zh: '冷凍兔肉的大地秘笈求解器結果畫面', en: "Solver results in Frozen Rabbit's Tome" },
+        caption: { zh: '一覽求解器結果', en: 'Solver Results at a Glance' },
+      },
+      {
+        src: frozenRabbitTomeGallery.mobileLanguages,
+        alt: { zh: '冷凍兔肉的大地秘笈英文手機版畫面', en: "English mobile layout of Frozen Rabbit's Tome" },
+        caption: { zh: '支援四語系與手機版面', en: 'Four Languages, Mobile Ready' },
+      },
+    ],
+    links: [
+      {
+        label: { zh: '線上展示', en: 'Live Website' },
+        href: 'https://emu-rabbit.github.io/frozen_rabbit_tome/',
+      },
+      {
+        label: { zh: 'Github頁面', en: 'GitHub Repo' },
+        href: 'https://github.com/emu-rabbit/frozen_rabbit_tome',
       },
     ],
   },
