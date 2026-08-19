@@ -73,6 +73,13 @@ const linkArrayGallery = {
   },
 } as const
 
+const vueRouterRuleGallery = {
+  defaultView: new URL('../../assets/galleries/vue-router-rule/default-view.webp', import.meta.url).href,
+  threeViews: new URL('../../assets/galleries/vue-router-rule/three-views.webp', import.meta.url).href,
+  coreCode: new URL('../../assets/galleries/vue-router-rule/core-code.webp', import.meta.url).href,
+  unicooooorn: new URL('../../assets/galleries/vue-router-rule/unicooooorn.webp', import.meta.url).href,
+} as const
+
 export const macaronDetails = [
   {
     slug: 'window-notes',
@@ -382,6 +389,64 @@ export const macaronDetails = [
       {
         label: { zh: 'Github頁面', en: 'GitHub Repo' },
         href: 'https://github.com/emu-rabbit/LinkArray',
+      },
+    ],
+  },
+  {
+    slug: 'vue-router-rule',
+    palette: macaronPaletteBySlug['vue-router-rule'],
+    category: { zh: '插件', en: 'Plugin' },
+    title: { zh: 'Vue Router Rule', en: 'Vue Router Rule' },
+    paragraphs: {
+      zh: [
+        '身為Vue的愛好者，發現自己常常在Vue Router中的beforeEach鉤子迷路，到底誰拒絕了路由，又是因為什麼原因。',
+        '最後我決定把一切打平，並且讓每一個規則都好好地扮演它該有的角色，而不是用散亂的程式碼來管理。',
+        '自由和規範對我來說各自有著自己的優點，前者奔放有創意，後者有條理也給人安全感，我想我們需要從兩者中學習。',
+      ],
+      en: [
+        'As a Vue fan, I kept getting lost in Vue Router’s beforeEach hook: which rule blocked the route, and why?',
+        'So I flattened it all, letting each rule play its own role instead of managing scattered code.',
+        'Freedom and structure each have their strengths: one is bold and creative, the other orderly and reassuring. I think we need to learn from both.',
+      ],
+    },
+    closing: {
+      zh: '「對了，你心中的獨角獸長什麼樣子呢？」',
+      en: '“By the way, what does your unicorn look like?”',
+    },
+    galleryLabel: {
+      zh: 'Vue Router Rule作品畫廊',
+      en: 'Vue Router Rule project gallery',
+    },
+    gallery: [
+      {
+        src: vueRouterRuleGallery.defaultView,
+        alt: { zh: 'Vue Router Rule綠葡萄荔枝馬卡龍預設視角插畫', en: 'Default view of the Vue Router Rule green grape lychee macaron' },
+        caption: { zh: '綠葡萄荔枝馬卡龍', en: 'Green Grape Lychee Macaron' },
+      },
+      {
+        src: vueRouterRuleGallery.threeViews,
+        alt: { zh: 'Vue Router Rule馬卡龍預設、頂面與平放側面視圖', en: 'Default, top, and flat side views of the Vue Router Rule macaron' },
+        caption: { zh: '多角度路由規劃', en: 'Route Planning from Three Angles' },
+      },
+      {
+        src: vueRouterRuleGallery.coreCode,
+        alt: { zh: 'Vue Router Rule核心程式碼範例', en: 'Core Vue Router Rule code example' },
+        caption: { zh: '核心程式碼範例', en: 'Core Code Example' },
+      },
+      {
+        src: vueRouterRuleGallery.unicooooorn,
+        alt: { zh: 'Vue Router Rule使用的彩虹角獨角獸品牌圖片', en: 'Rainbow-horn unicorn used by the Vue Router Rule project' },
+        caption: { zh: 'Unicooooorn', en: 'Unicooooorn' },
+      },
+    ],
+    links: [
+      {
+        label: { zh: '文件', en: 'Document' },
+        href: 'https://emu-rabbit.github.io/vue-router-rule/',
+      },
+      {
+        label: { zh: 'Github頁面', en: 'GitHub Repo' },
+        href: 'https://github.com/emu-rabbit/vue-router-rule',
       },
     ],
   },
