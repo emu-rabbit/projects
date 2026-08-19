@@ -79,6 +79,7 @@ let isVisible = true
 let disposed = false
 let contextCreationError = ''
 let useMobileRendererBudget = false
+let useRealtimeShadows = true
 let currentDiagnosticStage = 'component-created'
 let firstFrameRendered = false
 let lastProgressBucket = -1
@@ -187,6 +188,7 @@ const collectEnvironmentDiagnostics = () => {
     visibilityState: document.visibilityState,
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     mobileRendererBudget: useMobileRendererBudget,
+    realtimeShadows: useRealtimeShadows,
     network: connection ? {
       effectiveType: connection.effectiveType ?? null,
       downlinkMbps: connection.downlink ?? null,
@@ -239,7 +241,8 @@ const collectWebglDiagnostics = () => {
         pixelRatio: renderer.getPixelRatio(),
         antialias: !useMobileRendererBudget,
         powerPreference: useMobileRendererBudget ? 'default' : 'high-performance',
-        shadowMapSize: useMobileRendererBudget ? 512 : 1024,
+        shadowMapEnabled: renderer.shadowMap.enabled,
+        shadowMapSize: useRealtimeShadows ? 1024 : 0,
         transmissionDisabled: useMobileRendererBudget,
       },
     }
@@ -500,6 +503,8 @@ const loadModel = async () => {
   const loadState: { stage: ModelLoadStage } = { stage: 'download' }
   let failedResourceUrl = ''
   let disabledTransmissionMaterials = 0
+  let shadowCasterMeshes = 0
+  let shadowReceiverMeshes = 0
   const loadingManager = new THREE.LoadingManager()
   loadingManager.onLoad = () => {
     recordDiagnosticEvent('model-resources-loaded')
@@ -552,8 +557,10 @@ const loadModel = async () => {
 
     model.traverse((object) => {
       if (!(object instanceof THREE.Mesh)) return
-      object.castShadow = true
-      object.receiveShadow = true
+      object.castShadow = useRealtimeShadows
+      object.receiveShadow = useRealtimeShadows
+      if (object.castShadow) shadowCasterMeshes += 1
+      if (object.receiveShadow) shadowReceiverMeshes += 1
       const materials = Array.isArray(object.material) ? object.material : [object.material]
       materials.forEach((material) => {
         const standardMaterial = material as THREE.MeshStandardMaterial
@@ -581,6 +588,8 @@ const loadModel = async () => {
     modelReady.value = true
     recordDiagnosticEvent('model-prepared', {
       disabledTransmissionMaterials,
+      shadowCasterMeshes,
+      shadowReceiverMeshes,
       rendererInfo: rendererRuntimeDetails(),
     })
     render()
@@ -611,9 +620,15 @@ onMounted(() => {
   useMobileRendererBudget =
     window.matchMedia('(max-width: 680px)').matches ||
     window.matchMedia('(pointer: coarse)').matches
+  useRealtimeShadows = !useMobileRendererBudget
   collectEnvironmentDiagnostics()
   recordDiagnosticEvent('component-mounted', {
     mobileRendererBudget: useMobileRendererBudget,
+    realtimeShadows: useRealtimeShadows,
+  })
+  recordDiagnosticEvent('shadow-policy-configured', {
+    policy: useRealtimeShadows ? 'desktop-realtime' : 'mobile-disabled-ab-test',
+    enabled: useRealtimeShadows,
   })
 
   canvas.value.addEventListener('webglcontextcreationerror', handleContextCreationError)
@@ -644,7 +659,7 @@ onMounted(() => {
     )
     renderer.outputColorSpace = THREE.SRGBColorSpace
     renderer.toneMapping = THREE.ACESFilmicToneMapping
-    renderer.shadowMap.enabled = true
+    renderer.shadowMap.enabled = useRealtimeShadows
     renderer.shadowMap.type = THREE.PCFShadowMap
     collectWebglDiagnostics()
 
@@ -674,9 +689,8 @@ onMounted(() => {
     const keyLight = new THREE.DirectionalLight('#ffe8cf', 0.62)
     keyLight.name = 'key-light'
     keyLight.position.set(4.2, 7.5, 5.6)
-    keyLight.castShadow = true
-    const shadowMapSize = useMobileRendererBudget ? 512 : 1024
-    keyLight.shadow.mapSize.set(shadowMapSize, shadowMapSize)
+    keyLight.castShadow = useRealtimeShadows
+    if (useRealtimeShadows) keyLight.shadow.mapSize.set(1024, 1024)
     keyLight.shadow.camera.near = 0.1
     keyLight.shadow.camera.far = 18
     keyLight.shadow.camera.left = -5
@@ -697,7 +711,7 @@ onMounted(() => {
     ground.name = 'ground-shadow'
     ground.position.y = -1.65
     ground.rotation.x = -Math.PI / 2
-    ground.receiveShadow = true
+    ground.receiveShadow = useRealtimeShadows
     scene.add(ground)
 
     controls = new OrbitControls(camera, canvas.value)
