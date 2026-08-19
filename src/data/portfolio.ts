@@ -125,7 +125,7 @@ export const boxMacarons: readonly BoxMacaron[] = [
   { name: 'Vue Router Rule', targetId: 'vue-router-rule', src: macaronAsset('vue-router-rule.webp'), left: '2.5%', top: '49.1%', row: 1 },
   { name: 'Dandelifeon', targetId: 'dandelifeon', src: macaronAsset('dandelifeon.webp'), left: '20.9%', top: '47.9%', row: 1 },
   { name: 'nAnB', targetId: 'nanb', src: macaronAsset('nanb.webp'), left: '39.6%', top: '49.2%', row: 1 },
-  { name: '75 Alchohol', targetId: '75-alchohol', src: macaronAsset('75-alchohol.webp'), left: '57.7%', top: '47.4%', row: 1 },
+  { name: '75% Alchohol', targetId: '75-alchohol', src: macaronAsset('75-alchohol.webp'), left: '57.7%', top: '47.4%', row: 1 },
   { name: '50 Hiragana Test', targetId: '50-hiragana-test', src: macaronAsset('50-hiragana-test.webp'), left: '75.1%', top: '48.7%', row: 1 },
 ]
 
@@ -283,7 +283,7 @@ const classicFlavors: readonly FlavorCard[] = [
   {
     id: '75-alchohol',
     category: { zh: '疫情期間小工具', en: 'Pandemic-Era Tool' },
-    title: { zh: '75 Alchohol', en: '75 Alchohol' },
+    title: { zh: '75% Alchohol', en: '75% Alchohol' },
     flavor: macaronIdentityBySlug['75-alchohol'].flavor,
     description: {
       zh: ['簡單的，幫你算酒精濃度的小工具，', '不用再按計算機了。'],
@@ -294,7 +294,7 @@ const classicFlavors: readonly FlavorCard[] = [
       en: ['A simple tool for calculating', 'alcohol concentration—', 'no calculator needed.'],
     },
     src: macaronAsset('75-alchohol.webp'),
-    imageAlt: { zh: '白葡萄與檸檬蘇打的 75 Alchohol 馬卡龍', en: '75 Alchohol macaron with white grape, lemon soda' },
+    imageAlt: { zh: '白葡萄與檸檬蘇打的 75% Alchohol 馬卡龍', en: '75% Alchohol macaron with white grape and lemon soda' },
     color: macaronPaletteBySlug['75-alchohol'].color,
     darkColor: macaronPaletteBySlug['75-alchohol'].darkColor,
   },

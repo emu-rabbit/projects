@@ -77,6 +77,12 @@ nAnB route 為 `#/macarons/nanb`，runtime 圖片由 `assets/galleries/nanb/` �
 3. `game-screen.webp`
 4. `clipboard-result.webp`
 
+75% Alchohol route 為 `#/macarons/75-alchohol`，runtime 圖片由 `assets/galleries/75-alchohol/` 持有，順序為：
+
+1. `default-view.webp`
+2. `three-views.webp`
+3. `website.webp`
+
 `src/data/macaronDetails.ts` 是詳細頁內容 registry，持有每個作品的 slug、雙語文案、連結、圖片順序、alt 與 caption；只有已登錄的作品才會開放首頁卡片連結與 `#/macarons/:slug` route。`src/components/MacaronDetailPage.vue` 持有跨作品共用的詳細版型，`src/components/MacaronGallery.vue` 持有跨作品共用的畫廊互動，`src/App.vue` 只負責依 route 選擇首頁或已登錄的詳細內容。
 
 `src/data/macaronPalette.ts` 是首頁馬卡龍卡片與詳細頁畫廊共用的背景色 owner；兩個 surface 必須引用同一筆 light／dark 色彩，不得各自複製色碼。透明馬卡龍圖片會直接露出畫廊 surface，因此詳細頁沿用首頁卡片的同一組 radial glow 與背景色混合方式，不使用全站固定的紫色畫廊底。

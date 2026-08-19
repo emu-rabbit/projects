@@ -94,6 +94,12 @@ const nanbGallery = {
   clipboardResult: new URL('../../assets/galleries/nanb/clipboard-result.webp', import.meta.url).href,
 } as const
 
+const alcohol75Gallery = {
+  defaultView: new URL('../../assets/galleries/75-alchohol/default-view.webp', import.meta.url).href,
+  threeViews: new URL('../../assets/galleries/75-alchohol/three-views.webp', import.meta.url).href,
+  website: new URL('../../assets/galleries/75-alchohol/website.webp', import.meta.url).href,
+} as const
+
 export const macaronDetails = [
   {
     slug: 'window-notes',
@@ -568,6 +574,62 @@ export const macaronDetails = [
       {
         label: { zh: 'Github頁面', en: 'GitHub Repo' },
         href: 'https://github.com/emu-rabbit/nAnB',
+      },
+    ],
+  },
+  {
+    slug: '75-alchohol',
+    palette: macaronPaletteBySlug['75-alchohol'],
+    category: { zh: '疫情期間小工具', en: 'Pandemic-Era Tool' },
+    title: { zh: '75% Alchohol', en: '75% Alchohol' },
+    paragraphs: {
+      zh: [
+        '疫情的期間，大家都在為消毒資源而困擾，那時完全的75%濃度酒精短暫的成為了稀缺品。為了讓大家可以快速地自行調配出可消毒用的酒精，我就做了這專案。',
+        '現在回想，這大概是我的作品中最具公益性質的專案了。這專案也停留在一個很青澀的樣貌，沒有支援多語系、RWD也算是沒做。',
+        '但或許……這也代表我成長成了6年前的自己無法想像的樣子。',
+      ],
+      en: [
+        'During the pandemic, disinfectant supplies were scarce, especially ready-made 75% alcohol. I made this project so people could quickly mix their own disinfecting alcohol.',
+        'Looking back, it may be my most public-minded work. It remains visibly young: no localization, and almost no responsive design.',
+        'But perhaps… that means I have become someone my six-years-younger self could never have imagined.',
+      ],
+    },
+    closing: {
+      zh: '「技術終究是要為人而服務，我放它進來只是希望未來無論何時的我，都別忘了我最想做的事。」',
+      en: '“Technology should serve people. I keep it here so I never forget what I most want to do.”',
+    },
+    galleryLabel: {
+      zh: '75% Alchohol 作品畫廊',
+      en: '75% Alchohol project gallery',
+    },
+    gallery: [
+      {
+        src: alcohol75Gallery.defaultView,
+        alt: { zh: '白葡萄蘇打馬卡龍的預設視角插畫', en: 'White grape soda macaron, default view' },
+        caption: macaronIdentityBySlug['75-alchohol'].name,
+      },
+      {
+        src: alcohol75Gallery.threeViews,
+        alt: { zh: '75% 馬卡龍的預設、頂面與平放側面視圖', en: '75% macaron: default, top, and side views' },
+        caption: {
+          zh: '為了肺結核患者友善，這顆馬卡龍沒有加酒',
+          en: 'Alcohol-Free for People with Tuberculosis',
+        },
+      },
+      {
+        src: alcohol75Gallery.website,
+        alt: { zh: '75% 酒精計算機的網頁畫面', en: '75% alcohol calculator website' },
+        caption: { zh: '網頁畫面', en: 'Website' },
+      },
+    ],
+    links: [
+      {
+        label: { zh: '線上展示', en: 'Live Website' },
+        href: 'https://emu-rabbit.github.io/75alcohol/',
+      },
+      {
+        label: { zh: 'Github頁面', en: 'GitHub Repo' },
+        href: 'https://github.com/emu-rabbit/75alcohol',
       },
     ],
   },

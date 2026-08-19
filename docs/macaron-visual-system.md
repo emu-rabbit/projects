@@ -65,7 +65,7 @@
 | Vue Router Rule | 綠葡萄荔枝馬卡龍 | 青葡萄・荔枝・紫羅蘭 |
 | Dandelifeon | 蒲公英魔力馬卡龍 | 蒲公英蜜・青蘋果 |
 | nAnB | 小倉鼠藍莓馬卡龍 | 藍莓優格・葵花子 |
-| 75 Alchohol | 白葡萄蘇打馬卡龍 | 白葡萄・檸檬蘇打 |
+| 75% Alchohol | 白葡萄蘇打馬卡龍 | 白葡萄・檸檬蘇打 |
 | 50 Hiragana Test | 櫻花紅豆馬卡龍 | 櫻花牛奶・紅豆 |
 
 `.agents/designs/` 的正式參考圖一律使用 `<作品> - <正式馬卡龍名稱>.png` 命名；檔名不得再混入另一套口味、裝飾或舊提案名稱。
@@ -131,7 +131,7 @@
 - 夢夢黃金鼠臉是唯一主裝飾；綠黃糖珠提示 A／B，葵花子碎只作少量陪襯。
 - 保留有點嘴壞又可愛的聊天室機器人個性，但不增加複雜機關或把它做成華麗角色甜點。
 
-#### 75 Alchohol — 白葡萄蘇打馬卡龍｜白葡萄・檸檬蘇打
+#### 75% Alchohol — 白葡萄蘇打馬卡龍｜白葡萄・檸檬蘇打
 
 - 白色上殼、淡水藍下殼；透明白葡萄果膠與淡黃檸檬奶霜形成兩種可見比例。
 - `75%` 糖牌與透明糖滴構成單一計算提示；糖牌的視覺量感約為 Hiragana `あ` 裝飾的 50–60%，確保縮成小圖時仍可辨認，但不可搶過主體；刻度不固定成來源濃度無法支持的比例。
@@ -157,7 +157,7 @@
 | nAnB | `assets/macarons/nanb.png` |
 | Vue Router Rule | `assets/macarons/vue-router-rule.png` |
 | Dandelifeon | `assets/macarons/dandelifeon.png` |
-| 75 Alchohol | `assets/macarons/75-alchohol.png` |
+| 75% Alchohol | `assets/macarons/75-alchohol.png` |
 | 50 Hiragana Test | `assets/macarons/50-hiragana-test.png` |
 
 ## 視覺驗收清單

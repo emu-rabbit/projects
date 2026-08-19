@@ -34,7 +34,7 @@
 ### 早期小作品
 
 - nAnB
-- 75 Alchohol
+- 75% Alchohol
 - 50 Hiragana Test
 
 這三顆保留早期作品的直接、輕巧與練習感。它們不是需要被重新包裝成大型產品的招牌款；較低的裝飾密度是刻意的層級差異，而不是完成度不足。nAnB 可以保留夢夢與聊天室的角色性，但不需要以技術實驗款的機關密度呈現。
@@ -63,7 +63,7 @@
 | 早期小作品 | [nAnB](https://github.com/emu-rabbit/nAnB) | 聊天室風格的 nA nB 猜數字機器人；角色夢夢來自作者飼養的黃金鼠，介面靈感來自 Discord 與 Wordle。 | 把規則型猜數字遊戲包裝成與一隻有個性的鼠鼠聊天。 |
 | 技術實驗 | [Vue Router Rule](https://github.com/emu-rabbit/vue-router-rule) | Vue Router addon；把容易因授權與商業規則而膨脹的 `beforeEach` navigation guard，改寫成較可讀、可除錯與可維護的規則表達。 | 讓複雜路由判斷分岔後仍能被讀懂與維護。 |
 | 技術實驗 | [Dandelifeon](https://github.com/emu-rabbit/Dandelifeon) | 以 Node.js／JavaScript 尋找 Minecraft Botania 的 Dandelifeon 最大 mana 產量；比較隨機生成、simulated annealing 與 genetic algorithm。 | 植物與魔力是外觀，搜尋棋盤最佳解的演算法才是內核。 |
-| 早期小作品 | [75 Alchohol](https://github.com/emu-rabbit/75alcohol) | 酒精稀釋計算機；依來源濃度與酒精量、水量或總量其中之一，推算預設 75% 目標的其餘數值；另有最終濃度模擬器。 | 用可見的兩種液體、刻度與比例，直接說明一個實用計算。 |
+| 早期小作品 | [75% Alchohol](https://github.com/emu-rabbit/75alcohol) | 酒精稀釋計算機；依來源濃度與酒精量、水量或總量其中之一，推算預設 75% 目標的其餘數值；另有最終濃度模擬器。 | 用可見的兩種液體、刻度與比例，直接說明一個實用計算。 |
 | 早期小作品 | [50 Hiragana Test](https://github.com/emu-rabbit/50-Hiragana-Test) | 用來練習日文五十音的輕量網頁。 | 一個字、一張練習格就足夠；親切與直接比裝飾更重要。 |
 
 ## 已決定與尚未決定
