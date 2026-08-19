@@ -1,4 +1,5 @@
 import type { Language, Localized } from '../types/portfolio'
+import { macaronIdentityBySlug } from './macaronIdentity'
 import { macaronPaletteBySlug } from './macaronPalette'
 
 export interface PortfolioCopy {
@@ -133,7 +134,7 @@ const signatureFlavors: readonly FlavorCard[] = [
     id: 'window-notes',
     category: { zh: '個人網頁', en: 'Personal Website' },
     title: { zh: '絵夢羽さ沂的窗邊手記', en: "Emu-Rabbit's Window Notes" },
-    flavor: { zh: '暮色杏桃・蜂蜜玫瑰', en: 'Twilight Apricot · Honey Rose' },
+    flavor: macaronIdentityBySlug['window-notes'].flavor,
     description: {
       zh: ['一扇打開的窗，兔子在窗邊等待著你靠近，', '閱讀著手記，一步一步的認識、了解她。'],
       en: ['An open window. A rabbit waits by it,', 'inviting you closer to read her notes', 'and slowly get to know her.'],
@@ -151,7 +152,7 @@ const signatureFlavors: readonly FlavorCard[] = [
     id: 'boundary-notes',
     category: { zh: 'BDSM整理工具', en: 'BDSM Organizer' },
     title: { zh: '兔子的秘密檔案', en: 'Boundary Notes' },
-    flavor: { zh: '黑醋栗・玫瑰伯爵', en: 'Blackcurrant · Rose Earl Grey' },
+    flavor: macaronIdentityBySlug['boundary-notes'].flavor,
     description: {
       zh: ['把界線、喜好用最簡單好讀的方式整理起來，', '慾望沒有對錯，你依舊是你自己。'],
       en: ['A simple, readable way to sort out', 'boundaries and desires. There is no', 'right or wrong—you are still yourself.'],
@@ -169,7 +170,7 @@ const signatureFlavors: readonly FlavorCard[] = [
     id: 'frozen-rabbit-workshop',
     category: { zh: 'Final Fantasy XIV 巧匠工具', en: 'Final Fantasy XIV Crafting Tool' },
     title: { zh: '冷凍兔肉的巧匠工坊', en: "Frozen Rabbit's Workshop" },
-    flavor: { zh: '開心果・青檸・白巧克力', en: 'Pistachio · Lime · White Chocolate' },
+    flavor: macaronIdentityBySlug['frozen-rabbit-workshop'].flavor,
     description: {
       zh: ['兔肉不私藏的好筆記，', '你最好的備料輔助工具。'],
       en: ["No secrets kept—Rabbit's best notes,", 'ready to make material prep easier.'],
@@ -179,7 +180,7 @@ const signatureFlavors: readonly FlavorCard[] = [
       en: ["No secrets kept—Rabbit's best notes,", 'ready to make material prep easier.'],
     },
     src: macaronAsset('workshop.webp'),
-    imageAlt: { zh: '開心果、青檸與白巧克力的巧匠工坊馬卡龍', en: 'Workshop macaron with pistachio, lime, and white chocolate' },
+    imageAlt: { zh: '薄荷、青檸與白巧克力的巧匠工坊馬卡龍', en: 'Workshop macaron with mint, lime, and white chocolate' },
     color: macaronPaletteBySlug['frozen-rabbit-workshop'].color,
     darkColor: macaronPaletteBySlug['frozen-rabbit-workshop'].darkColor,
   },
@@ -187,7 +188,7 @@ const signatureFlavors: readonly FlavorCard[] = [
     id: 'frozen-rabbit-tome',
     category: { zh: 'Final Fantasy XIV 大地工具', en: 'Final Fantasy XIV Gathering Tool' },
     title: { zh: '冷凍兔肉的大地秘笈', en: "Frozen Rabbit's Tome" },
-    flavor: { zh: '深焙抹茶・柚子金砂', en: 'Roasted Matcha · Yuzu Gold Dust' },
+    flavor: macaronIdentityBySlug['frozen-rabbit-tome'].flavor,
     description: {
       zh: ['兔肉不私藏的好秘笈，', '採集技能的推薦求解器。'],
       en: ["No secrets kept—Rabbit's best tome,", 'ready to guide your next gathering move.'],
@@ -208,7 +209,7 @@ const innovationFlavors: readonly FlavorCard[] = [
     id: 'link-array',
     category: { zh: '資料結構', en: 'Data Structure' },
     title: { zh: 'LinkArray', en: 'LinkArray' },
-    flavor: { zh: '黑白芝麻・鹽焦糖', en: 'Black & White Sesame · Salted Caramel' },
+    flavor: macaronIdentityBySlug['link-array'].flavor,
     description: {
       zh: ['陣列擅長隨機存取，', '鏈結串列擅長插入移除，', '加起來究竟是優點相加還是缺點倍顯呢？'],
       en: ['Arrays excel at random access;', 'linked lists at insertion and removal.', 'Together, do their strengths add up—', 'or do their flaws multiply?'],
@@ -226,7 +227,7 @@ const innovationFlavors: readonly FlavorCard[] = [
     id: 'vue-router-rule',
     category: { zh: '插件', en: 'Plugin' },
     title: { zh: 'Vue Router Rule', en: 'Vue Router Rule' },
-    flavor: { zh: '青葡萄・荔枝・紫羅蘭', en: 'Green Grape · Lychee · Violet' },
+    flavor: macaronIdentityBySlug['vue-router-rule'].flavor,
     description: {
       zh: ['撰寫簡單易讀的 Vue Router 鉤子，', '不會遇到義大利麵程式碼了（應該）。'],
       en: ['Simple, readable Vue Router hooks—', 'no more spaghetti code. (Probably.)'],
@@ -244,7 +245,7 @@ const innovationFlavors: readonly FlavorCard[] = [
     id: 'dandelifeon',
     category: { zh: '遊戲機制求解', en: 'Game Mechanic Solver' },
     title: { zh: 'Dandelifeon', en: 'Dandelifeon' },
-    flavor: { zh: '蒲公英蜜・青蘋果', en: 'Dandelion Honey · Green Apple' },
+    flavor: macaronIdentityBySlug.dandelifeon.flavor,
     description: {
       zh: ['Minecraft 的魔法模組有個特別的花，', '到底怎樣才能生成最大魔力呢？'],
       en: ["Minecraft's Botania mod", 'has a peculiar flower.', 'What arrangement generates', 'the most mana?'],
@@ -265,7 +266,7 @@ const classicFlavors: readonly FlavorCard[] = [
     id: 'nanb',
     category: { zh: '數字小遊戲', en: 'Number Game' },
     title: { zh: 'nAnB', en: 'nAnB' },
-    flavor: { zh: '藍莓優格・葵花子', en: 'Blueberry Yogurt · Sunflower Seeds' },
+    flavor: macaronIdentityBySlug.nanb.flavor,
     description: {
       zh: ['玩過 nAnB 嗎？我家的黃金鼠夢夢', '很會這遊戲，來玩玩看吧！'],
       en: ['Ever played nAnB?', 'My hamster Meng-Meng is great at it.', 'Come play a round!'],
@@ -283,7 +284,7 @@ const classicFlavors: readonly FlavorCard[] = [
     id: '75-alchohol',
     category: { zh: '疫情期間小工具', en: 'Pandemic-Era Tool' },
     title: { zh: '75 Alchohol', en: '75 Alchohol' },
-    flavor: { zh: '白葡萄・檸檬蘇打', en: 'White Grape · Lemon Soda' },
+    flavor: macaronIdentityBySlug['75-alchohol'].flavor,
     description: {
       zh: ['簡單的，幫你算酒精濃度的小工具，', '不用再按計算機了。'],
       en: ['A simple tool for calculating', 'alcohol concentration—', 'no calculator needed.'],
@@ -301,7 +302,7 @@ const classicFlavors: readonly FlavorCard[] = [
     id: '50-hiragana-test',
     category: { zh: '日文學習小工具', en: 'Japanese Learning Tool' },
     title: { zh: '50 Hiragana Test', en: '50 Hiragana Test' },
-    flavor: { zh: '櫻花牛奶・紅豆', en: 'Sakura Milk · Red Bean' },
+    flavor: macaronIdentityBySlug['50-hiragana-test'].flavor,
     description: {
       zh: ['當初是為了要學日文做的，', '怎麼現在我好像還是沒學會日文（？）'],
       en: ['I made this to learn Japanese.', "Somehow, I still haven't. (?)"],

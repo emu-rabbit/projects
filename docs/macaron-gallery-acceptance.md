@@ -18,6 +18,8 @@
 2. 馬卡龍多視角圖。
 3. 作者提供的專案畫面；張數依該作品內容決定。
 
+第一張正式預設視角的 caption 必須直接引用 `src/data/macaronIdentity.ts` 中該 slug 的正式馬卡龍名稱；首頁口味標註則引用同一筆 identity 的正式口味。名稱與口味是兩個不同欄位，不得把造型名稱改寫成另一種口味，也不得在畫廊 registry 另存一份可漂移的正式名稱。
+
 窗邊手記是第一個完成的詳情頁，route 為 `#/macarons/window-notes`，runtime 圖片由 `assets/galleries/window-notes/` 持有，順序為：
 
 1. `default-view.webp`

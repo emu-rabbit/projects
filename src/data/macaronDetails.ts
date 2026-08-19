@@ -1,4 +1,5 @@
 import type { Language, Localized } from '../types/portfolio'
+import { macaronIdentityBySlug } from './macaronIdentity'
 import { macaronPaletteBySlug } from './macaronPalette'
 import type { MacaronPalette } from './macaronPalette'
 
@@ -123,7 +124,7 @@ export const macaronDetails = [
       {
         src: windowNotesGallery.defaultView,
         alt: { zh: '窗邊手記馬卡龍的預設視角插畫', en: 'Default view illustration of the Window Notes macaron' },
-        caption: { zh: '紫夜兔耳馬卡龍', en: 'Purple Night Rabbit Macaron' },
+        caption: macaronIdentityBySlug['window-notes'].name,
       },
       {
         src: windowNotesGallery.threeViews,
@@ -186,7 +187,7 @@ export const macaronDetails = [
       {
         src: boundaryNotesGallery.defaultView,
         alt: { zh: '兔子的祕密檔案馬卡龍預設視角插畫', en: "Default view of the Bunny's Secret File macaron" },
-        caption: { zh: '酒紅邊界馬卡龍', en: 'Burgundy Boundary Macaron' },
+        caption: macaronIdentityBySlug['boundary-notes'].name,
       },
       {
         src: boundaryNotesGallery.threeViews,
@@ -254,7 +255,7 @@ export const macaronDetails = [
       {
         src: frozenRabbitWorkshopGallery.defaultView,
         alt: { zh: '冷凍兔肉的巧匠工坊薄荷青檸馬卡龍預設視角插畫', en: "Default view of Frozen Rabbit's Workshop mint lime macaron" },
-        caption: { zh: '薄荷青檸馬卡龍', en: 'Mint Lime Macaron' },
+        caption: macaronIdentityBySlug['frozen-rabbit-workshop'].name,
       },
       {
         src: frozenRabbitWorkshopGallery.threeViews,
@@ -317,7 +318,7 @@ export const macaronDetails = [
       {
         src: frozenRabbitTomeGallery.defaultView,
         alt: { zh: '冷凍兔肉的大地秘笈森林綠柚馬卡龍預設視角插畫', en: "Default view of Frozen Rabbit's Tome forest green yuzu macaron" },
-        caption: { zh: '森林綠柚馬卡龍', en: 'Forest Green Yuzu Macaron' },
+        caption: macaronIdentityBySlug['frozen-rabbit-tome'].name,
       },
       {
         src: frozenRabbitTomeGallery.threeViews,
@@ -380,7 +381,7 @@ export const macaronDetails = [
       {
         src: linkArrayGallery.defaultView,
         alt: { zh: 'LinkArray黑白芝麻馬卡龍預設視角插畫', en: 'Default view of the LinkArray black-and-white sesame macaron' },
-        caption: { zh: '黑白鏈結馬卡龍', en: 'Black-and-White Linked Macaron' },
+        caption: macaronIdentityBySlug['link-array'].name,
       },
       {
         src: linkArrayGallery.threeViews,
@@ -434,7 +435,7 @@ export const macaronDetails = [
       {
         src: vueRouterRuleGallery.defaultView,
         alt: { zh: 'Vue Router Rule綠葡萄荔枝馬卡龍預設視角插畫', en: 'Default view of the Vue Router Rule green grape lychee macaron' },
-        caption: { zh: '綠葡萄荔枝馬卡龍', en: 'Green Grape Lychee Macaron' },
+        caption: macaronIdentityBySlug['vue-router-rule'].name,
       },
       {
         src: vueRouterRuleGallery.threeViews,
@@ -492,7 +493,7 @@ export const macaronDetails = [
       {
         src: dandelifeonGallery.defaultView,
         alt: { zh: 'Dandelifeon蒲公英蜜青蘋果馬卡龍預設視角插畫', en: 'Default view of the Dandelifeon dandelion honey and green apple macaron' },
-        caption: { zh: '蒲公英魔力馬卡龍', en: 'Dandelion Mana Macaron' },
+        caption: macaronIdentityBySlug.dandelifeon.name,
       },
       {
         src: dandelifeonGallery.threeViews,
@@ -541,7 +542,7 @@ export const macaronDetails = [
       {
         src: nanbGallery.defaultView,
         alt: { zh: '小倉鼠藍莓馬卡龍的預設視角插畫', en: 'Little hamster blueberry macaron, default view' },
-        caption: { zh: '小倉鼠藍莓馬卡龍', en: 'Hamster Blueberry Macaron' },
+        caption: macaronIdentityBySlug.nanb.name,
       },
       {
         src: nanbGallery.threeViews,
