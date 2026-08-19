@@ -414,11 +414,6 @@ main {
   cursor: pointer;
 }
 
-.signature-card.is-clickable:focus-within {
-  outline: 3px solid color-mix(in srgb, var(--accent) 72%, transparent);
-  outline-offset: 4px;
-}
-
 .signature-art {
   position: relative;
   display: grid;
