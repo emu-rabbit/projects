@@ -15,7 +15,7 @@
 | Agent 如何理解、執行與交付任務 | `.agents/skills/core/operating_contract.md` |
 | 持久文件的 owner、更新、移動與驗證 | `.agents/skills/core/documentation_governance.md` |
 | 程式碼、設定、測試與建置的通用標準 | `.agents/skills/professional/development_standards.md` |
-| `add and commit all`、`commit all` 或全部提交 | `.agents/workflows/add-commit-all.md` |
+| 任何 commit、`add and commit all`、`commit all` 或全部提交 | `.agents/workflows/add-commit-all.md` |
 | 作品集使命、內容範圍、專案分級與 GitHub 背景 | `docs/product-direction.md` |
 | 十顆馬卡龍的統一視覺系統、個別設計、2D 資產、字型 subset 與 UI 視覺驗收 | `docs/macaron-visual-system.md` |
 | 馬卡龍詳細頁固定版型、2D 畫廊、圖片處理、全螢幕互動與交付驗收 | `docs/macaron-gallery-acceptance.md` |
