@@ -13,6 +13,11 @@ const expect = (condition, message) => {
 }
 
 const count = (value, pattern) => value.match(pattern)?.length ?? 0
+const escapeHtml = (value) => String(value)
+  .replaceAll('&', '&amp;')
+  .replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;')
+  .replaceAll('"', '&quot;')
 const routeUrl = (language, slug = null) => (
   new URL(slug ? `${language}/macarons/${slug}/` : `${language}/`, siteUrl).href
 )
@@ -33,9 +38,15 @@ for (const language of languages) {
     const label = `${language}/${slug ?? 'home'}`
     const expectedCanonical = routeUrl(language, slug)
     const expectedXDefault = project ? routeUrl('zh', slug) : siteUrl
+    const expectedPreviewName = `${slug ?? 'home'}.png`
+    const expectedPreviewUrl = new URL(`social/${language}/${expectedPreviewName}`, siteUrl).href
+    const expectedEntry = project?.locales[language] ?? content.site.locales[language]
+    const expectedImageAlt = expectedEntry.imageAlt
 
     expect(count(html, /<title>/g) === 1, `${label} must have one title`)
     expect(count(html, /name="description"/g) === 1, `${label} must have one description`)
+    expect(html.includes(`<title>${escapeHtml(expectedEntry.title)}</title>`), `${label} title is incorrect`)
+    expect(html.includes(`name="description" content="${escapeHtml(expectedEntry.description)}"`), `${label} description is incorrect`)
     expect(count(html, /rel="canonical"/g) === 1, `${label} must have one canonical`)
     expect(count(html, /hreflang="zh-Hant"/g) === 1, `${label} must link zh-Hant once`)
     expect(count(html, /hreflang="en"/g) === 1, `${label} must link en once`)
@@ -45,8 +56,17 @@ for (const language of languages) {
     expect(html.includes('name="robots" content="index, follow'), `${label} must be indexable`)
     expect(html.includes('property="og:image"'), `${label} is missing og:image`)
     expect(html.includes('name="twitter:card" content="summary_large_image"'), `${label} is missing Twitter card metadata`)
-    expect(html.includes(`social/${language}/home.png`), `${label} must use the phase-one homepage preview`)
+    expect(html.includes(`property="og:image" content="${expectedPreviewUrl}"`), `${label} must use its own Open Graph preview`)
+    expect(html.includes(`property="og:image:secure_url" content="${expectedPreviewUrl}"`), `${label} must use its own secure Open Graph preview`)
+    expect(html.includes(`name="twitter:image" content="${expectedPreviewUrl}"`), `${label} must use its own Twitter preview`)
+    expect(html.includes(`property="og:image:alt" content="${expectedImageAlt}"`), `${label} must use its own Open Graph image alt`)
+    expect(html.includes(`name="twitter:image:alt" content="${expectedImageAlt}"`), `${label} must use its own Twitter image alt`)
     expect(html.includes('<noscript>'), `${label} is missing a no-JavaScript crawl fallback`)
+
+    const preview = resolve(dist, 'social', language, expectedPreviewName)
+    await stat(preview)
+    const size = await readPngSize(preview)
+    expect(size.width === 1200 && size.height === 630, `${label} preview must be 1200x630`)
 
     const jsonLdMatches = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
     expect(jsonLdMatches.length === 1, `${label} must have one JSON-LD block`)
@@ -58,11 +78,6 @@ for (const language of languages) {
       }
     }
   }
-
-  const homePreview = resolve(dist, 'social', language, 'home.png')
-  await stat(homePreview)
-  const size = await readPngSize(homePreview)
-  expect(size.width === 1200 && size.height === 630, `${language} homepage preview must be 1200x630`)
 }
 
 const sitemap = await readFile(resolve(dist, 'sitemap.xml'), 'utf8')
@@ -83,5 +98,5 @@ if (failures.length) {
   console.error(failures.map((failure) => `- ${failure}`).join('\n'))
   process.exitCode = 1
 } else {
-  console.log('Verified 22 localized SEO routes, sitemap, robots.txt, JSON-LD, and two 1200x630 homepage previews.')
+  console.log('Verified 22 localized SEO routes, sitemap, robots.txt, JSON-LD, and 22 route-specific 1200x630 previews.')
 }

@@ -26,6 +26,7 @@
 ## SEO 資料與輸出
 
 - `src/data/seo.json` 是雙語 SEO title、description、keywords、圖片 alt、作品分類、色票與結構化資料欄位的單一資料來源。
+- 首頁 title 維持品牌標題；作品詳情 title 固定為中文「`<作品名> | 絵夢羽さ沂的作品集`」、英文「`<Project Name> | Emu Rabbit Portfolio`」。首頁與作品 description 以 `src/data/seo.json` 的核准文案為準。
 - `src/data/seo.ts` 在 SPA 導航時同步 `<title>`、description、keywords、canonical、hreflang、Open Graph 與 Twitter metadata。
 - `scripts/build-seo.mjs` 在 `vite build` 後產生 22 個可直接讀取的 HTML：兩個語言首頁與十個作品的雙語詳情；每頁包含唯一 title、description、canonical、hreflang、Open Graph、Twitter Card、JSON-LD 與無 JavaScript 的可爬連結。
 - `dist/sitemap.xml` 列出上述 22 個 canonical URL，`dist/robots.txt` 宣告 sitemap；根頁與 404 fallback 不加入 sitemap。
@@ -34,14 +35,14 @@
 ## 分享預覽圖片
 
 - 所有分享圖固定為 1200 × 630 PNG，公開於 `public/social/{language}/`。
-- 第一階段只啟用兩張首頁預覽：`zh/home.png` 與 `en/home.png`。作品詳情目前也引用各自語言的首頁圖；十個作品的雙語圖檔保留在同一目錄，尚未作為 metadata 啟用。
+- 首頁使用 `zh/home.png` 與 `en/home.png`；每個作品詳情使用與語言、slug 對應的 `public/social/{language}/{slug}.png`，並同步套用到 Open Graph、Twitter Card、JSON-LD 與 sitemap image metadata。
 - 首頁展示圖來源為 `assets/seo/home-macaron-product-shot.png`；它使用四顆馬卡龍的自然 2×2 產品陳列，並由 `scripts/generate_social_previews.py` 嵌入雙語版面。
-- `python scripts/generate_social_previews.py` 預設只重建兩張已啟用的首頁圖；加入 `--all` 才會連同二十張保留中的作品圖一起重建。
+- `python scripts/generate_social_previews.py` 預設只重建兩張首頁圖；加入 `--all` 會重建正式啟用中的二十張作品圖。
 - 首頁與各作品標題使用受控行分組，不依賴任意字元截斷；產生器必須在 1200 × 630 畫布內保證沒有文字爆版、裁切或超出邊界。
 
 ## 建置與驗證
 
 - `npm run build` 依序執行 typecheck、Vite build、SEO 靜態頁產生與 `scripts/verify-seo.mjs`。
-- `scripts/verify-seo.mjs` 驗證 22 個 route 的 metadata、canonical、hreflang、Open Graph、Twitter Card、JSON-LD、無 JavaScript 連結、sitemap、robots，以及兩張已啟用首頁預覽的 1200 × 630 尺寸。
+- `scripts/verify-seo.mjs` 驗證 22 個 route 的 metadata、canonical、hreflang、Open Graph、Twitter Card、JSON-LD、無 JavaScript 連結、sitemap、robots，以及各 route 對應預覽圖的路徑、替代文字與 1200 × 630 尺寸。
 - GitHub Actions 以 `SITE_URL` 與 `VITE_SITE_URL` 指向正式 Pages URL；若 fork 或站點路徑改變，兩者與 Vite base 必須一起更新。
 - UI 或路由變更仍需用實際瀏覽器檢查中文／英文首頁、直接載入作品詳情、語言切換、返回首頁、桌機與手機溢出，以及 console 錯誤。

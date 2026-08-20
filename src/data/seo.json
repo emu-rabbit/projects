@@ -12,7 +12,7 @@
         "title": "絵夢羽さ沂的作品集｜一盒精心手作馬卡龍",
         "heading": "想從哪顆開始吃呢？",
         "category": "軟體工程作品集",
-        "description": "絵夢羽さ沂的軟體工程作品集：把十個 Vue、TypeScript、FFXIV 工具、資料結構與個人專案，做成一盒可逐顆閱讀的手作馬卡龍。",
+        "description": "絵夢羽さ沂的軟體工程作品集，用十顆各具特色的馬卡龍帶你感受她親手打造的世界。",
         "keywords": [
           "絵夢羽さ沂",
           "Emu Rabbit",
@@ -30,7 +30,7 @@
         "title": "Emu Rabbit Portfolio | A Box of Handcrafted Macarons",
         "heading": "Which one will you try first?",
         "category": "Software Engineering Portfolio",
-        "description": "Emu Rabbit’s software engineering portfolio: ten Vue, TypeScript, FFXIV, data-structure, and personal projects presented as a handcrafted box of macarons.",
+        "description": "Emu Rabbit’s software engineering portfolio invites you into her handcrafted world through ten distinctive macarons.",
         "keywords": [
           "Emu Rabbit",
           "software engineer portfolio",
@@ -56,18 +56,18 @@
       ],
       "locales": {
         "zh": {
-          "title": "絵夢羽さ沂的窗邊手記｜雙語個人網頁作品",
+          "title": "絵夢羽さ沂的窗邊手記 | 絵夢羽さ沂的作品集",
           "heading": "絵夢羽さ沂的窗邊手記",
           "category": "個人網頁",
-          "description": "一扇真正屬於絵夢羽さ沂的雙語個人網頁：以 Vue 與細膩敘事介紹生活、價值觀、程式工作，以及在 AI 協作中保留自己的味道。",
+          "description": "一扇可以靠近的窗口，一隻可愛的兔子已經迫不及待的想向你介紹自己。",
           "keywords": ["絵夢羽さ沂", "個人網頁", "雙語作品集", "Vue 個人網站", "AI 協作", "Emu Rabbit"],
           "imageAlt": "紫夜兔耳馬卡龍與絵夢羽さ沂的窗邊手記標題"
         },
         "en": {
-          "title": "Emu-Rabbit's Window Notes | A Bilingual Personal Website",
+          "title": "Emu-Rabbit's Window Notes | Emu Rabbit Portfolio",
           "heading": "Emu-Rabbit's Window Notes",
           "category": "Personal Website",
-          "description": "A bilingual Vue personal website where Emu Rabbit shares her life, values, software work, and the importance of keeping a human voice while collaborating with AI.",
+          "description": "An approachable window, where an adorable rabbit can hardly wait to introduce herself.",
           "keywords": ["Emu Rabbit", "personal website", "bilingual portfolio", "Vue personal site", "AI collaboration"],
           "imageAlt": "Purple Night Rabbit Macaron with the title Emu-Rabbit's Window Notes"
         }
@@ -84,18 +84,18 @@
       ],
       "locales": {
         "zh": {
-          "title": "兔子的祕密檔案｜重視隱私的 BDSM 喜好與邊界整理工具",
+          "title": "兔子的祕密檔案 | 絵夢羽さ沂的作品集",
           "heading": "兔子的祕密檔案",
           "category": "BDSM 整理工具",
-          "description": "以 Vue、TypeScript 與 Firebase 製作的 BDSM 喜好與邊界整理工具，將數百個項目整理成清楚、尊重隱私且可安心分享的個人檔案。",
+          "description": "慾望可以好好地被表達，界線可以好好的被整理，慢慢來，守密兔陪著你。",
           "keywords": ["BDSM 邊界", "BDSM 喜好整理", "隱私工具", "Vue TypeScript", "Firebase", "兔子的祕密檔案"],
           "imageAlt": "酒紅邊界馬卡龍與兔子的祕密檔案標題"
         },
         "en": {
-          "title": "Bunny's Secret File | A Private BDSM Interests and Boundaries Organizer",
+          "title": "Bunny's Secret File | Emu Rabbit Portfolio",
           "heading": "Bunny's Secret File",
           "category": "BDSM Organizer",
-          "description": "A privacy-minded Vue, TypeScript, and Firebase tool that organizes hundreds of BDSM interests and boundaries into a clear personal file that can be shared with care.",
+          "description": "Desires can be expressed, and boundaries can be carefully organized. Take your time—the Secret-Keeping Rabbit is here with you.",
           "keywords": ["BDSM boundaries", "BDSM interests organizer", "privacy tool", "Vue TypeScript", "Firebase", "Bunny's Secret File"],
           "imageAlt": "Burgundy Boundary Macaron with the title Bunny's Secret File"
         }
@@ -112,18 +112,18 @@
       ],
       "locales": {
         "zh": {
-          "title": "冷凍兔肉的巧匠工坊｜FFXIV 製作與採集備料工具",
+          "title": "冷凍兔肉的巧匠工坊 | 絵夢羽さ沂的作品集",
           "heading": "冷凍兔肉的巧匠工坊",
           "category": "Final Fantasy XIV 巧匠工具",
-          "description": "為 FFXIV 巧匠打造的製作與採集備料工具，把巢狀配方拆成清楚的平面清單，協助管理購買、製作、採集、庫存、成本與時間。",
+          "description": "FF14的巧匠備料也可以如此的簡單輕鬆。",
           "keywords": ["FFXIV 製作工具", "FF14 巧匠", "FFXIV 備料", "配方計算", "採集清單", "Frozen Rabbit Workshop"],
           "imageAlt": "薄荷青檸馬卡龍與冷凍兔肉的巧匠工坊標題"
         },
         "en": {
-          "title": "Frozen Rabbit's Workshop | FFXIV Crafting and Material Planner",
+          "title": "Frozen Rabbit's Workshop | Emu Rabbit Portfolio",
           "heading": "Frozen Rabbit's Workshop",
           "category": "Final Fantasy XIV Crafting Tool",
-          "description": "An FFXIV crafting and gathering planner that flattens nested recipes into a clear list for buying, crafting, gathering, inventory, market cost, and time estimates.",
+          "description": "FF14 crafting preparation can be this simple and easy.",
           "keywords": ["FFXIV crafting tool", "FF14 material planner", "FFXIV recipes", "crafting checklist", "gathering planner", "Frozen Rabbit Workshop"],
           "imageAlt": "Mint Lime Macaron with the title Frozen Rabbit's Workshop"
         }
@@ -140,18 +140,18 @@
       ],
       "locales": {
         "zh": {
-          "title": "冷凍兔肉的大地秘笈｜FFXIV 採集策略與收藏品求解工具",
+          "title": "冷凍兔肉的大地秘笈 | 絵夢羽さ沂的作品集",
           "heading": "冷凍兔肉的大地秘笈",
           "category": "Final Fantasy XIV 大地工具",
-          "description": "為 FFXIV 採礦與園藝職業設計的採集策略工具，可比較一般採集、收藏品手法、成功機率、風險與自訂 rotation，尋找可行解。",
+          "description": "FF14的大地技能實驗場。",
           "keywords": ["FFXIV 採集工具", "FF14 大地職業", "FFXIV 收藏品", "採礦 rotation", "園藝 rotation", "Frozen Rabbit Tome"],
           "imageAlt": "森林綠柚馬卡龍與冷凍兔肉的大地秘笈標題"
         },
         "en": {
-          "title": "Frozen Rabbit's Tome | FFXIV Gathering and Collectable Solver",
+          "title": "Frozen Rabbit's Tome | Emu Rabbit Portfolio",
           "heading": "Frozen Rabbit's Tome",
           "category": "Final Fantasy XIV Gathering Tool",
-          "description": "An FFXIV miner and botanist strategy tool for comparing gathering and collectable rotations, success probability, risk, custom actions, and feasible solutions.",
+          "description": "An experimental playground for FF14 gathering skills.",
           "keywords": ["FFXIV gathering tool", "FF14 miner", "FF14 botanist", "FFXIV collectables", "gathering rotation solver", "Frozen Rabbit Tome"],
           "imageAlt": "Forest Green Yuzu Macaron with the title Frozen Rabbit's Tome"
         }
@@ -165,18 +165,18 @@
       "sameAs": ["https://github.com/emu-rabbit/LinkArray"],
       "locales": {
         "zh": {
-          "title": "LinkArray｜結合動態陣列與雙向鏈結串列的資料結構實驗",
+          "title": "LinkArray | 絵夢羽さ沂的作品集",
           "heading": "LinkArray",
           "category": "資料結構",
-          "description": "一個結合 dynamic array 隨機讀取與 doubly linked list 頭尾操作的資料結構實驗，並探索手動、自動與漸進式 refactor 策略。",
+          "description": "陣列與鏈結串列的合併，到底是一種突破還是一種錯誤的期待？",
           "keywords": ["LinkArray", "資料結構", "動態陣列", "雙向鏈結串列", "random access", "refactor algorithm"],
           "imageAlt": "黑白鏈結馬卡龍與 LinkArray 標題"
         },
         "en": {
-          "title": "LinkArray | A Hybrid Dynamic Array and Doubly Linked List Experiment",
+          "title": "LinkArray | Emu Rabbit Portfolio",
           "heading": "LinkArray",
           "category": "Data Structure",
-          "description": "A data-structure experiment combining dynamic-array random access with doubly linked-list end operations, including manual, automatic, and adaptive refactoring.",
+          "description": "Merging arrays and linked lists—is it a breakthrough, or a mistaken expectation?",
           "keywords": ["LinkArray", "data structure", "dynamic array", "doubly linked list", "random access", "adaptive refactor"],
           "imageAlt": "Black-and-White Linked Macaron with the title LinkArray"
         }
@@ -193,18 +193,18 @@
       ],
       "locales": {
         "zh": {
-          "title": "Vue Router Rule｜讓 beforeEach 路由守衛規則更清楚的插件",
+          "title": "Vue Router Rule | 絵夢羽さ沂的作品集",
           "heading": "Vue Router Rule",
           "category": "Vue 插件",
-          "description": "將容易膨脹的 Vue Router beforeEach navigation guard 改寫成可讀、可追蹤拒絕原因，也更容易維護的路由規則。",
+          "description": "我不要再義大利麵程式碼了！幫幫我！",
           "keywords": ["Vue Router", "beforeEach", "navigation guard", "Vue 插件", "路由規則", "TypeScript"],
           "imageAlt": "綠葡萄荔枝馬卡龍與 Vue Router Rule 標題"
         },
         "en": {
-          "title": "Vue Router Rule | Readable Rules for beforeEach Navigation Guards",
+          "title": "Vue Router Rule | Emu Rabbit Portfolio",
           "heading": "Vue Router Rule",
           "category": "Vue Plugin",
-          "description": "A Vue Router plugin that turns growing beforeEach navigation guards into readable rules with traceable rejection reasons and maintainable control flow.",
+          "description": "No more spaghetti code! Help me!",
           "keywords": ["Vue Router", "beforeEach", "navigation guard", "Vue plugin", "route rules", "TypeScript"],
           "imageAlt": "Green Grape Lychee Macaron with the title Vue Router Rule"
         }
@@ -218,18 +218,18 @@
       "sameAs": ["https://github.com/emu-rabbit/Dandelifeon"],
       "locales": {
         "zh": {
-          "title": "Dandelifeon｜Minecraft Botania 魔力產量搜尋與求解",
+          "title": "Dandelifeon | 絵夢羽さ沂的作品集",
           "heading": "Dandelifeon",
           "category": "遊戲機制求解",
-          "description": "以隨機搜尋、模擬退火與基因演算法，探索 Minecraft Botania Dandelifeon 的 25×25 康威生命遊戲棋盤與最大魔力產量。",
+          "description": "用程式來玩遊戲，可以，這很工程師。",
           "keywords": ["Dandelifeon", "Minecraft Botania", "康威生命遊戲", "模擬退火", "基因演算法", "mana solver"],
           "imageAlt": "蒲公英魔力馬卡龍與 Dandelifeon 標題"
         },
         "en": {
-          "title": "Dandelifeon | Searching for Maximum Mana in Minecraft Botania",
+          "title": "Dandelifeon | Emu Rabbit Portfolio",
           "heading": "Dandelifeon",
           "category": "Game Mechanic Solver",
-          "description": "A search experiment using random generation, simulated annealing, and genetic algorithms to maximize mana on Botania's 25×25 Conway's Game of Life board.",
+          "description": "Using code to play games? Yes. Very engineer.",
           "keywords": ["Dandelifeon", "Minecraft Botania", "Conway's Game of Life", "simulated annealing", "genetic algorithm", "mana solver"],
           "imageAlt": "Dandelion Mana Macaron with the title Dandelifeon"
         }
@@ -246,18 +246,18 @@
       ],
       "locales": {
         "zh": {
-          "title": "nAnB｜和黃金鼠夢夢玩的聊天室猜數字遊戲",
+          "title": "nAnB | 絵夢羽さ沂的作品集",
           "heading": "nAnB",
           "category": "數字小遊戲",
-          "description": "把經典 nA nB 猜數字題目做成聊天室遊戲，由黃金鼠夢夢陪你遊玩，並用暴力窮舉在有限搜尋空間中找出答案。",
+          "description": "嘴壞的小黃金鼠陪你玩些數字遊戲。",
           "keywords": ["nAnB", "猜數字遊戲", "聊天室遊戲", "暴力窮舉", "黃金鼠", "網頁小遊戲"],
           "imageAlt": "小倉鼠藍莓馬卡龍與 nAnB 標題"
         },
         "en": {
-          "title": "nAnB | A Chat-Style Number Guessing Game with Meng-Meng",
+          "title": "nAnB | Emu Rabbit Portfolio",
           "heading": "nAnB",
           "category": "Number Game",
-          "description": "A chat-style take on the classic nA nB number game, starring the hamster Meng-Meng and using brute-force search to solve a compact possibility space.",
+          "description": "A foul-mouthed little golden hamster joins you for some number games.",
           "keywords": ["nAnB", "number guessing game", "chat game", "brute force search", "hamster game", "web game"],
           "imageAlt": "Hamster Blueberry Macaron with the title nAnB"
         }
@@ -274,18 +274,18 @@
       ],
       "locales": {
         "zh": {
-          "title": "75% Alchohol｜酒精稀釋比例與濃度計算工具",
+          "title": "75% Alchohol | 絵夢羽さ沂的作品集",
           "heading": "75% Alchohol",
           "category": "疫情期間小工具",
-          "description": "疫情期間製作的酒精稀釋計算工具，可依來源濃度、酒精量、水量或總量推算 75% 消毒酒精比例與最終濃度。",
+          "description": "簡單、快速地幫你找到75%酒精黃金比例。",
           "keywords": ["酒精稀釋計算", "75% 酒精", "濃度計算", "消毒酒精比例", "alcohol calculator"],
           "imageAlt": "白葡萄蘇打馬卡龍與 75% Alchohol 標題"
         },
         "en": {
-          "title": "75% Alchohol | Alcohol Dilution Ratio and Concentration Calculator",
+          "title": "75% Alchohol | Emu Rabbit Portfolio",
           "heading": "75% Alchohol",
           "category": "Pandemic-Era Tool",
-          "description": "A pandemic-era alcohol dilution calculator for deriving 75% disinfectant ratios and final concentration from source strength, alcohol, water, or total volume.",
+          "description": "Find the golden ratio for 75% alcohol, simply and quickly.",
           "keywords": ["alcohol dilution calculator", "75 percent alcohol", "concentration calculator", "disinfectant ratio", "pandemic tool"],
           "imageAlt": "White Grape Soda Macaron with the title 75% Alchohol"
         }
@@ -302,18 +302,18 @@
       ],
       "locales": {
         "zh": {
-          "title": "50 Hiragana Test｜無廣告的日文五十音隨機測驗",
+          "title": "50 Hiragana Test | 絵夢羽さ沂的作品集",
           "heading": "50 Hiragana Test",
           "category": "日文學習小工具",
-          "description": "一個簡單、無廣告的日文五十音練習工具：隨機產生平假名題目，讓使用者在紙上作答後回到網頁核對答案。",
+          "description": "已經分不清我做這個是在練習程式還是練習日文了。",
           "keywords": ["五十音測驗", "平假名練習", "日文學習", "Hiragana test", "無廣告測驗", "50 Hiragana Test"],
           "imageAlt": "櫻花紅豆馬卡龍與 50 Hiragana Test 標題"
         },
         "en": {
-          "title": "50 Hiragana Test | A Simple Ad-Free Japanese Kana Quiz",
+          "title": "50 Hiragana Test | Emu Rabbit Portfolio",
           "heading": "50 Hiragana Test",
           "category": "Japanese Learning Tool",
-          "description": "A simple, ad-free Japanese hiragana practice tool that generates random kana prompts for writing on paper before checking the answers online.",
+          "description": "I can no longer tell whether I made this to practice programming or Japanese.",
           "keywords": ["hiragana test", "Japanese kana quiz", "hiragana practice", "Japanese learning tool", "ad-free quiz", "50 Hiragana Test"],
           "imageAlt": "Sakura Red Bean Macaron with the title 50 Hiragana Test"
         }

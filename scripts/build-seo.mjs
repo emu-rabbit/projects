@@ -32,12 +32,11 @@ function routeUrl(language, slug = null) {
 }
 
 function imageUrl(language, slug = null) {
-  void slug
-  return new URL(`social/${language}/home.png`, siteUrl).href
+  return new URL(`social/${language}/${slug ?? 'home'}.png`, siteUrl).href
 }
 
-function imageAlt(language) {
-  return content.site.locales[language].imageAlt
+function imageAlt(language, project = null) {
+  return seoEntry(language, project).imageAlt
 }
 
 function projectLocale(project, language) {
@@ -100,7 +99,7 @@ function structuredData(language, project = null) {
               position: index + 1,
               name: item.locales[language].heading,
               url: routeUrl(language, item.slug),
-              image: imageUrl(language),
+              image: imageUrl(language, item.slug),
             })),
           },
         },
@@ -157,7 +156,7 @@ function structuredData(language, project = null) {
           url: imageUrl(language, project.slug),
           width: 1200,
           height: 630,
-          caption: imageAlt(language),
+          caption: imageAlt(language, project),
         },
         breadcrumb: {
           '@type': 'BreadcrumbList',
@@ -207,12 +206,12 @@ function seoBlock(language, project = null) {
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="${escapeHtml(imageAlt(language))}" />
+    <meta property="og:image:alt" content="${escapeHtml(imageAlt(language, project))}" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${escapeHtml(entry.title)}" />
     <meta name="twitter:description" content="${escapeHtml(entry.description)}" />
     <meta name="twitter:image" content="${escapeHtml(socialImage)}" />
-    <meta name="twitter:image:alt" content="${escapeHtml(imageAlt(language))}" />
+    <meta name="twitter:image:alt" content="${escapeHtml(imageAlt(language, project))}" />
     <link rel="canonical" href="${escapeHtml(canonicalUrl)}" />
     <link rel="alternate" hreflang="zh-Hant" href="${escapeHtml(routeUrl('zh', project?.slug))}" />
     <link rel="alternate" hreflang="en" href="${escapeHtml(routeUrl('en', project?.slug))}" />
@@ -312,7 +311,7 @@ function sitemap() {
     <image:image>
       <image:loc>${escapeXml(imageUrl(language, slug))}</image:loc>
       <image:title>${escapeXml(entry.title)}</image:title>
-      <image:caption>${escapeXml(imageAlt(language))}</image:caption>
+      <image:caption>${escapeXml(imageAlt(language, project))}</image:caption>
     </image:image>
   </url>`)
     }

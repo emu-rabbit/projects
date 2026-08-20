@@ -32,8 +32,8 @@ export const absolutePortfolioUrl = (language: Language, slug: string | null = n
   new URL(slug ? `${language}/macarons/${slug}/` : `${language}/`, portfolioSiteUrl).href
 )
 
-export const socialImageUrl = (language: Language, _slug: string | null = null) => (
-  new URL(`social/${language}/home.png`, portfolioSiteUrl).href
+export const socialImageUrl = (language: Language, slug: string | null = null) => (
+  new URL(`social/${language}/${slug ?? 'home'}.png`, portfolioSiteUrl).href
 )
 
 const setMeta = (selector: string, content: string) => {
@@ -46,7 +46,7 @@ const setLink = (selector: string, href: string) => {
 
 export const syncDocumentSeo = (language: Language, slug: string | null) => {
   const entry = getSeoEntry(language, slug)
-  const socialImageAlt = seoContent.site.locales[language].imageAlt
+  const socialImageAlt = entry.imageAlt
   const canonicalUrl = absolutePortfolioUrl(language, slug)
   const imageUrl = socialImageUrl(language, slug)
 
@@ -58,6 +58,7 @@ export const syncDocumentSeo = (language: Language, slug: string | null) => {
   setMeta('meta[property="og:description"]', entry.description)
   setMeta('meta[property="og:url"]', canonicalUrl)
   setMeta('meta[property="og:image"]', imageUrl)
+  setMeta('meta[property="og:image:secure_url"]', imageUrl)
   setMeta('meta[property="og:image:alt"]', socialImageAlt)
   setMeta('meta[property="og:site_name"]', seoContent.site.locales[language].siteName)
   setMeta('meta[property="og:locale"]', language === 'zh' ? 'zh_TW' : 'en_US')
