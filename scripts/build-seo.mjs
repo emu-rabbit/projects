@@ -1,12 +1,12 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import process from 'node:process'
-import { loadMacaronDetails } from './load-macaron-details.mjs'
+import { loadPortfolioContent } from './load-portfolio-content.mjs'
 
 const root = resolve(import.meta.dirname, '..')
 const distDirectory = resolve(root, 'dist')
 const content = JSON.parse(await readFile(resolve(root, 'src/data/seo.json'), 'utf8'))
-const macaronDetails = await loadMacaronDetails(root)
+const { macaronDetails, portfolioCopy } = await loadPortfolioContent(root)
 const macaronDetailsBySlug = new Map(macaronDetails.map((detail) => [detail.slug, detail]))
 const template = await readFile(resolve(distDirectory, 'index.html'), 'utf8')
 const languages = ['zh', 'en']
@@ -245,7 +245,12 @@ function noScriptContent(language, project = null) {
   const links = content.projects.map((item) => (
     `<li><a href="${escapeHtml(routeUrl(language, item.slug))}">${escapeHtml(item.locales[language].heading)}</a></li>`
   )).join('')
-  return `<noscript><main><h1>${escapeHtml(entry.heading)}</h1><p>${escapeHtml(entry.description)}</p><ul>${links}</ul></main></noscript>`
+  const afterword = portfolioCopy[language].afterword
+  const afterwordParagraphs = afterword.paragraphs
+    .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+    .join('')
+
+  return `<noscript><main><h1>${escapeHtml(entry.heading)}</h1><p>${escapeHtml(entry.description)}</p><nav aria-label="${escapeHtml(language === 'zh' ? '作品列表' : 'Project list')}"><ul>${links}</ul></nav><article><h2>${escapeHtml(afterword.title)}</h2><p>${escapeHtml(afterword.openedTitle)}</p><div>${afterwordParagraphs}</div></article></main></noscript>`
 }
 
 function renderRoute(language, project = null) {

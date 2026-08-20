@@ -1,11 +1,11 @@
 import { readFile, stat } from 'node:fs/promises'
 import { resolve } from 'node:path'
-import { loadMacaronDetails } from './load-macaron-details.mjs'
+import { loadPortfolioContent } from './load-portfolio-content.mjs'
 
 const root = resolve(import.meta.dirname, '..')
 const dist = resolve(root, 'dist')
 const content = JSON.parse(await readFile(resolve(root, 'src/data/seo.json'), 'utf8'))
-const macaronDetails = await loadMacaronDetails(root)
+const { macaronDetails, portfolioCopy } = await loadPortfolioContent(root)
 const macaronDetailsBySlug = new Map(macaronDetails.map((detail) => [detail.slug, detail]))
 const languages = ['zh', 'en']
 const siteUrl = content.site.baseUrl.endsWith('/') ? content.site.baseUrl : `${content.site.baseUrl}/`
@@ -86,6 +86,22 @@ for (const language of languages) {
             `${label} is missing project link ${link.href}`,
           )
         }
+      }
+    } else {
+      const afterword = portfolioCopy[language].afterword
+      expect(
+        html.includes(`<h2>${escapeHtml(afterword.title)}</h2>`),
+        `${label} is missing the box-bottom letter title`,
+      )
+      expect(
+        html.includes(`<p>${escapeHtml(afterword.openedTitle)}</p>`),
+        `${label} is missing the box-bottom letter sender`,
+      )
+      for (const [index, paragraph] of afterword.paragraphs.entries()) {
+        expect(
+          html.includes(`<p>${escapeHtml(paragraph)}</p>`),
+          `${label} is missing box-bottom letter paragraph ${index + 1}`,
+        )
       }
     }
 
