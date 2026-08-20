@@ -19,7 +19,7 @@
 
 - `src/routing/portfolioRoute.ts` 是 runtime URL parser 與 builder。
 - 每個語言網址都必須能直接載入、重新整理與分享，不依賴 hash 才能找到內容。
-- `/projects/` 只負責依瀏覽器語言導向 `/projects/zh/` 或 `/projects/en/`，並標記 `noindex`；可索引頁面只有語言首頁與已登錄作品詳情。
+- `/projects/` 依瀏覽器語言導向 `/projects/zh/` 或 `/projects/en/`，並標記 `noindex`、以 `/projects/zh/` 為 canonical；可索引頁面只有語言首頁與已登錄作品詳情。為了讓短網址可直接用於推廣，根頁的 title、description、Open Graph 與 Twitter Card 必須與繁中首頁使用相同資料與 `social/zh/home.png`，但不建立第二個可索引頁面。
 - 舊的 `#/macarons/:slug` 連結只作相容性遷移，載入後以 `history.replaceState` 換成對應語言的 clean URL；它不是 canonical URL。
 - 語言切換維持同一頁面與同一 slug，並以 `hreflang` 連到另一語言版本。
 
@@ -44,6 +44,6 @@
 ## 建置與驗證
 
 - `npm run build` 依序執行 typecheck、Vite build、SEO 靜態頁產生與 `scripts/verify-seo.mjs`。
-- `scripts/verify-seo.mjs` 驗證 22 個 route 的 metadata、canonical、hreflang、Open Graph、Twitter Card、JSON-LD、無 JavaScript 的完整作品正文與連結、sitemap、robots，以及各 route 對應預覽圖的路徑、替代文字與 1200 × 630 尺寸。
+- `scripts/verify-seo.mjs` 驗證 22 個 route 的 metadata、canonical、hreflang、Open Graph、Twitter Card、JSON-LD、無 JavaScript 的完整作品正文與連結、sitemap、robots，以及各 route 對應預覽圖的路徑、替代文字與 1200 × 630 尺寸；也驗證根頁維持 `noindex` 與繁中 canonical，並與繁中首頁共用分享標題、描述和圖片。
 - GitHub Actions 以 `SITE_URL` 與 `VITE_SITE_URL` 指向正式 Pages URL；若 fork 或站點路徑改變，兩者與 Vite base 必須一起更新。
 - UI 或路由變更仍需用實際瀏覽器檢查中文／英文首頁、直接載入作品詳情、語言切換、返回首頁、桌機與手機溢出，以及 console 錯誤。

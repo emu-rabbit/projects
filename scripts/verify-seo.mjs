@@ -114,7 +114,18 @@ const robots = await readFile(resolve(dist, 'robots.txt'), 'utf8')
 expect(robots.includes(`Sitemap: ${new URL('sitemap.xml', siteUrl).href}`), 'robots.txt must reference the canonical sitemap')
 
 const rootHtml = await readFile(resolve(dist, 'index.html'), 'utf8')
-expect(rootHtml.includes('name="robots" content="noindex, follow"'), 'root redirect must be noindex, follow')
+const zhHome = content.site.locales.zh
+const zhHomePreviewUrl = new URL('social/zh/home.png', siteUrl).href
+expect(rootHtml.includes('name="robots" content="noindex, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"'), 'root redirect must be noindex, follow')
+expect(rootHtml.includes(`<title>${escapeHtml(zhHome.title)}</title>`), 'root redirect must use the Chinese home title')
+expect(rootHtml.includes(`name="description" content="${escapeHtml(zhHome.description)}"`), 'root redirect must use the Chinese home description')
+expect(rootHtml.includes(`property="og:title" content="${escapeHtml(zhHome.title)}"`), 'root redirect must use the Chinese Open Graph title')
+expect(rootHtml.includes(`property="og:description" content="${escapeHtml(zhHome.description)}"`), 'root redirect must use the Chinese Open Graph description')
+expect(rootHtml.includes(`property="og:image" content="${zhHomePreviewUrl}"`), 'root redirect must use the Chinese Open Graph preview')
+expect(rootHtml.includes(`name="twitter:title" content="${escapeHtml(zhHome.title)}"`), 'root redirect must use the Chinese Twitter title')
+expect(rootHtml.includes(`name="twitter:description" content="${escapeHtml(zhHome.description)}"`), 'root redirect must use the Chinese Twitter description')
+expect(rootHtml.includes(`name="twitter:image" content="${zhHomePreviewUrl}"`), 'root redirect must use the Chinese Twitter preview')
+expect(rootHtml.includes(`rel="canonical" href="${new URL('zh/', siteUrl).href}"`), 'root redirect must canonicalize to the Chinese home')
 expect(rootHtml.includes('location.replace('), 'root redirect must choose a localized route')
 
 const notFoundHtml = await readFile(resolve(dist, '404.html'), 'utf8')

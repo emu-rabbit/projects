@@ -185,7 +185,7 @@ function structuredData(language, project = null) {
   }
 }
 
-function seoBlock(language, project = null) {
+function seoBlock(language, project = null, indexable = true) {
   const entry = seoEntry(language, project)
   const canonicalUrl = routeUrl(language, project?.slug)
   const socialImage = imageUrl(language, project?.slug)
@@ -196,7 +196,7 @@ function seoBlock(language, project = null) {
     <meta name="description" content="${escapeHtml(entry.description)}" />
     <meta name="keywords" content="${escapeHtml(entry.keywords.join(', '))}" />
     <meta name="author" content="${escapeHtml(`${content.site.author.name} (${content.site.author.alternateName})`)}" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="robots" content="${indexable ? 'index' : 'noindex'}, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="${escapeHtml(content.site.locales[language].siteName)}" />
     <meta property="og:title" content="${escapeHtml(entry.title)}" />
@@ -267,16 +267,7 @@ async function writeRoute(language, project = null) {
 
 function rootRedirect() {
   const targetRoot = JSON.stringify(siteUrl)
-  return template
-    .replace(/<html lang="[^"]+"/, '<html lang="zh-Hant"')
-    .replace(/<!-- SEO:START -->[\s\S]*?<!-- SEO:END -->/, `<!-- SEO:START -->
-    <meta name="robots" content="noindex, follow" />
-    <meta name="description" content="Choose the Chinese or English version of Emu Rabbit Portfolio." />
-    <link rel="canonical" href="${escapeHtml(routeUrl('zh'))}" />
-    <link rel="alternate" hreflang="zh-Hant" href="${escapeHtml(routeUrl('zh'))}" />
-    <link rel="alternate" hreflang="en" href="${escapeHtml(routeUrl('en'))}" />
-    <link rel="alternate" hreflang="x-default" href="${escapeHtml(siteUrl)}" />
-    <script>
+  const redirectScript = `<script>
       (() => {
         const root = ${targetRoot};
         const saved = (() => { try { return localStorage.getItem('portfolio-language'); } catch { return null; } })();
@@ -285,10 +276,12 @@ function rootRedirect() {
         const suffix = match ? 'macarons/' + encodeURIComponent(decodeURIComponent(match[1])) + '/' : '';
         location.replace(root + language + '/' + suffix);
       })();
-    </script>
-    <!-- SEO:END -->`)
-    .replace(/<title>[\s\S]*?<\/title>/, '<title>Emu Rabbit Portfolio</title>')
-    .replace('<div id="app"></div>', `<div id="app"><noscript><p><a href="${escapeHtml(routeUrl('zh'))}">中文</a> · <a href="${escapeHtml(routeUrl('en'))}">English</a></p></noscript></div>`)
+    </script>`
+  return template
+    .replace(/<html lang="[^"]+"/, '<html lang="zh-Hant"')
+    .replace(/<!-- SEO:START -->[\s\S]*?<!-- SEO:END -->/, seoBlock('zh', null, false).replace('<!-- SEO:END -->', `${redirectScript}\n    <!-- SEO:END -->`))
+    .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(seoEntry('zh').title)}</title>`)
+    .replace('<div id="app"></div>', `<div id="app">${noScriptContent('zh')}</div>`)
 }
 
 function notFoundPage() {
