@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { macaronDetailsBySlug } from '../data/macaronDetails'
 import type { FlavorSection } from '../data/portfolio'
+import { portfolioPath } from '../routing/portfolioRoute'
 import type { Language } from '../types/portfolio'
 
 defineProps<{
@@ -8,6 +9,10 @@ defineProps<{
   language: Language
   cta: string
   highlightedFlavorId: string | null
+}>()
+
+const emit = defineEmits<{
+  openDetail: [slug: string]
 }>()
 </script>
 
@@ -58,7 +63,8 @@ defineProps<{
           <a
             v-if="macaronDetailsBySlug.has(flavor.id)"
             class="signature-cta signature-cta-link"
-            :href="`#/macarons/${flavor.id}`"
+            :href="portfolioPath(language, flavor.id)"
+            @click.prevent="emit('openDetail', flavor.id)"
           >
             <span>{{ cta }}</span>
             <span aria-hidden="true">→</span>

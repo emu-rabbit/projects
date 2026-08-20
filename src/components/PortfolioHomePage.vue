@@ -12,6 +12,10 @@ const props = defineProps<{
   theme: Theme
 }>()
 
+const emit = defineEmits<{
+  openDetail: [slug: string]
+}>()
+
 const highlightedFlavorId = ref<string | null>(null)
 const flavorSections = computed(() => getFlavorSections(props.language))
 
@@ -112,6 +116,7 @@ onBeforeUnmount(() => {
       :language="language"
       :cta="copy.signatureCta"
       :highlighted-flavor-id="highlightedFlavorId"
+      @open-detail="emit('openDetail', $event)"
     />
 
     <AfterwordLetter :copy="copy.afterword" :language="language" :theme="theme" />

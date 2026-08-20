@@ -22,7 +22,7 @@
 
 第一張正式預設視角的 caption 必須直接引用 `src/data/macaronIdentity.ts` 中該 slug 的正式馬卡龍名稱；首頁口味標註則引用同一筆 identity 的正式口味。名稱與口味是兩個不同欄位，不得把造型名稱改寫成另一種口味，也不得在畫廊 registry 另存一份可漂移的正式名稱。
 
-窗邊手記是第一個完成的詳情頁，route 為 `#/macarons/window-notes`，runtime 圖片由 `assets/galleries/window-notes/` 持有，順序為：
+窗邊手記是第一個完成的詳情頁，雙語 route 為 `/{language}/macarons/window-notes/`，runtime 圖片由 `assets/galleries/window-notes/` 持有，順序為：
 
 1. `default-view.webp`
 2. `three-views.webp`
@@ -30,7 +30,7 @@
 4. `skills.webp`
 5. `mobile-story.webp`
 
-兔子的祕密檔案 route 為 `#/macarons/boundary-notes`，runtime 圖片由 `assets/galleries/boundary-notes/` 持有，順序為：
+兔子的祕密檔案 route 為 `/{language}/macarons/boundary-notes/`，runtime 圖片由 `assets/galleries/boundary-notes/` 持有，順序為：
 
 1. `default-view.webp`
 2. `three-views.webp`
@@ -39,7 +39,7 @@
 5. `mobile-languages.webp`
 6. `share-image.webp`
 
-冷凍兔肉的巧匠工坊 route 為 `#/macarons/frozen-rabbit-workshop`，runtime 圖片由 `assets/galleries/frozen-rabbit-workshop/` 持有，順序為：
+冷凍兔肉的巧匠工坊 route 為 `/{language}/macarons/frozen-rabbit-workshop/`，runtime 圖片由 `assets/galleries/frozen-rabbit-workshop/` 持有，順序為：
 
 1. `default-view.webp`
 2. `three-views.webp`
@@ -47,7 +47,7 @@
 4. `todo-list.webp`
 5. `mobile-languages.webp`
 
-冷凍兔肉的大地秘笈 route 為 `#/macarons/frozen-rabbit-tome`，runtime 圖片由 `assets/galleries/frozen-rabbit-tome/` 持有，順序為：
+冷凍兔肉的大地秘笈 route 為 `/{language}/macarons/frozen-rabbit-tome/`，runtime 圖片由 `assets/galleries/frozen-rabbit-tome/` 持有，順序為：
 
 1. `default-view.webp`
 2. `three-views.webp`
@@ -55,7 +55,7 @@
 4. `solver-results.webp`
 5. `mobile-languages.webp`
 
-LinkArray route 為 `#/macarons/link-array`，runtime 圖片由 `assets/galleries/link-array/` 持有，順序為：
+LinkArray route 為 `/{language}/macarons/link-array/`，runtime 圖片由 `assets/galleries/link-array/` 持有，順序為：
 
 1. `default-view.webp`
 2. `three-views.webp`
@@ -66,32 +66,32 @@ LinkArray route 為 `#/macarons/link-array`，runtime 圖片由 `assets/gallerie
 
 操作複雜度與重構區圖解各自只佔一個畫廊項目，並依目前 `zh`／`en` 語系切換對應圖片；切換語系時不得同時展示兩種語言，也不得改變目前的畫廊索引。
 
-Dandelifeon route 為 `#/macarons/dandelifeon`，runtime 圖片由 `assets/galleries/dandelifeon/` 持有，順序為：
+Dandelifeon route 為 `/{language}/macarons/dandelifeon/`，runtime 圖片由 `assets/galleries/dandelifeon/` 持有，順序為：
 
 1. `default-view.webp`
 2. `three-views.webp`
 3. `perfect-board.webp`
 
-nAnB route 為 `#/macarons/nanb`，runtime 圖片由 `assets/galleries/nanb/` 持有，順序為：
+nAnB route 為 `/{language}/macarons/nanb/`，runtime 圖片由 `assets/galleries/nanb/` 持有，順序為：
 
 1. `default-view.webp`
 2. `three-views.webp`
 3. `game-screen.webp`
 4. `clipboard-result.webp`
 
-75% Alchohol route 為 `#/macarons/75-alchohol`，runtime 圖片由 `assets/galleries/75-alchohol/` 持有，順序為：
+75% Alchohol route 為 `/{language}/macarons/75-alchohol/`，runtime 圖片由 `assets/galleries/75-alchohol/` 持有，順序為：
 
 1. `default-view.webp`
 2. `three-views.webp`
 3. `website.webp`
 
-50 Hiragana Test route 為 `#/macarons/50-hiragana-test`，runtime 圖片由 `assets/galleries/50-hiragana-test/` 持有，順序為：
+50 Hiragana Test route 為 `/{language}/macarons/50-hiragana-test/`，runtime 圖片由 `assets/galleries/50-hiragana-test/` 持有，順序為：
 
 1. `default-view.webp`
 2. `three-views.webp`
 3. `website.webp`
 
-`src/data/macaronDetails.ts` 是詳細頁內容 registry，持有每個作品的 slug、雙語文案、連結、圖片順序、alt 與 caption；只有已登錄的作品才會開放首頁卡片連結與 `#/macarons/:slug` route。`src/components/MacaronDetailPage.vue` 持有跨作品共用的詳細版型，`src/components/MacaronGallery.vue` 持有跨作品共用的畫廊互動，`src/App.vue` 只負責依 route 選擇首頁或已登錄的詳細內容。
+`src/data/macaronDetails.ts` 是詳細頁內容 registry，持有每個作品的 slug、雙語文案、連結、圖片順序、alt 與 caption；只有已登錄的作品才會開放首頁卡片連結與 `/{language}/macarons/:slug/` route，其中 `{language}` 為 `zh` 或 `en`。`src/components/MacaronDetailPage.vue` 持有跨作品共用的詳細版型，`src/components/MacaronGallery.vue` 持有跨作品共用的畫廊互動，`src/App.vue` 只負責依 route 選擇首頁或已登錄的詳細內容；公開 URL 與 SEO 產物由 `docs/seo-routing.md` 持有。
 
 `src/data/macaronPalette.ts` 是首頁馬卡龍卡片與詳細頁畫廊共用的背景色 owner；兩個 surface 必須引用同一筆 light／dark 色彩，不得各自複製色碼。透明馬卡龍圖片會直接露出畫廊 surface，因此詳細頁沿用首頁卡片的同一組 radial glow 與背景色混合方式，不使用全站固定的紫色畫廊底。
 

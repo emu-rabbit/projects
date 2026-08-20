@@ -21,12 +21,17 @@ interface MacaronDetailUiCopy {
 const props = defineProps<{
   detail: MacaronDetail
   language: Language
+  homeHref: string
+  alternateLanguageHref: string
+  alternateLanguageLabel: string
+  alternateLanguageAriaLabel: string
   theme: Theme
   ui: MacaronDetailUiCopy
 }>()
 
 const emit = defineEmits<{
   back: []
+  setLanguage: []
 }>()
 
 const imageSources = (source: MacaronGalleryImage['src']) => (
@@ -64,10 +69,22 @@ const galleryPalette = computed(() => ({
 <template>
   <main class="detail-main">
     <section class="detail-page" aria-labelledby="detail-title" :style="galleryPalette">
-      <button class="detail-back" type="button" @click="emit('back')">
-        <span aria-hidden="true">←</span>
-        <span>{{ ui.backHome }}</span>
-      </button>
+      <div class="detail-topbar">
+        <a class="detail-back" :href="homeHref" @click.prevent="emit('back')">
+          <span aria-hidden="true">←</span>
+          <span>{{ ui.backHome }}</span>
+        </a>
+        <a
+          class="detail-language"
+          :href="alternateLanguageHref"
+          :hreflang="language === 'zh' ? 'en' : 'zh-Hant'"
+          :lang="language === 'zh' ? 'en' : 'zh-Hant'"
+          :aria-label="alternateLanguageAriaLabel"
+          @click.prevent="emit('setLanguage')"
+        >
+          {{ alternateLanguageLabel }}
+        </a>
+      </div>
 
       <div class="detail-layout">
         <article class="detail-copy">
@@ -126,11 +143,18 @@ const galleryPalette = computed(() => ({
   padding: clamp(24px, 4vh, 44px) 0 clamp(56px, 8vh, 96px);
 }
 
-.detail-back {
+.detail-topbar {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detail-back,
+.detail-language {
   display: inline-flex;
   min-height: 36px;
   align-items: center;
-  align-self: flex-start;
   gap: 10px;
   padding: 0;
   border: 0;
@@ -139,7 +163,12 @@ const galleryPalette = computed(() => ({
   cursor: pointer;
   font-size: 0.78rem;
   letter-spacing: 0.04em;
+  text-decoration: none;
   transition: color 180ms ease, transform 180ms ease;
+}
+
+.detail-language {
+  color: var(--ink-soft);
 }
 
 .detail-back [aria-hidden="true"] {
@@ -243,6 +272,10 @@ const galleryPalette = computed(() => ({
     transform: translateX(-3px);
   }
 
+  .detail-language:hover {
+    color: var(--accent);
+  }
+
   .detail-link:hover {
     border-color: var(--accent);
     color: var(--ink);
@@ -275,7 +308,7 @@ const galleryPalette = computed(() => ({
     padding: calc(58px + env(safe-area-inset-top)) 0 56px;
   }
 
-  .detail-back {
+  .detail-topbar {
     position: fixed;
     top: 0;
     right: 0;
@@ -286,6 +319,11 @@ const galleryPalette = computed(() => ({
     border-bottom: 1px solid var(--line);
     background: var(--canvas);
     font-size: 0.74rem;
+  }
+
+  .detail-back,
+  .detail-language {
+    min-height: 58px;
   }
 
   .detail-layout {

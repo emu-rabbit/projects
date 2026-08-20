@@ -38,6 +38,9 @@ jobs:
 
       - name: Build
         run: pnpm run build
+        env:
+          SITE_URL: https://emu-rabbit.github.io/projects/
+          VITE_SITE_URL: https://emu-rabbit.github.io/projects/
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5

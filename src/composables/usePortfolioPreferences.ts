@@ -12,7 +12,11 @@ const readStorage = (key: string) => {
   }
 }
 
-const getInitialLanguage = (): Language => {
+const getInitialLanguage = (routeLanguage?: Language): Language => {
+  if (routeLanguage) {
+    return routeLanguage
+  }
+
   const savedLanguage = readStorage(languageStorageKey)
   return savedLanguage === 'zh' || savedLanguage === 'en' ? savedLanguage : 'zh'
 }
@@ -31,8 +35,8 @@ const getInitialTheme = (): Theme => {
   }
 }
 
-export const usePortfolioPreferences = () => {
-  const language = ref<Language>(getInitialLanguage())
+export const usePortfolioPreferences = (routeLanguage?: Language) => {
+  const language = ref<Language>(getInitialLanguage(routeLanguage))
   const theme = ref<Theme>(getInitialTheme())
 
   const setLanguage = (nextLanguage: Language) => {

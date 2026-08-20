@@ -165,8 +165,10 @@ main {
   backdrop-filter: blur(12px);
 }
 
-.language-toggle button {
+.language-toggle a {
+  display: inline-flex;
   min-height: 32px;
+  align-items: center;
   padding: 0 12px;
   border: 0;
   border-radius: inherit;
@@ -176,10 +178,11 @@ main {
   font-size: 0.7rem;
   font-weight: 400;
   letter-spacing: 0.025em;
+  text-decoration: none;
   transition: background-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
 }
 
-.language-toggle button.active {
+.language-toggle a.active {
   background: var(--control-active);
   box-shadow: 0 2px 8px var(--control-shadow);
   color: var(--ink);
@@ -532,6 +535,7 @@ main {
   color: var(--ink-soft);
   font-size: clamp(0.9rem, 1.15vw, 1rem);
   letter-spacing: 0.025em;
+  text-decoration: none;
   line-height: 1.9;
 }
 
@@ -753,7 +757,7 @@ main {
     gap: 7px;
   }
 
-  .language-toggle button {
+  .language-toggle a {
     min-height: 30px;
     padding: 0 9px;
     font-size: 0.64rem;

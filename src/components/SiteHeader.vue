@@ -5,6 +5,7 @@ import type { Language, Theme } from '../types/portfolio'
 defineProps<{
   copy: PortfolioCopy
   language: Language
+  languageHrefs: Record<Language, string>
   theme: Theme
 }>()
 
@@ -26,22 +27,26 @@ const navMacaronImage = new URL('../../assets/ui/nav-macaron.svg', import.meta.u
 
       <div class="header-actions">
         <div class="language-toggle" role="group" :aria-label="copy.languageLabel">
-          <button
-            type="button"
+          <a
+            :href="languageHrefs.zh"
+            hreflang="zh-Hant"
+            lang="zh-Hant"
             :class="{ active: language === 'zh' }"
-            :aria-pressed="language === 'zh'"
-            @click="emit('setLanguage', 'zh')"
+            :aria-current="language === 'zh' ? 'page' : undefined"
+            @click.prevent="emit('setLanguage', 'zh')"
           >
             中文
-          </button>
-          <button
-            type="button"
+          </a>
+          <a
+            :href="languageHrefs.en"
+            hreflang="en"
+            lang="en"
             :class="{ active: language === 'en' }"
-            :aria-pressed="language === 'en'"
-            @click="emit('setLanguage', 'en')"
+            :aria-current="language === 'en' ? 'page' : undefined"
+            @click.prevent="emit('setLanguage', 'en')"
           >
             English
-          </button>
+          </a>
         </div>
 
         <button
