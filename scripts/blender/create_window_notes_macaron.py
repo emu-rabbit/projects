@@ -598,6 +598,22 @@ def create_torus(
     return torus
 
 
+def cap_filling_layer(
+    vertices: list[tuple[float, float, float]],
+    faces: list[tuple[int, ...]],
+    *,
+    segments: int,
+    levels: int,
+) -> None:
+    """Close a layered side profile into a solid, flat cylindrical filling."""
+    bottom_start = 0
+    top_start = (levels - 1) * segments
+    bottom_loop = tuple(bottom_start + index for index in range(segments))
+    top_loop = tuple(top_start + index for index in range(segments))
+    faces.append(tuple(reversed(bottom_loop)))
+    faces.append(top_loop)
+
+
 def create_cream_layer(
     name: str,
     z: float,
@@ -607,7 +623,7 @@ def create_cream_layer(
     *,
     upper: bool,
 ) -> bpy.types.Object:
-    """Create one asymmetric, hand-piped cream layer with soft weight and edge variation."""
+    """Create one solid cream cylinder with a softly hand-piped outer edge."""
     segments = 256
     levels = 21
     local_rng = random.Random(seed)
@@ -615,7 +631,7 @@ def create_cream_layer(
     phase_b = local_rng.random() * math.tau
     phase_c = local_rng.random() * math.tau
     vertices: list[tuple[float, float, float]] = []
-    faces: list[tuple[int, int, int, int]] = []
+    faces: list[tuple[int, ...]] = []
 
     for level in range(levels):
         t = level / (levels - 1)
@@ -659,6 +675,9 @@ def create_cream_layer(
             upper_next = (level + 1) * segments + next_index
             faces.append((lower, lower_next, upper_next, upper))
 
+    side_face_count = len(faces)
+    cap_filling_layer(vertices, faces, segments=segments, levels=levels)
+
     mesh = bpy.data.meshes.new(f"{name} mesh")
     mesh.from_pydata(vertices, [], faces)
     mesh.materials.append(material)
@@ -668,6 +687,8 @@ def create_cream_layer(
     add_displacement(band, 0.0035, 0.11, seed)
     cube_project_uv(band, 3.6)
     smooth(band)
+    for polygon in band.data.polygons[side_face_count:]:
+        polygon.use_smooth = False
     return band
 
 
@@ -676,7 +697,7 @@ def create_apricot_jam_ribbon(
     material: bpy.types.Material,
     seed: int,
 ) -> bpy.types.Object:
-    """Create a recessed, glossy jam ribbon with uneven thickness and a gentle front sag."""
+    """Create a solid jam cylinder with uneven thickness and a gentle front sag."""
     segments = 256
     levels = 15
     height = 0.21
@@ -685,7 +706,7 @@ def create_apricot_jam_ribbon(
     phase_b = local_rng.random() * math.tau
     phase_c = local_rng.random() * math.tau
     vertices: list[tuple[float, float, float]] = []
-    faces: list[tuple[int, int, int, int]] = []
+    faces: list[tuple[int, ...]] = []
 
     for level in range(levels):
         t = level / (levels - 1)
@@ -717,6 +738,9 @@ def create_apricot_jam_ribbon(
             upper_next = (level + 1) * segments + next_index
             faces.append((lower, lower_next, upper_next, upper))
 
+    side_face_count = len(faces)
+    cap_filling_layer(vertices, faces, segments=segments, levels=levels)
+
     mesh = bpy.data.meshes.new(f"{name} mesh")
     mesh.from_pydata(vertices, [], faces)
     mesh.materials.append(material)
@@ -725,6 +749,8 @@ def create_apricot_jam_ribbon(
     bpy.context.collection.objects.link(ribbon)
     cube_project_uv(ribbon, 3.4)
     smooth(ribbon)
+    for polygon in ribbon.data.polygons[side_face_count:]:
+        polygon.use_smooth = False
     return ribbon
 
 
@@ -1651,19 +1677,6 @@ def build_model() -> None:
             texture_size=256,
             roughness_variation=0.025,
         ),
-        "cream": create_material(
-            "Warm white chocolate cream",
-            "#F6E3BE",
-            roughness=0.64,
-            texture_seed=401,
-            texture_profile="cream",
-            texture_size=256,
-            roughness_variation=0.065,
-            transmission=0.025,
-            coat_weight=0.12,
-            coat_roughness=0.24,
-            specular_level=0.3,
-        ),
         "cream_upper": create_material(
             "Upper vanilla cream with pressed ripples",
             "#EACB98",
@@ -1836,7 +1849,6 @@ def build_model() -> None:
         947,
     )
 
-    create_cylinder("White chocolate cream core", 1.3, 0.92, 0, materials["cream"], 0.13)
     create_cream_layer(
         "Upper draped vanilla cream layer",
         0.30,
