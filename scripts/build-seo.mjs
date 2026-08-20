@@ -1,10 +1,13 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import process from 'node:process'
+import { loadMacaronDetails } from './load-macaron-details.mjs'
 
 const root = resolve(import.meta.dirname, '..')
 const distDirectory = resolve(root, 'dist')
 const content = JSON.parse(await readFile(resolve(root, 'src/data/seo.json'), 'utf8'))
+const macaronDetails = await loadMacaronDetails(root)
+const macaronDetailsBySlug = new Map(macaronDetails.map((detail) => [detail.slug, detail]))
 const template = await readFile(resolve(distDirectory, 'index.html'), 'utf8')
 const languages = ['zh', 'en']
 const languageTags = { zh: 'zh-Hant', en: 'en' }
@@ -226,7 +229,17 @@ function noScriptContent(language, project = null) {
   const homeLabel = language === 'zh' ? '返回作品集首頁' : 'Back to the portfolio home page'
 
   if (project) {
-    return `<noscript><main><article><p>${escapeHtml(entry.category)}</p><h1>${escapeHtml(entry.heading)}</h1><p>${escapeHtml(entry.description)}</p><p><a href="${escapeHtml(routeUrl(language))}">${escapeHtml(homeLabel)}</a></p></article></main></noscript>`
+    const detail = macaronDetailsBySlug.get(project.slug)
+    if (!detail) throw new Error(`Missing macaron detail content for ${project.slug}`)
+
+    const narrative = detail.paragraphs[language]
+      .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+      .join('')
+    const projectLinks = detail.links
+      .map((link) => `<li><a href="${escapeHtml(link.href)}">${escapeHtml(link.label[language])}</a></li>`)
+      .join('')
+
+    return `<noscript><main><article><p>${escapeHtml(detail.category[language])}</p><h1>${escapeHtml(detail.title[language])}</h1><div>${narrative}</div><blockquote><p>${escapeHtml(detail.closing[language])}</p></blockquote><nav aria-label="${escapeHtml(language === 'zh' ? '專案連結' : 'Project links')}"><ul>${projectLinks}</ul></nav><p><a href="${escapeHtml(routeUrl(language))}">${escapeHtml(homeLabel)}</a></p></article></main></noscript>`
   }
 
   const links = content.projects.map((item) => (

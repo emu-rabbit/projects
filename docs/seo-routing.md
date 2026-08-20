@@ -28,7 +28,8 @@
 - `src/data/seo.json` 是雙語 SEO title、description、keywords、圖片 alt、作品分類、色票與結構化資料欄位的單一資料來源。
 - 首頁 title 維持品牌標題；作品詳情 title 固定為中文「`<作品名> | 絵夢羽さ沂的作品集`」、英文「`<Project Name> | Emu Rabbit Portfolio`」。首頁與作品 description 以 `src/data/seo.json` 的核准文案為準。
 - `src/data/seo.ts` 在 SPA 導航時同步 `<title>`、description、keywords、canonical、hreflang、Open Graph 與 Twitter metadata。
-- `scripts/build-seo.mjs` 在 `vite build` 後產生 22 個可直接讀取的 HTML：兩個語言首頁與十個作品的雙語詳情；每頁包含唯一 title、description、canonical、hreflang、Open Graph、Twitter Card、JSON-LD 與無 JavaScript 的可爬連結。
+- `scripts/build-seo.mjs` 在 `vite build` 後產生 22 個可直接讀取的 HTML：兩個語言首頁與十個作品的雙語詳情；每頁包含唯一 title、description、canonical、hreflang、Open Graph、Twitter Card、JSON-LD 與無 JavaScript 的可爬內容。
+- 每個作品詳情的靜態 HTML 必須直接包含 `src/data/macaronDetails.ts` 同語言版本的完整 paragraphs、closing quote 與專案連結，不能只輸出 category、title 與 SEO tagline；正文仍只由 detail registry 持有，SEO build 不另存第二份文案。
 - `dist/sitemap.xml` 列出上述 22 個 canonical URL，`dist/robots.txt` 宣告 sitemap；根頁與 404 fallback 不加入 sitemap。
 - `meta name="keywords"` 只作內容治理與非 Google 搜尋系統的輔助訊號；不能把它當成 Google 排名保證。可搜尋性主要依靠可直接存取的 URL、語意內容、title、description、內部連結、canonical、hreflang、結構化資料與 sitemap。
 
@@ -43,6 +44,6 @@
 ## 建置與驗證
 
 - `npm run build` 依序執行 typecheck、Vite build、SEO 靜態頁產生與 `scripts/verify-seo.mjs`。
-- `scripts/verify-seo.mjs` 驗證 22 個 route 的 metadata、canonical、hreflang、Open Graph、Twitter Card、JSON-LD、無 JavaScript 連結、sitemap、robots，以及各 route 對應預覽圖的路徑、替代文字與 1200 × 630 尺寸。
+- `scripts/verify-seo.mjs` 驗證 22 個 route 的 metadata、canonical、hreflang、Open Graph、Twitter Card、JSON-LD、無 JavaScript 的完整作品正文與連結、sitemap、robots，以及各 route 對應預覽圖的路徑、替代文字與 1200 × 630 尺寸。
 - GitHub Actions 以 `SITE_URL` 與 `VITE_SITE_URL` 指向正式 Pages URL；若 fork 或站點路徑改變，兩者與 Vite base 必須一起更新。
 - UI 或路由變更仍需用實際瀏覽器檢查中文／英文首頁、直接載入作品詳情、語言切換、返回首頁、桌機與手機溢出，以及 console 錯誤。

@@ -1,9 +1,12 @@
 import { readFile, stat } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { loadMacaronDetails } from './load-macaron-details.mjs'
 
 const root = resolve(import.meta.dirname, '..')
 const dist = resolve(root, 'dist')
 const content = JSON.parse(await readFile(resolve(root, 'src/data/seo.json'), 'utf8'))
+const macaronDetails = await loadMacaronDetails(root)
+const macaronDetailsBySlug = new Map(macaronDetails.map((detail) => [detail.slug, detail]))
 const languages = ['zh', 'en']
 const siteUrl = content.site.baseUrl.endsWith('/') ? content.site.baseUrl : `${content.site.baseUrl}/`
 const failures = []
@@ -62,6 +65,29 @@ for (const language of languages) {
     expect(html.includes(`property="og:image:alt" content="${expectedImageAlt}"`), `${label} must use its own Open Graph image alt`)
     expect(html.includes(`name="twitter:image:alt" content="${expectedImageAlt}"`), `${label} must use its own Twitter image alt`)
     expect(html.includes('<noscript>'), `${label} is missing a no-JavaScript crawl fallback`)
+
+    if (project) {
+      const detail = macaronDetailsBySlug.get(project.slug)
+      expect(Boolean(detail), `${label} is missing its canonical macaron detail content`)
+      if (detail) {
+        for (const [index, paragraph] of detail.paragraphs[language].entries()) {
+          expect(
+            html.includes(`<p>${escapeHtml(paragraph)}</p>`),
+            `${label} is missing narrative paragraph ${index + 1}`,
+          )
+        }
+        expect(
+          html.includes(`<blockquote><p>${escapeHtml(detail.closing[language])}</p></blockquote>`),
+          `${label} is missing its closing narrative`,
+        )
+        for (const link of detail.links) {
+          expect(
+            html.includes(`<a href="${escapeHtml(link.href)}">${escapeHtml(link.label[language])}</a>`),
+            `${label} is missing project link ${link.href}`,
+          )
+        }
+      }
+    }
 
     const preview = resolve(dist, 'social', language, expectedPreviewName)
     await stat(preview)
