@@ -17,7 +17,7 @@
 ### 主要焦點專案
 
 - Frozen Rabbit Workshop
-- Frozen Rabbit Tome
+- Rabbit Hole Notes
 - Boundary Notes
 - Emu Rabbit Github io
 
@@ -57,7 +57,7 @@
 | 分級 | 作品 | GitHub 背景 | 放進作品集時要說清楚的核心 |
 | --- | --- | --- | --- |
 | 主要焦點 | [Frozen Rabbit Workshop](https://github.com/emu-rabbit/frozen_rabbit_workshop) | 使用 Vue 3 + Vite 製作的 FFXIV 製作／採集備料工具；能拆解大型製作目標、分配購買／製作／採集／庫存、估算市場成本與時間，並產生行動清單。 | 把龐大、混亂的備料工作轉成清楚且可執行的準備路線。 |
-| 主要焦點 | [Frozen Rabbit Tome](https://github.com/emu-rabbit/frozen_rabbit_tome) | 面向 FFXIV 採掘師與園藝師的策略工具；依角色與採集點狀態推薦手法，支援一般採集與收藏品策略、機率／風險比較、自訂 rotation 模擬及保存結果。 | 在多個狀態與取捨之間求解、比較，留下可回看的知識。 |
+| 主要焦點 | [Rabbit Hole Notes](https://github.com/emu-rabbit/rabbit-hole-notes) | 以個人為中心的筆記法，沿時間與連結整理經歷、關係、創作與理念，並可從正文回查來源。 | 邀請讀者沿著一條線索走進另一段故事，慢慢認識一個人。 |
 | 主要焦點 | [Boundary Notes](https://github.com/emu-rabbit/boundary_notes) | 使用 Vue 3、TypeScript、Vite 與 Firebase 的私密筆記；協助使用者整理 BDSM 經驗、興趣、界線與重要條件，回看變化，並在選擇時以私密連結分享。 | 提供安靜、尊重且不評判的空間，把感受與界線整理成可溝通的話。 |
 | 主要焦點 | [Emu Rabbit Github io](https://github.com/emu-rabbit/emu-rabbit.github.io) | 以 Vite + TypeScript 建立的輕量個人自我介紹網站；透過窗邊手記介紹絵夢羽さ沂的生活、程式工作、遊戲、存錢、約會，以及對愛、自由與誠實的重視。 | 不是平台首頁或履歷摘要，而是一扇讓人能靠近創作者本人的窗。 |
 | 技術實驗 | [LinkArray](https://github.com/emu-rabbit/LinkArray) | 探索結合 dynamic array 隨機讀取與 doubly linked list 頭尾操作優點的資料結構；包含手動 `refactor`、自動選擇時機的 AutoLinkArray，以及小資料量先維持原生 array 的 AdaptiveArray。 | 讓節點在「鏈結」與「重新排列成可快速讀取的順序」之間切換。 |

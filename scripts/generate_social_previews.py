@@ -39,10 +39,7 @@ PROJECT_HEADING_LINES = {
         "zh": ["冷凍兔肉的", "巧匠工坊"],
         "en": ["Frozen Rabbit's", "Workshop"],
     },
-    "frozen-rabbit-tome": {
-        "zh": ["冷凍兔肉的", "大地秘笈"],
-        "en": ["Frozen Rabbit's", "Tome"],
-    },
+    "rabbit-hole-notes": {"zh": ["兔子洞", "筆記法"], "en": ["Rabbit Hole", "Notes"]},
     "link-array": {"zh": ["LinkArray"], "en": ["LinkArray"]},
     "vue-router-rule": {"zh": ["Vue Router", "Rule"], "en": ["Vue Router", "Rule"]},
     "dandelifeon": {"zh": ["Dandelifeon"], "en": ["Dandelifeon"]},

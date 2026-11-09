@@ -112,8 +112,8 @@ function structuredData(language, project = null) {
 
   const githubUrl = project.sameAs.find((url) => url.includes('github.com/'))
   const liveUrl = project.sameAs.find((url) => !url.includes('github.com/'))
-  const software = {
-    '@type': project.slug === 'link-array' ? 'SoftwareSourceCode' : 'SoftwareApplication',
+  const work = {
+    '@type': project.structuredDataType ?? (project.slug === 'link-array' ? 'SoftwareSourceCode' : 'SoftwareApplication'),
     '@id': `${canonicalUrl}#project`,
     name: entry.heading,
     description: entry.description,
@@ -125,8 +125,8 @@ function structuredData(language, project = null) {
     inLanguage: languageTags[language],
   }
 
-  if (software['@type'] === 'SoftwareApplication') {
-    Object.assign(software, {
+  if (work['@type'] === 'SoftwareApplication') {
+    Object.assign(work, {
       applicationCategory: project.applicationCategory,
       operatingSystem: 'Web browser',
       offers: {
@@ -135,9 +135,9 @@ function structuredData(language, project = null) {
         priceCurrency: 'USD',
       },
     })
-  } else if (githubUrl) {
-    software.codeRepository = githubUrl
-    software.programmingLanguage = ['TypeScript', 'JavaScript']
+  } else if (work['@type'] === 'SoftwareSourceCode' && githubUrl) {
+    work.codeRepository = githubUrl
+    work.programmingLanguage = ['TypeScript', 'JavaScript']
   }
 
   return {
@@ -180,7 +180,7 @@ function structuredData(language, project = null) {
         },
         mainEntity: { '@id': `${canonicalUrl}#project` },
       },
-      software,
+      work,
     ],
   }
 }

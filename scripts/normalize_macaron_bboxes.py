@@ -18,7 +18,7 @@ class Asset:
 
 ASSETS = (
     Asset("workshop", "Frozen Rabbit Workshop -*.png"),
-    Asset("tome", "Frozen Rabbit Tome -*.png"),
+    Asset("rabbit-hole-notes", "Rabbit Hole Notes -*.png"),
     Asset("boundary-notes", "Boundary Notes -*.png"),
     Asset("emu-rabbit", "Emu Rabbit Github io -*.png"),
     Asset("link-array", "LinkArray -*.png"),

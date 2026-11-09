@@ -53,13 +53,13 @@ const frozenRabbitWorkshopGallery = {
   mobileLanguages: new URL('../../assets/galleries/frozen-rabbit-workshop/mobile-languages.webp', import.meta.url).href,
 } as const
 
-const frozenRabbitTomeGallery = {
-  defaultView: new URL('../../assets/galleries/frozen-rabbit-tome/default-view.webp', import.meta.url).href,
-  threeViews: new URL('../../assets/galleries/frozen-rabbit-tome/three-views.webp', import.meta.url).href,
-  clearEntry: new URL('../../assets/galleries/frozen-rabbit-tome/clear-entry.webp', import.meta.url).href,
-  solverResults: new URL('../../assets/galleries/frozen-rabbit-tome/solver-results.webp', import.meta.url).href,
-  mobileLanguages: new URL('../../assets/galleries/frozen-rabbit-tome/mobile-languages.webp', import.meta.url).href,
-} as const
+const rabbitHoleNotesGallery = {
+  defaultView: new URL('../../assets/galleries/rabbit-hole-notes/default-view.webp', import.meta.url).href,
+  threeViews: new URL('../../assets/galleries/rabbit-hole-notes/three-views.webp', import.meta.url).href,
+  homepage: new URL('../../assets/galleries/rabbit-hole-notes/homepage.webp', import.meta.url).href,
+  reader: new URL('../../assets/galleries/rabbit-hole-notes/reader.webp', import.meta.url).href,
+  methodQuote: new URL('../../assets/galleries/rabbit-hole-notes/method-quote.webp', import.meta.url).href,
+}
 
 const linkArrayGallery = {
   defaultView: new URL('../../assets/galleries/link-array/default-view.webp', import.meta.url).href,
@@ -302,65 +302,61 @@ export const macaronDetails = [
     ],
   },
   {
-    slug: 'frozen-rabbit-tome',
-    palette: macaronPaletteBySlug['frozen-rabbit-tome'],
-    category: { zh: 'Final Fantasy XIV 大地工具', en: 'Final Fantasy XIV Gathering Tool' },
-    title: { zh: '冷凍兔肉的大地秘笈', en: "Frozen Rabbit's Tome" },
+    slug: 'rabbit-hole-notes',
+    palette: macaronPaletteBySlug['rabbit-hole-notes'],
+    category: { zh: '個人筆記法', en: 'Personal Note-Taking Method' },
+    title: { zh: '兔子洞筆記法', en: 'Rabbit Hole Notes' },
     paragraphs: {
       zh: [
-        '一開始要做這個專案，其實低估了它的困難度，不是說技術很難做，而是這東西真的太複雜，也需要高度的正確可靠性。',
-        '決定把遊戲中的「收藏品」機制拉進來之後，更是一場風暴，最終我在可行性、使用者體驗、可用性達到了平衡。',
-        '打從一開始就知道這專案不會很多人用，後續GA的數字也證明了這點，但我仍舊很喜歡這個專案。它教會了我在設計上降低認知負荷、處理視覺雜音，還有在多項資源中取得平衡，讓一個想法可以真正的落地。',
+        '我是一個很喜歡被認識的人。想到 AI 模型不斷更換，也想讓親近的人認識更完整的自己，我就有了創建兔子洞的想法。',
+        '一開始只是單純地建立自己的結構和系統，後來發現我可以把這一套公開出來，給大家參考。更重要的是，我希望在 AI 加速的世界中，兔子洞能提醒大家多看看自己生命中重要的事：經歷、關係、創作，還有理念。',
+        '能做出自己的兔子洞，對我來說真的是一件很開心的事。我想，這也許也是 AI 陪伴功能中很重要的一塊拼圖。',
       ],
       en: [
-        'I underestimated this project. The technology was not the hard part; its complexity and need for accuracy and reliability were.',
-        "Adding the game's collectable system unleashed another storm. In the end, I balanced feasibility, user experience, and usability.",
-        'I knew few people would use it, and the GA numbers proved me right. I still love it. It taught me to reduce cognitive load and visual noise, balance resources, and turn an idea into reality.',
+        'I built a Rabbit Hole to share more of who I am with loved ones and with AI as models change. Making it brought me joy and made me wonder how it could help with AI companionship.',
+        'I shared the method to help others make their own. As AI speeds things up, I hope it brings us back to what matters: our experiences, relationships, creations, and beliefs.',
       ],
     },
     closing: {
-      zh: '「它對我來說，就像一堂很硬的線性代數，帶我回到過去，然後重新成長。」',
-      en: '“To me, it was like a hard linear algebra class—taking me back, then helping me grow again.”',
+      zh: '「當有人認識我，甚至試著理解我的時候，我感受到我正在活著。」',
+      en: '“When someone gets to know me, or even tries to understand me, I feel alive.”',
     },
-    galleryLabel: {
-      zh: '冷凍兔肉的大地秘笈作品畫廊',
-      en: "Frozen Rabbit's Tome project gallery",
-    },
+    galleryLabel: { zh: '兔子洞筆記法作品畫廊', en: 'Rabbit Hole Notes project gallery' },
     gallery: [
       {
-        src: frozenRabbitTomeGallery.defaultView,
-        alt: { zh: '冷凍兔肉的大地秘笈森林綠柚馬卡龍預設視角插畫', en: "Default view of Frozen Rabbit's Tome forest green yuzu macaron" },
-        caption: macaronIdentityBySlug['frozen-rabbit-tome'].name,
+        src: rabbitHoleNotesGallery.defaultView,
+        alt: { zh: '焦陶色外殼上有琥珀小徑與兔子糖片的馬卡龍插畫', en: 'Terracotta macaron with an amber trail and a bunny sugar piece' },
+        caption: macaronIdentityBySlug['rabbit-hole-notes'].name,
       },
       {
-        src: frozenRabbitTomeGallery.threeViews,
-        alt: { zh: '冷凍兔肉的大地秘笈馬卡龍預設、頂面與平放側面視圖', en: "Default, top, and flat side views of Frozen Rabbit's Tome macaron" },
-        caption: { zh: '到底哪個技能比較適合呢？', en: 'Which Skill Fits Best?' },
+        src: rabbitHoleNotesGallery.threeViews,
+        alt: { zh: '兔子洞馬卡龍的三分之四視角、頂面與平放側面', en: 'Three-quarter, top, and flat side views of the Rabbit Hole macaron' },
+        caption: { zh: '沿著琥珀小徑走進兔子洞', en: 'Follow the Amber Trail into the Rabbit Hole' },
       },
       {
-        src: frozenRabbitTomeGallery.clearEntry,
-        alt: { zh: '冷凍兔肉的大地秘笈採集物品選擇入口畫面', en: "Gathering item selection in Frozen Rabbit's Tome" },
-        caption: { zh: '清楚簡單的入口', en: 'A Clear, Simple Start' },
+        src: rabbitHoleNotesGallery.homepage,
+        alt: { zh: '兔子洞筆記法繁中首頁與兔子洞主視覺', en: 'Traditional Chinese homepage with the Rabbit Hole illustration' },
+        caption: { zh: '從這裡走進兔子洞', en: 'Enter the Rabbit Hole' },
       },
       {
-        src: frozenRabbitTomeGallery.solverResults,
-        alt: { zh: '冷凍兔肉的大地秘笈求解器結果畫面', en: "Solver results in Frozen Rabbit's Tome" },
-        caption: { zh: '一覽求解器結果', en: 'Solver Results at a Glance' },
+        src: rabbitHoleNotesGallery.reader,
+        alt: { zh: '兔子洞筆記法英文公開範例閱讀器，左側有筆記導覽', en: 'English public example reader with note navigation on the left' },
+        caption: { zh: '走讀英文公開範例', en: 'Explore the Public Example in English' },
       },
       {
-        src: frozenRabbitTomeGallery.mobileLanguages,
-        alt: { zh: '冷凍兔肉的大地秘笈英文手機版畫面', en: "English mobile layout of Frozen Rabbit's Tome" },
-        caption: { zh: '支援四語系與手機版面', en: 'Four Languages, Mobile Ready' },
+        src: rabbitHoleNotesGallery.methodQuote,
+        alt: { zh: '兔子洞筆記法正文中的理念與作者引文', en: 'An excerpt from the method explaining its guiding idea' },
+        caption: { zh: '當我被認識，我感受到我正在活著', en: 'I Feel Alive When Someone Gets to Know Me' },
       },
     ],
     links: [
       {
         label: { zh: '線上展示', en: 'Live Website' },
-        href: 'https://emu-rabbit.github.io/frozen_rabbit_tome/',
+        href: 'https://emu-rabbit.github.io/rabbit-hole-notes/',
       },
       {
-        label: { zh: 'Github頁面', en: 'GitHub Repo' },
-        href: 'https://github.com/emu-rabbit/frozen_rabbit_tome',
+        label: { zh: 'GitHub 頁面', en: 'GitHub Repo' },
+        href: 'https://github.com/emu-rabbit/rabbit-hole-notes',
       },
     ],
   },
