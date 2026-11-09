@@ -190,7 +190,7 @@ const macaronAsset = (fileName: string) =>
 
 export const boxMacarons: readonly BoxMacaron[] = [
   { name: 'Frozen Rabbit Workshop', targetId: 'frozen-rabbit-workshop', src: macaronAsset('workshop.webp'), left: '4.4%', top: '15%', row: 0 },
-  { name: 'Frozen Rabbit Tome', targetId: 'frozen-rabbit-tome', src: macaronAsset('tome.webp'), left: '22.9%', top: '13.7%', row: 0 },
+  { name: 'Rabbit Hole Notes', targetId: 'rabbit-hole-notes', src: macaronAsset('rabbit-hole-notes.webp'), left: '22.9%', top: '13.7%', row: 0 },
   { name: 'Boundary Notes', targetId: 'boundary-notes', src: macaronAsset('boundary-notes.webp'), left: '40.7%', top: '14.7%', row: 0 },
   { name: 'Emu Rabbit Github io', targetId: 'window-notes', src: macaronAsset('emu-rabbit.webp'), left: '58.1%', top: '13.5%', row: 0 },
   { name: 'LinkArray', targetId: 'link-array', src: macaronAsset('link-array.webp'), left: '75%', top: '14.6%', row: 0 },
@@ -257,22 +257,22 @@ const signatureFlavors: readonly FlavorCard[] = [
     darkColor: macaronPaletteBySlug['frozen-rabbit-workshop'].darkColor,
   },
   {
-    id: 'frozen-rabbit-tome',
-    category: { zh: 'Final Fantasy XIV 大地工具', en: 'Final Fantasy XIV Gathering Tool' },
-    title: { zh: '冷凍兔肉的大地秘笈', en: "Frozen Rabbit's Tome" },
-    flavor: macaronIdentityBySlug['frozen-rabbit-tome'].flavor,
+    id: 'rabbit-hole-notes',
+    category: { zh: '個人筆記法', en: 'Personal Note-Taking Method' },
+    title: { zh: '兔子洞筆記法', en: 'Rabbit Hole Notes' },
+    flavor: macaronIdentityBySlug['rabbit-hole-notes'].flavor,
     description: {
-      zh: ['兔肉不私藏的好秘笈，', '採集技能的推薦求解器。'],
-      en: ["No secrets kept—Rabbit's best tome,", 'ready to guide your next gathering move.'],
+      zh: ['一個以你為中心的筆記法。', '創建兔子洞，邀請他人來認識你吧！'],
+      en: ['Notes centered on you.', 'Build a Rabbit Hole and invite others in.'],
     },
     mobileDescription: {
-      zh: ['兔肉不私藏的好秘笈，', '採集技能的推薦求解器。'],
-      en: ["No secrets kept—Rabbit's best tome,", 'ready to guide your next', 'gathering move.'],
+      zh: ['一個以你為中心的筆記法。', '創建兔子洞，邀請他人來認識你吧！'],
+      en: ['Notes centered on you.', 'Build a Rabbit Hole and invite others in.'],
     },
-    src: macaronAsset('tome.webp'),
-    imageAlt: { zh: '深焙抹茶與柚子金砂的大地秘笈馬卡龍', en: 'Tome macaron with roasted matcha and yuzu gold dust' },
-    color: macaronPaletteBySlug['frozen-rabbit-tome'].color,
-    darkColor: macaronPaletteBySlug['frozen-rabbit-tome'].darkColor,
+    src: macaronAsset('rabbit-hole-notes.webp'),
+    imageAlt: { zh: '帶有琥珀小徑與兔子糖片的兔子洞筆記法馬卡龍', en: 'Rabbit Hole Notes macaron with an amber trail and a bunny sugar piece' },
+    color: macaronPaletteBySlug['rabbit-hole-notes'].color,
+    darkColor: macaronPaletteBySlug['rabbit-hole-notes'].darkColor,
   },
 ]
 

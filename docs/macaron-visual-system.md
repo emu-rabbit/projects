@@ -58,7 +58,7 @@
 | 作品 | 正式馬卡龍名稱 | 正式口味 |
 | --- | --- | --- |
 | Frozen Rabbit Workshop | 薄荷青檸馬卡龍 | 薄荷・青檸・白巧克力 |
-| Frozen Rabbit Tome | 森林綠柚馬卡龍 | 深焙抹茶・柚子金砂 |
+| Rabbit Hole Notes | 琥珀兔子洞馬卡龍 | 蜂蜜・馬斯卡彭・焦糖 |
 | Boundary Notes | 酒紅邊界馬卡龍 | 黑醋栗・玫瑰伯爵 |
 | Emu Rabbit Github io | 紫夜兔耳馬卡龍 | 暮色杏桃・蜂蜜玫瑰 |
 | LinkArray | 黑白鏈結馬卡龍 | 黑白芝麻・鹽焦糖 |
@@ -81,13 +81,11 @@
 - 主裝飾是勾選糖牌；青檸糖珠與短擠花邊形成陪襯節奏。
 - 氣質是清楚、實用、準備充分；它是全盒細節密度與手作華麗度的基準。
 
-#### Frozen Rabbit Tome — 森林綠柚馬卡龍｜深焙抹茶・柚子金砂
+#### Rabbit Hole Notes — 琥珀兔子洞馬卡龍｜蜂蜜・馬斯卡彭・焦糖
 
-- 深森林綠上殼、較淺 Frozen Rabbit 綠下殼，與 Workshop 一眼可見為姊妹款。
-- 暖象牙奶霜形成四至五片寬而清楚的書頁層，中間保留一枚柚子果膠結果。
-- 主裝飾是一條有約五個節點、分岔後收束的奶油糖線；末端只留一組小葉片與礦石糖。
-- 金色只作微量砂糖點綴，不使用珠寶、金屬藤蔓或大面積金砂。
-- 氣質比 Workshop 深、靜、需要慢慢閱讀，但複雜度與畫風仍屬同一盒。
+- 焦陶色上殼、烘烤可可色下殼，厚蜂蜜馬斯卡彭奶霜藏著琥珀焦糖與烤糖碎粒。
+- 主裝飾是嵌入殼面的琥珀糖徑，從小洞口串起照片、愛心與象牙白兔子糖片，呼應透過連結走讀一個人的人生。
+- 糖片貼平放在糖徑末端的淺凹處，保留圓耳與簡單的可可點五官。
 
 #### Boundary Notes — 酒紅邊界馬卡龍｜黑醋栗・玫瑰伯爵
 
@@ -145,12 +143,12 @@
 
 ## 目前 2D 資產清單
 
-`.agents/designs/` 的十張正式設計參考圖與網站使用的 `assets/macarons/` current assets 都已統一可見尺度；後者使用穩定英文檔名，方便程式引用。Tome、Boundary Notes、Emu Rabbit 與 50 Hiragana Test 已在 2026-08-14 由重製版本正式取代舊圖，canonical 檔名不帶版本號。`scripts/normalize_macaron_bboxes.py` 會以 alpha bounding box 擷取主體、維持長寬比，將最長可見邊統一為 1050 px，再置中於 1254 × 1254 透明畫布。
+`.agents/designs/` 的十張正式設計參考圖與網站使用的 `assets/macarons/` current assets 都已統一可見尺度；後者使用穩定英文檔名，方便程式引用。Boundary Notes、Emu Rabbit 與 50 Hiragana Test 已在 2026-08-14 由重製版本正式取代舊圖，canonical 檔名不帶版本號。`scripts/normalize_macaron_bboxes.py` 會以 alpha bounding box 擷取主體、維持長寬比，將最長可見邊統一為 1050 px，再置中於 1254 × 1254 透明畫布。
 
 | 作品 | Current asset |
 | --- | --- |
 | Frozen Rabbit Workshop | `assets/macarons/workshop.png` |
-| Frozen Rabbit Tome | `assets/macarons/tome.png` |
+| Rabbit Hole Notes | `assets/macarons/rabbit-hole-notes.png` |
 | Boundary Notes | `assets/macarons/boundary-notes.png` |
 | Emu Rabbit Github io | `assets/macarons/emu-rabbit.png` |
 | LinkArray | `assets/macarons/link-array.png` |
@@ -165,7 +163,7 @@
 - 縮小同時觀看十顆時，沒有一顆像攝影、向量或珠寶系列而脫離群體。
 - 四顆 Signature 的細節更完整，但輪廓、線條與材質沒有比其他作品換一套作者語言。
 - 每顆在不看名稱時仍能由唯一主裝飾或內餡結構被辨識。
-- Tome、Boundary、Emu 的華麗度接近 Workshop：有節奏、有焦點、留有空白。
+- Rabbit Hole Notes、Boundary、Emu 的華麗度接近 Workshop：有節奏、有焦點、留有空白。
 - Hiragana 的視覺元素不超過 `あ`、一片練習紙與紅豆內餡，沒有花與蝴蝶結。
 - 所有 current asset 都是 1254 × 1254 透明 PNG，四角 alpha 為 0，主體未裁切。
 - 十張 current asset 的 alpha bbox 最長邊都是 1050 px（重採樣誤差最多 1 px），且 bbox 中心與畫布中心偏差不超過 1 px。
@@ -191,4 +189,4 @@
 - SEO 分享預覽是由正式馬卡龍設計延伸出的行銷構圖，不取代 `assets/macarons/` 的單顆透明 current asset；輸出網址、尺寸與啟用範圍由 `docs/seo-routing.md` 持有。
 - 首頁預覽可使用二至四顆馬卡龍形成自然產品展示，但馬卡龍本身仍維持本文件的暖棕線、水彩／鉛筆質感與手作甜點比例，不轉成攝影寫實。
 - 「產品展示」指可信的陳列、前後遮擋、接觸陰影與留白，不是把多張單顆圖拼成一排。若使用斜放或倚靠，必須有明確的桌面接觸與支撐關係；任何殼、餡與遮蔽都要符合物理視角。
-- 首頁 current 構圖固定為四顆穩定平放的 2×2 錯位陳列：紫色窗邊手記與酒紅 Boundary Notes 在前，薄荷 Workshop 與深綠 Tome 在後；只以平面旋轉、前後深度與自然重疊增加節奏，整組維持接近正方形並完整落入預覽圖片框。
+- 首頁 current 構圖固定為四顆穩定平放的 2×2 錯位陳列：紫色窗邊手記與酒紅 Boundary Notes 在前，薄荷 Workshop 與焦陶色 Rabbit Hole Notes 在後；只以平面旋轉、前後深度與自然重疊增加節奏，整組維持接近正方形並完整落入預覽圖片框。

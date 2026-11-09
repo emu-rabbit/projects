@@ -130,30 +130,30 @@
       }
     },
     {
-      "slug": "frozen-rabbit-tome",
-      "asset": "assets/macarons/tome.png",
-      "palette": "#ccdcd4",
-      "applicationCategory": "UtilitiesApplication",
+      "slug": "rabbit-hole-notes",
+      "asset": "assets/macarons/rabbit-hole-notes.png",
+      "palette": "#f0d1b9",
+      "structuredDataType": "CreativeWork",
       "sameAs": [
-        "https://emu-rabbit.github.io/frozen_rabbit_tome/",
-        "https://github.com/emu-rabbit/frozen_rabbit_tome"
+        "https://emu-rabbit.github.io/rabbit-hole-notes/",
+        "https://github.com/emu-rabbit/rabbit-hole-notes"
       ],
       "locales": {
         "zh": {
-          "title": "冷凍兔肉的大地秘笈 | 絵夢羽さ沂的作品集",
-          "heading": "冷凍兔肉的大地秘笈",
-          "category": "Final Fantasy XIV 大地工具",
-          "description": "FF14的大地技能實驗場。",
-          "keywords": ["FFXIV 採集工具", "FF14 大地職業", "FFXIV 收藏品", "採礦 rotation", "園藝 rotation", "Frozen Rabbit Tome"],
-          "imageAlt": "森林綠柚馬卡龍與冷凍兔肉的大地秘笈標題"
+          "title": "兔子洞筆記法 | 絵夢羽さ沂的作品集",
+          "heading": "兔子洞筆記法",
+          "category": "個人筆記法",
+          "description": "一個以你為中心的筆記法。創建兔子洞，邀請他人來認識你吧！",
+          "keywords": ["兔子洞筆記法", "人生筆記", "個人記錄", "Obsidian", "Rabbit Hole Notes"],
+          "imageAlt": "琥珀兔子洞馬卡龍與兔子洞筆記法標題"
         },
         "en": {
-          "title": "Frozen Rabbit's Tome | Emu Rabbit Portfolio",
-          "heading": "Frozen Rabbit's Tome",
-          "category": "Final Fantasy XIV Gathering Tool",
-          "description": "An experimental playground for FF14 gathering skills.",
-          "keywords": ["FFXIV gathering tool", "FF14 miner", "FF14 botanist", "FFXIV collectables", "gathering rotation solver", "Frozen Rabbit Tome"],
-          "imageAlt": "Forest Green Yuzu Macaron with the title Frozen Rabbit's Tome"
+          "title": "Rabbit Hole Notes | Emu Rabbit Portfolio",
+          "heading": "Rabbit Hole Notes",
+          "category": "Personal Note-Taking Method",
+          "description": "Notes centered on you. Build a Rabbit Hole and invite others in.",
+          "keywords": ["Rabbit Hole Notes", "note-taking method", "life stories", "personal archive", "Obsidian"],
+          "imageAlt": "Amber Rabbit Hole Macaron with the title Rabbit Hole Notes"
         }
       }
     },

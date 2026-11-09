@@ -9,7 +9,7 @@ export type MacaronSlug =
   | 'window-notes'
   | 'boundary-notes'
   | 'frozen-rabbit-workshop'
-  | 'frozen-rabbit-tome'
+  | 'rabbit-hole-notes'
   | 'link-array'
   | 'vue-router-rule'
   | 'dandelifeon'
@@ -30,9 +30,9 @@ export const macaronIdentityBySlug = {
     name: { zh: '薄荷青檸馬卡龍', en: 'Mint Lime Macaron' },
     flavor: { zh: '薄荷・青檸・白巧克力', en: 'Mint · Lime · White Chocolate' },
   },
-  'frozen-rabbit-tome': {
-    name: { zh: '森林綠柚馬卡龍', en: 'Forest Green Yuzu Macaron' },
-    flavor: { zh: '深焙抹茶・柚子金砂', en: 'Roasted Matcha · Yuzu Gold Dust' },
+  'rabbit-hole-notes': {
+    name: { zh: '琥珀兔子洞馬卡龍', en: 'Amber Rabbit Hole Macaron' },
+    flavor: { zh: '蜂蜜・馬斯卡彭・焦糖', en: 'Honey · Mascarpone · Caramel' },
   },
   'link-array': {
     name: { zh: '黑白鏈結馬卡龍', en: 'Black-and-White Linked Macaron' },
